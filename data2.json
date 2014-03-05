@@ -1,0 +1,27 @@
+[
+	{
+		"login": "luke",
+		"firstname": "Luke",
+		"lastname": "Skywalker",
+		"rights": {
+			"JEDI": true,
+			"REBEL": true
+		}
+	},
+	{
+		"login": "leia",
+		"firstname": "Leia",
+		"lastname": "Organa",
+		"rights": {
+			"REBEL": true
+		}
+	},
+	{
+		"login": "han",
+		"firstname": "Han",
+		"lastname": "Solo",
+		"rights": {
+			"REBEL": true
+		}
+	}
+]
