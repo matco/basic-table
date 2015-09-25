@@ -696,9 +696,7 @@ Grid.prototype.draw = function() {
 				var url = uncache(this.url);
 				if(this.lazy) {
 					url += ('&start=' + start);
-					if(limit) {
-						url += ('&limit=' + limit);
-					}
+					url += ('&limit=' + limit);
 					if(!this.sortingOrders.isEmpty()) {
 						url += ('&order=' + this.sortingOrders[0].field);
 						url += ('&descendant=' + this.sortingOrders[0].descendant);
