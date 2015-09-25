@@ -93,8 +93,8 @@ function Grid(parameters) {
 	//footer
 	this.footer = document.createFullElement('div', {'class' : 'grid_footer'});
 
-	var actions_bar = document.createFullElement('div', {'class' : 'grid_footer_actions'});
-	this.footer.appendChild(actions_bar);
+	var search_bar = document.createFullElement('div', {'class' : 'grid_footer_search'});
+	this.footer.appendChild(search_bar);
 
 	/*this.refreshButton = document.createFullElement('a');
 	this.refreshButton.appendChild(document.createFullElement('img', {'src' : this.path + 'arrow_refresh.png'}));
@@ -114,23 +114,16 @@ function Grid(parameters) {
 		}, 300);
 		search_label.appendChild(this.search_input);
 		search_form.appendChild(search_label);
-		actions_bar.appendChild(search_form);
+		search_bar.appendChild(search_form);
 	}
 
 	this.loading = document.createFullElement('img', {src : this.path + 'loading.png'});
-	actions_bar.appendChild(this.loading);
+	search_bar.appendChild(this.loading);
 
-	for(var i = 0; i < this.actions.length; i++) {
-		var action = this.actions[i];
-		var action_item;
-		if(String.isString(action.label)) {
-			action_item = document.createFullElement('a', {href : action.url, 'class' : 'button'}, action.label);
-		}
-		else {
-			action_item = action.label;
-		}
-		actions_bar.appendChild(action_item);
-	}
+	this.buttons = document.createFullElement('div', {'class' : 'grid_footer_buttons'});
+	this.footer.appendChild(this.buttons);
+
+	this.setActions(this.actions);
 
 	if(this.rowPerPage) {
 		//info
@@ -201,11 +194,28 @@ function Grid(parameters) {
 	this.container.clear();
 	this.container.appendChild(this.header);
 	this.container.appendChild(this.table);
-	//add footer only if there is something in it
-	if(this.enableSearch || this.rowPerPage || !this.actions.isEmpty()) {
-		this.container.appendChild(this.footer);
-	}
+	this.container.appendChild(this.footer);
+	//display footer only if there is something in it
+	this.footer.style.display = this.enableSearch || this.rowPerPage || !this.actions.isEmpty() ? 'block' : 'none';
 }
+
+Grid.prototype.setActions = function(actions) {
+	this.actions = actions;
+	this.buttons.clear();
+	for(var i = 0; i < this.actions.length; i++) {
+		var action = this.actions[i];
+		var action_item;
+		if(String.isString(action.label)) {
+			action_item = document.createFullElement('a', {href : action.url, 'class' : 'nbutton'}, action.label);
+		}
+		else {
+			action_item = action.label;
+		}
+		this.buttons.appendChild(action_item);
+	}
+	//display footer only if there is something in it
+	this.footer.style.display = this.enableSearch || this.rowPerPage || !this.actions.isEmpty() ? 'block' : 'none';
+};
 
 (function() {
 	function resort(grid) {
