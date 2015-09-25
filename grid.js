@@ -528,24 +528,27 @@ Grid.prototype.draw = function() {
 					var column = that.columns[j];
 					var value = column.render ? rendered_data[i][j].rendered : rendered_data[i][j].raw;
 					var element = document.createFullElement('td');
-					//value must not be falsy
-					if(value) {
-						//render function may have returned a HTML element
-						if(value instanceof HTMLElement) {
-							element.appendChild(value);
-						}
-						//string are just appened
-						else if(typeof value === 'string') {
+					//string are just appended
+					if(typeof value === 'string') {
+						//value must not be falsy
+						if(value) {
 							element.appendChild(document.createTextNode(value));
 						}
-						//number are aligned to the right
-						else if(typeof value === 'number') {
-							element.setAttribute('style', 'text-align: right;');
-							element.appendChild(document.createTextNode(value + ''));
-						}
-						//boolean are converted to string
-						else if(typeof value === 'boolean') {
-							element.appendChild(document.createTextNode(value + ''));
+					}
+					//number are aligned to the right
+					else if(typeof value === 'number') {
+						element.setAttribute('style', 'text-align: right;');
+						element.appendChild(document.createTextNode(value + ''));
+					}
+					//boolean are converted to string
+					else if(typeof value === 'boolean') {
+						element.appendChild(document.createTextNode(value + ''));
+					}
+					//render function may have returned a HTML element
+					else {
+						//value must not be falsy
+						if(value) {
+							element.appendChild(value);
 						}
 					}
 					line.appendChild(element);
