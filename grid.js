@@ -368,6 +368,12 @@ Grid.prototype.render = function(datasource) {
 		if(that.start > that.datasource.getLength()) {
 			that.start = 0;
 		}
+		
+		//update column ui
+		var column_index = that.columns.indexOf(that.columns.find(Array.objectFilter({data : that.datasource.sortingOrders[0].field})));
+		var header_column = that.head.childNodes[0].childNodes[column_index];
+		header_column.lastChild.style.display = 'inline';
+		header_column.lastChild.src = that.path + (that.datasource.sortingOrders[0].descendant ? 'bullet_arrow_down.png' : 'bullet_arrow_up.png');
 
 		//data may already be available
 		if(datasource.data) {
@@ -387,12 +393,6 @@ Grid.prototype.render = function(datasource) {
 					}
 				}
 			}
-
-			//update ui
-			var column_index = that.columns.indexOf(that.columns.find(Array.objectFilter({data : that.datasource.sortingOrders[0].field})));
-			var header_column = that.head.childNodes[0].childNodes[column_index];
-			header_column.lastChild.style.display = 'inline';
-			header_column.lastChild.src = that.path + (that.datasource.sortingOrders[0].descendant ? 'bullet_arrow_down.png' : 'bullet_arrow_up.png');
 
 			//do search if needed
 			if(that.enableSearch && that.search_input.value) {
