@@ -217,7 +217,7 @@ function Grid(parameters) {
 		for(i = 0; i < grid.columns.length; i++) {
 			column = grid.columns[i];
 			//only columns with data are sortable
-			if(column.data) {
+			if(column.data && !column.unsortable) {
 				var header_column = grid.head.firstChild.childNodes[i];
 				if(column.data === sorting_order.field) {
 					header_column.lastChild.style.display = 'inline';
