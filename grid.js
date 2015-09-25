@@ -336,27 +336,19 @@ Grid.prototype.render = function(datasource) {
 		//console.log('Unable to restore state');
 	}
 
-	//check and clean restored sorting columns
+	//remove now unvalid columns from restored sorting columns
 	var sorting_orders = this.datasource.sortingOrders.slice();
-	for(var i = 0; i < sorting_orders.length; i++) {
-		//check sorting column validity
-		try {
-			this.columns.find(Array.objectFilter({data : sorting_orders[i].field}));
-		}
-		catch(exception) {
-			this.datasource.sortingOrders.removeElement(sorting_orders[i]);
-		}
-	}
+	this.datasource.sortingOrders = this.datasource.sortingOrders.filter(function(sorting_order) {
+		return this.columns.find(Array.objectFilter({data : sorting_order.field}));
+	}, this);
+
+	//set arbitrary sorting order if needed
 	if(this.datasource.sortingOrders.isEmpty()) {
 		//find first sortable column
-		try {
-			var column = this.columns.find(function(column) {
-				return !column.unsortable;
-			});
+		var column = this.columns.find(Array.objectFilter({unsortable : true}).negatize());
+		//nothing to do, there is no sortable column
+		if(column) {
 			this.datasource.sortingOrders.push({field : column.data, descendant : false});
-		}
-		catch(exception) {
-			//nothing to do, there is no sortable column
 		}
 	}
 
