@@ -245,7 +245,7 @@ function Grid(parameters) {
 			this.datasource.sortingOrders.pop();
 		}
 		resort(this);
-	}
+	};
 })();
 
 (function() {
@@ -301,7 +301,7 @@ Grid.prototype.unfilter = function() {
 Grid.prototype.render = function(datasource) {
 	this.loading.style.display = 'inline';
 
-	//keep a handle on datastore
+	//keep a handle on datasource
 	this.datasource = datasource;
 
 	//datasource is required and must be a grid datasource
@@ -519,7 +519,7 @@ Grid.prototype.draw = function() {
 			for(var i = 0; i < rendered_data.length; i++) {
 				var line = document.createElement('tr');
 				if(that.rowClass) {
-					line.classList.add(that.rowClass.call(undefined, rendered_data[i].record))
+					line.classList.add(that.rowClass.call(undefined, rendered_data[i].record));
 				}
 				else {
 					line.classList.add(i % 2 === 0 ? 'even' : 'odd');
@@ -691,10 +691,12 @@ Grid.prototype.draw = function() {
 			callback.call(undefined, this.filteredData.slice(start, limit ? start + limit : undefined));
 		}
 		else {
+			//non lazy grids, data are already here
 			if(this.data) {
 				sort.call(this, this.data);
 				callback.call(undefined, this.data.slice(start, limit ? start + limit : undefined));
 			}
+			//lazy grids
 			else {
 				var url = uncache(this.url);
 				if(this.lazy) {
