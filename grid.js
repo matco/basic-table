@@ -606,36 +606,8 @@ Grid.prototype.draw = function() {
 	Grid.Datasource.prototype.init = function(callback) {
 		var that = this;
 
-		function get_length() {
-			//if data have been provided, length is length of data array
-			if(that.data) {
-				that.length = that.data.length;
-				if(callback) {
-					callback.call();
-				}
-			}
-			//if only an url has been provided
-			else {
-				var xhr = new XMLHttpRequest();
-				xhr.onreadystatechange = function() {
-					if(xhr.readyState === 4) {
-						if(xhr.status === 200) {
-							that.length = JSON.parse(xhr.responseText).length;
-							if(callback) {
-								callback.call();
-							}
-						}
-						else {
-							throw new Error('Unable to retrieve data length : ' + xhr.status + ' ' + xhr.statusText);
-						}
-					}
-				};
-				xhr.open('GET', uncache(that.url) + '&length=true', true);
-				xhr.send();
-			}
-		}
-
-		//retrieve data if an url has been provided and grid is not lazy
+		//retrieve amount (length) of data
+		//for non lazy grids, retrieving length means retrieving data 
 		if(this.url && !this.lazy) {
 			var url = uncache(this.url);
 			var that = this;
@@ -644,7 +616,10 @@ Grid.prototype.draw = function() {
 				if(xhr.readyState === 4) {
 					if(xhr.status === 200) {
 						that.data = JSON.parse(xhr.responseText);
-						get_length();
+						that.length = that.data.length;
+						if(callback) {
+							callback.call();
+						}
 					}
 					else {
 						throw new Error('Unable to retrieve data : ' + xhr.status + ' ' + xhr.statusText);
@@ -654,8 +629,24 @@ Grid.prototype.draw = function() {
 			xhr.open('GET', url, true);
 			xhr.send();
 		}
+		//for lazy grid, retrieve data explicitly
 		else {
-			get_length();
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if(xhr.readyState === 4) {
+					if(xhr.status === 200) {
+						that.length = JSON.parse(xhr.responseText).length;
+						if(callback) {
+							callback.call();
+						}
+					}
+					else {
+						throw new Error('Unable to retrieve data length : ' + xhr.status + ' ' + xhr.statusText);
+					}
+				}
+			};
+			xhr.open('GET', uncache(that.url) + '&length=true', true);
+			xhr.send();
 		}
 	};
 
