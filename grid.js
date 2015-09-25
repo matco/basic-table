@@ -612,46 +612,57 @@ Grid.prototype.draw = function() {
 		var that = this;
 
 		//retrieve amount (length) of data
-		//for non lazy grids, retrieving length means retrieving data 
-		if(this.url && !this.lazy) {
-			var url = uncache(this.url);
-			var that = this;
-			var xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = function() {
-				if(xhr.readyState === 4) {
-					if(xhr.status === 200) {
-						that.data = JSON.parse(xhr.responseText);
-						that.length = that.data.length;
-						if(callback) {
-							callback.call();
+
+		//datasources that must retrieve data
+		if(this.url) {
+			//datasources that can retrieve all data at once using an url
+			if(!this.lazy) {
+				var url = uncache(this.url);
+				var that = this;
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if(xhr.readyState === 4) {
+						if(xhr.status === 200) {
+							that.data = JSON.parse(xhr.responseText);
+							that.length = that.data.length;
+							if(callback) {
+								callback.call();
+							}
+						}
+						else {
+							throw new Error('Unable to retrieve data : ' + xhr.status + ' ' + xhr.statusText);
 						}
 					}
-					else {
-						throw new Error('Unable to retrieve data : ' + xhr.status + ' ' + xhr.statusText);
+				};
+				xhr.open('GET', url, true);
+				xhr.send();
+			}
+			//datasources that are lazy, length must be retrieved explicitly
+			else {
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if(xhr.readyState === 4) {
+						if(xhr.status === 200) {
+							that.length = JSON.parse(xhr.responseText).length;
+							if(callback) {
+								callback.call();
+							}
+						}
+						else {
+							throw new Error('Unable to retrieve data length : ' + xhr.status + ' ' + xhr.statusText);
+						}
 					}
-				}
-			};
-			xhr.open('GET', url, true);
-			xhr.send();
+				};
+				xhr.open('GET', uncache(that.url) + '&length=true', true);
+				xhr.send();
+			}
 		}
-		//for lazy grid, retrieve data explicitly
 		else {
-			var xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = function() {
-				if(xhr.readyState === 4) {
-					if(xhr.status === 200) {
-						that.length = JSON.parse(xhr.responseText).length;
-						if(callback) {
-							callback.call();
-						}
-					}
-					else {
-						throw new Error('Unable to retrieve data length : ' + xhr.status + ' ' + xhr.statusText);
-					}
-				}
-			};
-			xhr.open('GET', uncache(that.url) + '&length=true', true);
-			xhr.send();
+			//datasources that already have data
+			this.length = this.data.length;
+			if(callback) {
+				callback.call();
+			}
 		}
 	};
 
