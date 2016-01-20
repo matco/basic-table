@@ -277,13 +277,13 @@ Grid.prototype.setActions = function(actions) {
 					//var value = column.render ? record[i].rendered : record[i].raw;
 					var value = record[column.data];
 					if(typeof value === 'string') {
-						if(exact_matching && value === filter || value.nocaseContains(filter)) {
+						if(exact_matching && value === filter || value.nocaseIncludes(filter)) {
 							return true;
 						}
 					}
 					else if(typeof value === 'object') {
 						//this does not work anymore
-						if(exact_matching && value.innerHTML === filter || value.innerHTML.nocaseContains(filter)) {
+						if(exact_matching && value.innerHTML === filter || value.innerHTML.nocaseIncludes(filter)) {
 							return true;
 						}
 					}
@@ -367,7 +367,7 @@ Grid.prototype.render = function(datasource) {
 		if(that.start > that.datasource.getLength()) {
 			that.start = 0;
 		}
-		
+
 		//update column ui
 		var column_index = that.columns.indexOf(that.columns.find(Array.objectFilter({data : that.datasource.sortingOrders[0].field})));
 		var header_column = that.head.childNodes[0].childNodes[column_index];
@@ -569,7 +569,7 @@ Grid.prototype.draw = function() {
 
 (function() {
 	function uncache(url) {
-		return url + (url.contains('?') ? '&' : '?') + 't=' + new Date().getTime();
+		return url + (url.includes('?') ? '&' : '?') + 't=' + new Date().getTime();
 	}
 
 	Grid.Datasource = function(parameters) {
