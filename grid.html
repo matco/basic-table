@@ -54,7 +54,7 @@
 						xhr.addEventListener(
 							'load',
 							function(xhr_event) {
-								var data = JSON.parse(xhr_event.target.responseText).filter(function(row) {
+								var data = xhr_event.target.response.filter(function(row) {
 									var row_date = new Date(row.date);
 									if(start && start.isAfter(row_date)) {
 										return false;
@@ -76,6 +76,7 @@
 							}
 						);
 						xhr.open('GET', 'data1.json', true);
+						xhr.responseType = 'json';
 						xhr.send();
 					}
 				);

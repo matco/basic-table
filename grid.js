@@ -617,10 +617,11 @@ Grid.prototype.draw = function() {
 				var url = uncache(this.url);
 				var that = this;
 				var xhr = new XMLHttpRequest();
-				xhr.onreadystatechange = function() {
-					if(xhr.readyState === 4) {
-						if(xhr.status === 200) {
-							that.data = JSON.parse(xhr.responseText);
+				xhr.addEventListener(
+					'load',
+					function(event) {
+						if(event.target.status === 200) {
+							that.data = event.target.response;
 							that.length = that.data.length;
 							if(callback) {
 								callback.call();
@@ -630,8 +631,9 @@ Grid.prototype.draw = function() {
 							throw new Error('Unable to retrieve data : ' + xhr.status + ' ' + xhr.statusText);
 						}
 					}
-				};
+				);
 				xhr.open('GET', url, true);
+				xhr.responseType = 'json';
 				xhr.send();
 			}
 			//datasources that are lazy, length must be retrieved explicitly
