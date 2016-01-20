@@ -327,36 +327,33 @@ Grid.prototype.render = function(datasource) {
 	}
 
 	//restore state
-	try {
-		var state = JSON.parse(sessionStorage.getItem(this.id));
-		this.start = state.start;
-		//TODO improve this
-		this.datasource.sortingOrders = state.datasource.sortingOrders;
-		/*for(var property in state) {
-			if(state.hasOwnProperty(property)) {
-				Object.getLastObjectInPath(this, property)[property] = state
-				this[property] = state[property];
-			}
-		}*/
-		if(this.enableSearch && state.search) {
-			this.search_input.value = state.search;
-		}
-	} catch(exception) {
-		//unable to restore state
-		//console.log('Unable to restore state');
-	}
+	var serialized_state = sessionStorage.getItem(this.id);
+	if(serialized_state) {
+		try {
+			var state = JSON.parse(serialized_state);
 
-	//remove now unvalid columns from restored sorting columns
-	var sorting_orders = this.datasource.sortingOrders.slice();
-	this.datasource.sortingOrders = this.datasource.sortingOrders.filter(function(sorting_order) {
-		return this.columns.find(Array.objectFilter({data : sorting_order.field}));
-	}, this);
+			this.start = state.start;
+			this.datasource.sortingOrders = state.datasource.sortingOrders;
+			//remove now invalid columns from restored sorting columns
+			this.datasource.sortingOrders = this.datasource.sortingOrders.filter(function(sorting_order) {
+				var column = this.columns.find(Array.objectFilter({data : sorting_order.field}));
+				return column && !column.unsortable;
+			}, this);
+
+			/*if(this.enableSearch && state.search) {
+				this.search_input.value = state.search;
+			}*/
+		} catch(exception) {
+			//unable to restore state
+			console.error('Unable to restore state for grid ' + this.id);
+		}
+	}
 
 	//set arbitrary sorting order if needed
 	if(this.datasource.sortingOrders.isEmpty()) {
 		//find first sortable column
 		var column = this.columns.find(Array.objectFilter({unsortable : true}).negatize());
-		//nothing to do, there is no sortable column
+		//if there is a sortable column, add it in sorting orders
 		if(column) {
 			this.datasource.sortingOrders.push({field : column.data, descendant : false});
 		}
