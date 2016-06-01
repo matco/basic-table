@@ -1,11 +1,9 @@
-js-grid
-=======
+# js-grid
 js-grid can display your table data in a nice grid.
 
 **grid.html** contains some example showing how to use it.
 
-Usage
-----------
+## Usage
 The branch ```subtreeable``` can be used to import tools in your projects using [Git subtree](https://git-scm.com/book/en/v1/Git-Tools-Subtree-Merging).
 * Add this repository as a remote to your project
 ```
