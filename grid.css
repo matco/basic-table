@@ -84,9 +84,8 @@
 	font-weight: bold;
 	font-family: Helvetica, Arial, sans-serif;
 	text-decoration: none;
-	background-color: #F7F7F7;
-	background-image: -moz-linear-gradient(top, #F7F7F7, #D1D1D1);
-	background-image: -webkit-linear-gradient(top, #F7F7F7, #D1D1D1);
+	background-color: #f7f7f7;
+	background-image: linear-gradient(to bottom, #f7f7f7, #d1d1d1);
 	border: 1px solid #7F7F7F;
 	border-radius: 2px;
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -95,13 +94,11 @@
 }
 .grid_footer_buttons .button:hover {
 	background-color: #ddd;
-	background-image: -moz-linear-gradient(top, #ddd, #D1D1D1);
-	background-image: -webkit-linear-gradient(top, #ddd, #D1D1D1);
+	background-image: linear-gradient(to bottom, #ddd, #d1d1d1);
 }
 .grid_footer_controls {
-	background-color: #F7F7F7;
-	background-image: -moz-linear-gradient(top, #F7F7F7, #D1D1D1);
-	background-image: -webkit-linear-gradient(top, #F7F7F7, #D1D1D1);
+	background-color: #f7f7f7;
+	background-image: linear-gradient(to bottom, #f7f7f7, #d1d1d1);
 	border: 1px solid #7F7F7F;
 	border-radius: 2px;
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -110,7 +107,7 @@
 }
 .grid_footer_controls a {
 	float: left;
-	border-right: 1px solid #7F7F7F;
+	border-right: 1px solid #7f7f7f;
 	height: 18px;
 	width: 20px;
 	background-repeat: no-repeat;
@@ -118,8 +115,7 @@
 }
 .grid_footer_controls a:hover {
 	background-color: #ddd;
-	background-image: -moz-linear-gradient(top, #ddd, #D1D1D1);
-	background-image: -webkit-linear-gradient(top, #ddd, #D1D1D1);
+	background-image: linear-gradient(to bottom, #ddd, #d1d1d1);
 }
 .grid_footer_controls a.control_first {
 	background-image: url(resultset_first.png);
