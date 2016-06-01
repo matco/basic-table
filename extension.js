@@ -80,6 +80,17 @@ if(!Object.values) {
 		return values;
 	};
 }
+if(!Object.entries) {
+	Object.entries = function(object) {
+		var key, entries = [];
+		for(key in object) {
+			if(object.hasOwnProperty(key)) {
+				entries.push([key, object[key]]);
+			}
+		}
+		return entries;
+	};
+}
 if(!Object.key) {
 	Object.key = function(object, value) {
 		for(var key in object) {
@@ -221,9 +232,6 @@ String.prototype.replaceObject = function(object) {
 	return this.replace(/\$\{([A-Za-z._]+)\}/g, function(match, path) {
 		return Object.getObjectPathValue(object, path);
 	});
-};
-String.prototype.startsWith = function(string) {
-	return this.slice(0, string.length) === string;
 };
 String.prototype.getBytes = function() {
 	var bytes = [];
@@ -504,6 +512,9 @@ Date.prototype.getMonthName = function(language) {
 Date.prototype.getMonthNameShort = function(language) {
 	var lang = language && Date.locale.hasOwnProperty(language) ? language : 'en';
 	return Date.locale[lang].month_names_short[this.getMonth()];
+};
+Date.prototype.equals = function(otherDate) {
+	return !!otherDate && this.getTime() === otherDate.getTime();
 };
 Date.prototype.compareTo = function(otherDate) {
 	return this.getTime() - otherDate.getTime();

@@ -181,6 +181,7 @@ HTMLDataListElement.prototype.fillObjects = HTMLSelectElement.prototype.fillObje
 
 //HTMLCollection
 HTMLCollection.prototype.indexOf = Array.prototype.indexOf;
+HTMLCollection.prototype.includes = Array.prototype.includes;
 HTMLCollection.prototype.filter = Array.prototype.filter;
 HTMLCollection.prototype.forEach = Array.prototype.forEach;
 HTMLCollection.prototype.every = Array.prototype.every;
