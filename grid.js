@@ -33,7 +33,7 @@ function Grid(parameters) {
 
 	//check required parameters
 	if(!this.container || !this.columns) {
-		throw new Error('Following parameters are required : container and columns');
+		throw new Error('Following parameters are required: container and columns');
 	}
 
 	//check columns
