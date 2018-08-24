@@ -252,7 +252,7 @@ export class Grid {
 	}
 	addOrdering(field, descendant) {
 		//remove any ordering if it already exists
-		this.datasource.sortingOrders = this.datasource.sortingOrders.filter(Array.objectFilter({field: field}).negatize());
+		this.datasource.sortingOrders = this.datasource.sortingOrders.filter(o => o.field !== field);
 		//add new sort order
 		this.datasource.sortingOrders.unshift({field: field, descendant: descendant});
 		//no need to sort on more than three columns
@@ -322,7 +322,7 @@ export class Grid {
 				this.datasource.sortingOrders = state.datasource.sortingOrders;
 				//remove now invalid columns from restored sorting columns
 				this.datasource.sortingOrders = this.datasource.sortingOrders.filter(function(sorting_order) {
-					const column = this.columns.find(Array.objectFilter({data: sorting_order.field}));
+					const column = this.columns.find(c => c.data === sorting_order.field);
 					return column && !column.unsortable;
 				}, this);
 
@@ -339,7 +339,7 @@ export class Grid {
 		//set arbitrary sorting order if needed
 		if(this.datasource.sortingOrders.isEmpty()) {
 			//find first sortable column
-			const column = this.columns.find(Array.objectFilter({unsortable: true}).negatize());
+			const column = this.columns.find(c => !c.unsortable);
 			//if there is a sortable column, add it in sorting orders
 			if(column) {
 				this.datasource.sortingOrders.push({field: column.data, descendant: false});
@@ -355,7 +355,7 @@ export class Grid {
 			}
 
 			//update column ui
-			const column_index = that.columns.indexOf(that.columns.find(Array.objectFilter({data: that.datasource.sortingOrders[0].field})));
+			const column_index = that.columns.findIndex(c => c.data === that.datasource.sortingOrders[0].field);
 			const header_column = that.head.childNodes[0].childNodes[column_index];
 			header_column.lastChild.style.display = 'inline';
 			header_column.lastChild.src = that.path + (that.datasource.sortingOrders[0].descendant ? 'bullet_arrow_down.png' : 'bullet_arrow_up.png');
