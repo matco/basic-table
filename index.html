@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Grid</title>
+		<script type="text/javascript" src="extension.js"></script>
+		<script type="text/javascript" src="dom_extension.js"></script>
+		<script type="text/javascript" src="grid.js"></script>
+		<script type="text/javascript" src="index.js"></script>
+		<link href="grid.css" rel="stylesheet" type="text/css" title="default" />
+		<style type="text/css">
+			html {
+				font-family: Verdana;
+				font-size: 80%;
+			}
+			#grid3 button {
+				padding: 0;
+				line-height: 12px;
+			}
+		</style>
+	</head>
+	<body>
+		<h2>Bank accounts</h2>
+		<form id="grid1_search">
+			<p>
+				<input name="start" type="text" placeholder="dd.mm.yyyy" value="01.01.2015" style="width: 75px;" />
+				< Date <
+				<input name="stop" type="text" placeholder="dd.mm.yyyy" value="31.12.2015" style="width: 75px;" />
+				<button>Filter</button>
+			</p>
+		</form>
+		<div id="grid1"></div>
+
+		<h2>Star wars characters</h2>
+		<div id="grid2"></div>
+
+		<h2>Authorizations</h2>
+		<div id="grid3"></div>
+	</body>
+</html>
