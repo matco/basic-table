@@ -1,3 +1,6 @@
+import {Datasource} from './datasource.js';
+import {Grid} from './grid.js';
+
 window.addEventListener(
 	'load',
 	function() {
