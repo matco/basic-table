@@ -1,3 +1,5 @@
+/* global get, click, type, wait */
+
 'use strict';
 
 assert.begin();
@@ -11,7 +13,7 @@ wait(function() {
 	assert.equal(get('#grid1 > table > thead > tr > th:nth-child(2)').textContent, 'Name', 'Column 2 header is "Name"');
 
 	//check sort
-	var country_sort_image = get('#grid1 > table > thead > tr > th > img');
+	const country_sort_image = get('#grid1 > table > thead > tr > th > img');
 	function sort_on_first_column_ascending() {
 		if(!country_sort_image.style.display === 'none' || country_sort_image.getAttribute('src') === 'bullet_arrow_down.png') {
 			//sort according to first column, ascending
@@ -48,9 +50,9 @@ wait(function() {
 			//check custom search
 			assert.equal(get('#grid2 div.grid_footer_info > span').textContent, 'Display items 1 - 3 of 3', 'Grid records info displays "Display items 1 - 3 of 3"');
 			assert.equal(get('#grid2 > table > tbody').children.length, 3, 'Grid contains 3 lines');
-			grid2.filterFunction(function(record) {
+			/*grid2.filterFunction(function(record) {
 				return record.rights.hasOwnProperty('JEDI');
-			});
+			});*/
 			assert.equal(get('#grid2 div.grid_footer_info > span').textContent, 'Display items 1 - 1 of 1', 'Grid records info displays "Display items 1 - 1 of 1"');
 			assert.equal(get('#grid2 > table > tbody').children.length, 1, 'Grid contains 1 lines');
 

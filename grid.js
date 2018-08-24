@@ -19,7 +19,7 @@ function Grid(parameters) {
 	this.afterRender;
 
 	//bind parameters
-	for(var parameter in parameters) {
+	for(const parameter in parameters) {
 		this[parameter] = parameters[parameter];
 	}
 
@@ -37,8 +37,8 @@ function Grid(parameters) {
 	}
 
 	//check columns
-	for(var i = 0; i < this.columns.length; i++) {
-		var column = this.columns[i];
+	for(let i = 0; i < this.columns.length; i++) {
+		const column = this.columns[i];
 		if(!column.data && !column.render || !column.label) {
 			throw new Error('Column ' + i + ' is incomplete (must have data or render, and label)');
 		}
@@ -47,7 +47,7 @@ function Grid(parameters) {
 		}
 	}
 
-	var that = this;
+	const that = this;
 
 	//header
 	this.header = document.createFullElement('div', {'class' : 'grid_header'});
@@ -60,22 +60,22 @@ function Grid(parameters) {
 
 	//table header
 	this.head = document.createElement('thead');
-	var header_line = document.createFullElement('tr', {style : 'height: 21px;'});
+	const header_line = document.createFullElement('tr', {style : 'height: 21px;'});
 	this.head.appendChild(header_line);
 
-	for(var i = 0; i < this.columns.length; i++) {
-		var column = this.columns[i];
-		var header_column = document.createFullElement('th', {style : 'width: ' + column.width + 'px;'});
+	for(let i = 0; i < this.columns.length; i++) {
+		const column = this.columns[i];
+		const header_column = document.createFullElement('th', {style : 'width: ' + column.width + 'px;'});
 		//create or use label
-		var header_label = String.isString(column.label) ? document.createTextNode(column.label) : column.label;
+		const header_label = String.isString(column.label) ? document.createTextNode(column.label) : column.label;
 		header_column.appendChild(header_label);
 		if(!column.unsortable) {
 			header_column.style.cursor = 'pointer';
 			header_column.addEventListener(
 				'click',
 				(function(field) {
-					return function(event) {
-						var previous_sort_order = that.datasource.sortingOrders[0];
+					return function() {
+						const previous_sort_order = that.datasource.sortingOrders[0];
 						that.addOrdering(field, !previous_sort_order.descendant);
 					};
 				})(column.data)
@@ -93,7 +93,7 @@ function Grid(parameters) {
 	//footer
 	this.footer = document.createFullElement('div', {'class' : 'grid_footer'});
 
-	var search_bar = document.createFullElement('div', {'class' : 'grid_footer_search'});
+	const search_bar = document.createFullElement('div', {'class' : 'grid_footer_search'});
 	this.footer.appendChild(search_bar);
 
 	/*this.refreshButton = document.createFullElement('a');
@@ -101,11 +101,11 @@ function Grid(parameters) {
 	this.footer.appendChild(this.refreshButton);*/
 
 	if(this.enableSearch) {
-		var search_form = document.createFullElement('form', {style : 'float: left;'});
-		var search_label = document.createFullElement('label', {}, 'Filter');
+		const search_form = document.createFullElement('form', {style : 'float: left;'});
+		const search_label = document.createFullElement('label', {}, 'Filter');
 		this.search_input = document.createFullElement('input', {type : 'search', style : 'margin-left: 10px; margin-right: 10px;'});
 		//scan search input
-		var last_filter = '';
+		let last_filter = '';
 		setInterval(function() {
 			if(last_filter !== that.search_input.value) {
 				last_filter = that.search_input.value;
@@ -180,7 +180,7 @@ function Grid(parameters) {
 			{
 				'click' : function(event) {
 					Event.stop(event);
-					var last_start = (Math.ceil(that.datasource.length / that.rowPerPage) - 1) * that.rowPerPage;
+					const last_start = (Math.ceil(that.datasource.length / that.rowPerPage) - 1) * that.rowPerPage;
 					if(that.start !== last_start) {
 						that.start = last_start;
 						that.draw();
@@ -202,9 +202,9 @@ function Grid(parameters) {
 Grid.prototype.setActions = function(actions) {
 	this.actions = actions;
 	this.buttons.clear();
-	for(var i = 0; i < this.actions.length; i++) {
-		var action = this.actions[i];
-		var action_item;
+	for(let i = 0; i < this.actions.length; i++) {
+		const action = this.actions[i];
+		let action_item;
 		if(String.isString(action.label)) {
 			action_item = document.createFullElement('a', {href : action.url, 'class' : 'button'}, action.label);
 		}
@@ -221,14 +221,14 @@ Grid.prototype.setActions = function(actions) {
 	function resort(grid) {
 		grid.start = 0;
 		grid.draw();
-		var sorting_order = grid.datasource.sortingOrders[0];
+		const sorting_order = grid.datasource.sortingOrders[0];
 		//update sort image
-		var i, column;
+		let i, column;
 		for(i = 0; i < grid.columns.length; i++) {
 			column = grid.columns[i];
 			//only columns with data are sortable
 			if(column.data && !column.unsortable) {
-				var header_column = grid.head.firstChild.childNodes[i];
+				const header_column = grid.head.firstChild.childNodes[i];
 				if(column.data === sorting_order.field) {
 					header_column.lastChild.style.display = 'inline';
 					header_column.lastChild.src = grid.path + (sorting_order.descendant ? 'bullet_arrow_down.png' : 'bullet_arrow_up.png');
@@ -268,14 +268,14 @@ Grid.prototype.setActions = function(actions) {
 	}
 
 	Grid.prototype.filter = function(filter, filter_column, exact_matching) {
-		var that = this;
+		const that = this;
 		data_filter.call(this, function(record) {
-			for(var i = 0; i < that.columns.length; i++) {
-				var column = that.columns[i];
+			for(let i = 0; i < that.columns.length; i++) {
+				const column = that.columns[i];
 				//filter only on one column if asked
 				if(!filter_column || filter_column && column.data === filter_column.data) {
 					//var value = column.render ? record[i].rendered : record[i].raw;
-					var value = record[column.data];
+					const value = record[column.data];
 					if(typeof value === 'string') {
 						if(exact_matching && value === filter || value.nocaseIncludes(filter)) {
 							return true;
@@ -327,16 +327,16 @@ Grid.prototype.render = function(datasource) {
 	}
 
 	//restore state
-	var serialized_state = sessionStorage.getItem(this.id);
+	const serialized_state = sessionStorage.getItem(this.id);
 	if(serialized_state) {
 		try {
-			var state = JSON.parse(serialized_state);
+			const state = JSON.parse(serialized_state);
 
 			this.start = state.start;
 			this.datasource.sortingOrders = state.datasource.sortingOrders;
 			//remove now invalid columns from restored sorting columns
 			this.datasource.sortingOrders = this.datasource.sortingOrders.filter(function(sorting_order) {
-				var column = this.columns.find(Array.objectFilter({data : sorting_order.field}));
+				const column = this.columns.find(Array.objectFilter({data : sorting_order.field}));
 				return column && !column.unsortable;
 			}, this);
 
@@ -352,7 +352,7 @@ Grid.prototype.render = function(datasource) {
 	//set arbitrary sorting order if needed
 	if(this.datasource.sortingOrders.isEmpty()) {
 		//find first sortable column
-		var column = this.columns.find(Array.objectFilter({unsortable : true}).negatize());
+		const column = this.columns.find(Array.objectFilter({unsortable : true}).negatize());
 		//if there is a sortable column, add it in sorting orders
 		if(column) {
 			this.datasource.sortingOrders.push({field : column.data, descendant : false});
@@ -360,7 +360,7 @@ Grid.prototype.render = function(datasource) {
 	}
 
 	//initialize datasource and render retrieved data if any
-	var that = this;
+	const that = this;
 	datasource.init(function() {
 
 		//check start offset
@@ -369,15 +369,15 @@ Grid.prototype.render = function(datasource) {
 		}
 
 		//update column ui
-		var column_index = that.columns.indexOf(that.columns.find(Array.objectFilter({data : that.datasource.sortingOrders[0].field})));
-		var header_column = that.head.childNodes[0].childNodes[column_index];
+		const column_index = that.columns.indexOf(that.columns.find(Array.objectFilter({data : that.datasource.sortingOrders[0].field})));
+		const header_column = that.head.childNodes[0].childNodes[column_index];
 		header_column.lastChild.style.display = 'inline';
 		header_column.lastChild.src = that.path + (that.datasource.sortingOrders[0].descendant ? 'bullet_arrow_down.png' : 'bullet_arrow_up.png');
 
 		//data may already be available
 		if(datasource.data) {
-			var columns_length = that.columns.length;
-			var i, j, column;
+			const columns_length = that.columns.length;
+			let i, j, column;
 
 			//check data
 			if(!that.allowMissingData) {
@@ -416,7 +416,7 @@ Grid.prototype.render = function(datasource) {
 Grid.prototype.draw = function() {
 	//save state
 	try {
-		var state = {
+		const state = {
 			datasource : {
 				sortingOrders : this.datasource.sortingOrders
 			},
@@ -469,11 +469,11 @@ Grid.prototype.draw = function() {
 		}
 	}
 	//retrieve data to display
-	var that = this;
+	const that = this;
 	this.datasource.getData(this.start, this.rowPerPage, function(data) {
 		//no data
 		if(data.isEmpty()) {
-			var no_data = document.createFullElement('tr', {'class' : 'even'});
+			const no_data = document.createFullElement('tr', {'class' : 'even'});
 			no_data.appendChild(document.createFullElement('td', {colspan : that.columns.length}, 'No data to display'));
 			that.body.appendChild(no_data);
 			//display status
@@ -482,17 +482,16 @@ Grid.prototype.draw = function() {
 			}
 		}
 		else {
-			var i, j;
 			//revive and render data
-			var rendered_data = [];
-			for(i = 0; i < data.length; i++) {
+			const rendered_data = [];
+			for(let i = 0; i < data.length; i++) {
 				rendered_data[i] = [];
-				var original_record = data[i];
+				const original_record = data[i];
 				//store original record //TODO find an other way to store it as this prevent having a column linked to data name "record"
 				rendered_data[i].record = original_record;
-				for(j = 0; j < that.columns.length; j++) {
-					column = that.columns[j];
-					var record = {};
+				for(let j = 0; j < that.columns.length; j++) {
+					const column = that.columns[j];
+					const record = {};
 					if(column.data) {
 						record.raw = original_record[column.data];
 					}
@@ -515,18 +514,18 @@ Grid.prototype.draw = function() {
 				}
 			}
 			//insert in table
-			for(var i = 0; i < rendered_data.length; i++) {
-				var line = document.createElement('tr');
+			for(let i = 0; i < rendered_data.length; i++) {
+				const line = document.createElement('tr');
 				if(that.rowClass) {
 					line.classList.add(that.rowClass.call(undefined, rendered_data[i].record));
 				}
 				else {
 					line.classList.add(i % 2 === 0 ? 'even' : 'odd');
 				}
-				for(var j = 0; j < that.columns.length; j++) {
-					var column = that.columns[j];
-					var value = column.render ? rendered_data[i][j].rendered : rendered_data[i][j].raw;
-					var element = document.createFullElement('td');
+				for(let j = 0; j < that.columns.length; j++) {
+					const column = that.columns[j];
+					const value = column.render ? rendered_data[i][j].rendered : rendered_data[i][j].raw;
+					const element = document.createFullElement('td');
 					//string are just appended
 					if(typeof value === 'string') {
 						//value must not be falsy
@@ -558,9 +557,9 @@ Grid.prototype.draw = function() {
 			if(that.rowPerPage) {
 				that.status.clear();
 				//calculate max index
-				var max = that.rowPerPage ? that.start + that.rowPerPage >= that.datasource.getLength() ? that.datasource.getLength() : that.start + that.rowPerPage : that.datasource.getLength();
+				const max = that.rowPerPage ? that.start + that.rowPerPage >= that.datasource.getLength() ? that.datasource.getLength() : that.start + that.rowPerPage : that.datasource.getLength();
 				//correct min index if needed
-				var min = that.start >= that.datasource.getLength() ? that.rowPerPage ? that.datasource.getLength() - that.rowPerPage : 0 : that.start;
+				const min = that.start >= that.datasource.getLength() ? that.rowPerPage ? that.datasource.getLength() - that.rowPerPage : 0 : that.start;
 				that.status.appendChild(document.createTextNode(that.statusText.replaceObject({start : (min + 1), stop : max, total : that.datasource.getLength()})));
 			}
 		}
@@ -585,7 +584,7 @@ Grid.prototype.draw = function() {
 		this.ready;
 
 		//bind parameters
-		for(var parameter in parameters) {
+		for(const parameter in parameters) {
 			this[parameter] = parameters[parameter];
 		}
 
@@ -606,7 +605,7 @@ Grid.prototype.draw = function() {
 	};
 
 	Grid.Datasource.prototype.init = function(callback) {
-		var that = this;
+		const that = this;
 
 		//retrieve amount (length) of data
 
@@ -614,9 +613,8 @@ Grid.prototype.draw = function() {
 		if(this.url) {
 			//datasources that can retrieve all data at once using an url
 			if(!this.lazy) {
-				var url = uncache(this.url);
-				var that = this;
-				var xhr = new XMLHttpRequest();
+				const url = uncache(this.url);
+				const xhr = new XMLHttpRequest();
 				xhr.addEventListener(
 					'load',
 					function(event) {
@@ -638,7 +636,7 @@ Grid.prototype.draw = function() {
 			}
 			//datasources that are lazy, length must be retrieved explicitly
 			else {
-				var xhr = new XMLHttpRequest();
+				const xhr = new XMLHttpRequest();
 				xhr.onreadystatechange = function() {
 					if(xhr.readyState === 4) {
 						if(xhr.status === 200) {
@@ -670,15 +668,15 @@ Grid.prototype.draw = function() {
 	};
 
 	function sort(data) {
-		var that = this;
+		const that = this;
 		data.sort(function(a, b) {
-			var index = 0;
-			var field;
-			var result;
+			let index = 0;
+			let field;
+			let result;
 			while(!result && index < that.sortingOrders.length) {
 				field = that.sortingOrders[index].field;
-				var a_data = a[field];
-				var b_data = b[field];
+				const a_data = a[field];
+				const b_data = b[field];
 				if(!a_data && !b_data) {
 					result = 0;
 				}
@@ -713,7 +711,7 @@ Grid.prototype.draw = function() {
 			}
 			//lazy grids
 			else {
-				var url = uncache(this.url);
+				let url = uncache(this.url);
 				if(this.lazy) {
 					url += ('&start=' + start);
 					url += ('&limit=' + limit);
@@ -722,12 +720,11 @@ Grid.prototype.draw = function() {
 						url += ('&descendant=' + this.sortingOrders[0].descendant);
 					}
 				}
-				var that = this;
-				var xhr = new XMLHttpRequest();
+				const xhr = new XMLHttpRequest();
 				xhr.onreadystatechange = function() {
 					if(xhr.readyState === 4) {
 						if(xhr.status === 200) {
-							var data = JSON.parse(xhr.responseText);
+							const data = JSON.parse(xhr.responseText);
 							callback.call(undefined, data);
 						}
 						else {
