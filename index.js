@@ -9,14 +9,14 @@ window.addEventListener(
 				'submit',
 				function(event) {
 					event.preventDefault();
-					var start = this['start'].value ? Date.parseToDisplay(this['start'].value) : undefined;
-					var stop = this['stop'].value ? Date.parseToDisplay(this['stop'].value) : undefined;
-					var xhr = new XMLHttpRequest();
+					const start = this['start'].value ? Date.parseToDisplay(this['start'].value) : undefined;
+					const stop = this['stop'].value ? Date.parseToDisplay(this['stop'].value) : undefined;
+					const xhr = new XMLHttpRequest();
 					xhr.addEventListener(
 						'load',
 						function(xhr_event) {
-							var data = xhr_event.target.response.filter(function(row) {
-								var row_date = new Date(row.date);
+							const data = xhr_event.target.response.filter(function(row) {
+								const row_date = new Date(row.date);
 								if(start && start.isAfter(row_date)) {
 									return false;
 								}
@@ -26,12 +26,12 @@ window.addEventListener(
 								return true;
 							});
 							grid.render(new Datasource({data : data}));
-							var export_url = '#export';
+							let export_url = '#export';
 							if(start) {
-								export_url += ('|start=' + start.toDisplay())
+								export_url += ('|start=' + start.toDisplay());
 							}
 							if(stop) {
-								export_url += ('|stop=' + stop.toDisplay())
+								export_url += ('|stop=' + stop.toDisplay());
 							}
 							grid.setActions([{label : 'Export', url : export_url}]);
 						}
@@ -43,18 +43,18 @@ window.addEventListener(
 			);
 
 			function render_name(value, record) {
-				var link = document.createElement('a');
+				const link = document.createElement('a');
 				link.setAttribute('href', '#id=' + record.id);
 				link.appendChild(document.createTextNode(value));
 				return link;
 			}
 
-			function render_date(value, record) {
+			function render_date(value) {
 				return value.toDisplay();
 			}
 
-			function render_value(value, record) {
-				var number = document.createElement('span');
+			function render_value(value) {
+				const number = document.createElement('span');
 				number.style.display = 'inline-block';
 				number.style.width = '100%';
 				number.style.textAlign = 'right';
@@ -63,7 +63,7 @@ window.addEventListener(
 				return number;
 			}
 
-			var columns = [
+			const columns = [
 				{label : 'Country', data : 'country', type : Grid.DataType.STRING, width : 250},
 				{label : 'Name', data : 'name', type : Grid.DataType.STRING, render : render_name, width : 200},
 				{label : 'Date', data : 'date', type : Grid.DataType.DATE, render : render_date, width : 120},
@@ -71,7 +71,7 @@ window.addEventListener(
 				{label : 'Value', data : 'value', type : Grid.DataType.NUMBER, render : render_value, width : 120}
 			];
 
-			var grid = new Grid({
+			const grid = new Grid({
 				container : document.getElementById('grid1'),
 				columns : columns,
 				path : '',
@@ -87,7 +87,7 @@ window.addEventListener(
 
 		(function() {
 			function render_right(profileId, value, record) {
-				var input = document.createElement('input');
+				const input = document.createElement('input');
 				input.setAttribute('type', 'checkbox');
 				if(record.rights[profileId]) {
 					input.setAttribute('checked', 'checked');
@@ -99,20 +99,20 @@ window.addEventListener(
 			}
 
 			function render_user(value, record) {
-				var link = document.createElement('a');
+				const link = document.createElement('a');
 				link.setAttribute('href', '#user=' + record.login);
 				link.appendChild(document.createTextNode(record.firstname + ' ' + record.lastname));
 				return link;
 			}
 
-			var columns = [
+			const columns = [
 				{label: document.createFullElement('span', {style : 'color: blue;'}, 'User'), data : 'login', type : Grid.DataType.STRING, render : render_user},
 				{label: 'Jedi', type : Grid.DataType.STRING, width: 100, unsortable : true, render : render_right.bind(undefined, 'JEDI')},
 				{label: 'Sith', type : Grid.DataType.STRING, width: 100, unsortable : true, render : render_right.bind(undefined, 'SITH')},
 				{label: 'Rebel', type : Grid.DataType.STRING, width: 100, unsortable : true, render : render_right.bind(undefined, 'REBEL')}
 			];
 
-			var grid = new Grid({
+			const grid = new Grid({
 				container : document.getElementById('grid2'),
 				columns : columns,
 				path : '',
@@ -125,27 +125,27 @@ window.addEventListener(
 		})();
 
 		(function() {
-			var data = [
-				{"key":"3e48f042-9a4d-4271-993f-f48809722591","host":"0:0:0:0:0:0:0:1","agent":"Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/25.0","date":"2013-06-07T16:30:45.120+0000","last_use":"2013-06-07T16:30:45.120+0000", "entries":5},
-				{"key":"d9b8361b-2fc1-444f-ab9e-8748ffed335e","host":"0:0:0:0:0:0:0:1","agent":"Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0","date":"2013-06-08T16:31:54.890+0000","last_use":"2013-06-07T16:31:54.890+0000", "entries":1},
-				{"key":"2397d6c1-4a75-4589-b551-cebb3c33477d","host":"0:0:0:0:0:0:0:1","agent":"Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0","date":"2013-06-10T07:50:14.965+0000","last_use":"2013-06-10T07:50:14.965+0000", "entries":12},
-				{"key":"740185cc-7ace-4b07-a476-6245ee75d509","host":"0:0:0:0:0:0:0:1","agent":"Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36","date":"2013-06-10T07:55:01.075+0000","last_use":"2013-06-10T07:55:01.075+0000", "entries":0},
-				{"key":"343d0239-6bf7-4ae5-ba37-5ebb715629c1","host":"0:0:0:0:0:0:0:1","agent":"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0","date":"2013-06-10T07:58:49.304+0000","last_use":"2013-06-10T07:58:49.304+0000", "entries":8},
-				{"key":"8500593d-5eba-4ade-9816-f866f47edfa9","host":"0:0:0:0:0:0:0:1","agent":"Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/25.0","date":"2013-06-09T07:59:05.510+0000","last_use":"2013-06-10T08:55:07.869+0000", "entries":1},
-				{"key":"fee4040f-4857-48e0-930a-0e51b0a97c59","host":"0:0:0:0:0:0:0:1","agent":"Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0","date":"2013-06-10T08:22:06.305+0000","last_use":"2013-06-10T08:55:07.869+0000", "entries":2},
-				{"key":"a962e520-58f5-11e4-8ed6-0800200c9a66","host":"0:0:0:0:0:0:0:1","agent":"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)","date":"2013-06-10T08:22:06.305+0000","last_use":"2013-06-10T08:55:07.869+0000", "entries":7}
+			const data = [
+				{'key':'3e48f042-9a4d-4271-993f-f48809722591','host':'0:0:0:0:0:0:0:1','agent':'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/25.0','date':'2013-06-07T16:30:45.120+0000','last_use':'2013-06-07T16:30:45.120+0000', 'entries':5},
+				{'key':'d9b8361b-2fc1-444f-ab9e-8748ffed335e','host':'0:0:0:0:0:0:0:1','agent':'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0','date':'2013-06-08T16:31:54.890+0000','last_use':'2013-06-07T16:31:54.890+0000', 'entries':1},
+				{'key':'2397d6c1-4a75-4589-b551-cebb3c33477d','host':'0:0:0:0:0:0:0:1','agent':'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0','date':'2013-06-10T07:50:14.965+0000','last_use':'2013-06-10T07:50:14.965+0000', 'entries':12},
+				{'key':'740185cc-7ace-4b07-a476-6245ee75d509','host':'0:0:0:0:0:0:0:1','agent':'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36','date':'2013-06-10T07:55:01.075+0000','last_use':'2013-06-10T07:55:01.075+0000', 'entries':0},
+				{'key':'343d0239-6bf7-4ae5-ba37-5ebb715629c1','host':'0:0:0:0:0:0:0:1','agent':'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0','date':'2013-06-10T07:58:49.304+0000','last_use':'2013-06-10T07:58:49.304+0000', 'entries':8},
+				{'key':'8500593d-5eba-4ade-9816-f866f47edfa9','host':'0:0:0:0:0:0:0:1','agent':'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/25.0','date':'2013-06-09T07:59:05.510+0000','last_use':'2013-06-10T08:55:07.869+0000', 'entries':1},
+				{'key':'fee4040f-4857-48e0-930a-0e51b0a97c59','host':'0:0:0:0:0:0:0:1','agent':'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0','date':'2013-06-10T08:22:06.305+0000','last_use':'2013-06-10T08:55:07.869+0000', 'entries':2},
+				{'key':'a962e520-58f5-11e4-8ed6-0800200c9a66','host':'0:0:0:0:0:0:0:1','agent':'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)','date':'2013-06-10T08:22:06.305+0000','last_use':'2013-06-10T08:55:07.869+0000', 'entries':7}
 			];
 
 			function render_date(value) {
-				return value != null ? value.toDisplay() : "NA";
+				return value !== null ? value.toDisplay() : 'NA';
 			}
 
 			function render_delete(value, record) {
-				var button = document.createElement('button');
+				const button = document.createElement('button');
 				button.textContent = 'Delete';
 				button.addEventListener(
 					'click',
-					function(event) {
+					function() {
 						data.removeElement(record);
 						grid.render(new Datasource({data : data}));
 						console.log('Authorization ' + record.key + ' deleted');
@@ -154,7 +154,7 @@ window.addEventListener(
 				return button;
 			}
 
-			var columns = [
+			const columns = [
 				{label : 'Date', data : 'date', type : Grid.DataType.DATE, render : render_date, width : 110},
 				{label : 'Host', data : 'host', type : Grid.DataType.STRING, width : 120},
 				{label : 'Agent', data : 'agent', type : Grid.DataType.STRING},
@@ -163,7 +163,7 @@ window.addEventListener(
 				{label : 'Delete', data : 'key', render : render_delete, type : Grid.DataType.STRING, width : 60}
 			];
 
-			var grid = new Grid({
+			const grid = new Grid({
 				container : document.getElementById('grid3'),
 				columns : columns,
 				path : '',
