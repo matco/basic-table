@@ -57,7 +57,7 @@
 									}
 									return true;
 								});
-								grid.render(new Grid.Datasource({data : data}));
+								grid.render(new Datasource({data : data}));
 								var export_url = '#export';
 								if(start) {
 									export_url += ('|start=' + start.toDisplay())
@@ -111,7 +111,7 @@
 						{label : 'Export', url : '#export'}
 					]
 				});
-				grid.render(new Grid.Datasource({url : 'data1.json'}));
+				grid.render(new Datasource({url : 'data1.json'}));
 
 				//make this grid global so it can be tested
 				window.grid1 = grid;
@@ -150,7 +150,7 @@
 					path : '',
 					enableSearch : false
 				});
-				grid.render(new Grid.Datasource({url : 'data2.json'}));
+				grid.render(new Datasource({url : 'data2.json'}));
 
 				//make this grid global so it can be tested
 				window.grid2 = grid;
@@ -179,7 +179,7 @@
 						'click',
 						function(event) {
 							data.removeElement(record);
-							grid.render(new Grid.Datasource({data : data}));
+							grid.render(new Datasource({data : data}));
 							console.log('Authorization ' + record.key + ' deleted');
 						}
 					);
@@ -202,7 +202,7 @@
 					enableSearch : false,
 					statusText : 'Display clients ${start} - ${stop} of ${total}'
 				});
-				grid.render(new Grid.Datasource({data : data}));
+				grid.render(new Datasource({data : data}));
 
 				//make this grid global so it can be tested
 				window.grid3 = grid;
