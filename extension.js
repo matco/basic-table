@@ -1,6 +1,6 @@
 'use strict';
 
-//object
+//Object
 //helpers
 if(!Object.isObject) {
 	Object.isObject = function(object) {
@@ -9,7 +9,7 @@ if(!Object.isObject) {
 }
 if(!Object.isEmpty) {
 	Object.isEmpty = function(object) {
-		for(var key in object) {
+		for(const key in object) {
 			if(object.hasOwnProperty(key)) {
 				return false;
 			}
@@ -40,7 +40,7 @@ if(!Object.equals) {
 			if(object_1.length !== object_2.length) {
 				return false;
 			}
-			for(var i = object_1.length - 1; i >= 0; i--) {
+			for(let i = object_1.length - 1; i >= 0; i--) {
 				if(!Object.equals(object_1[i], object_2[i])) {
 					return false;
 				}
@@ -52,7 +52,7 @@ if(!Object.equals) {
 			if(!Object.equals(Object.keys(object_1), Object.keys(object_2))) {
 				return false;
 			}
-			for(var property in object_1) {
+			for(const property in object_1) {
 				if(object_1.hasOwnProperty(property)) {
 					if(!Object.equals(object_1[property], object_2[property])) {
 						return false;
@@ -69,31 +69,9 @@ if(!Object.clone) {
 		return JSON.parse(JSON.stringify(object));
 	};
 }
-if(!Object.values) {
-	Object.values = function(object) {
-		var key, values = [];
-		for(key in object) {
-			if(object.hasOwnProperty(key)) {
-				values.push(object[key]);
-			}
-		}
-		return values;
-	};
-}
-if(!Object.entries) {
-	Object.entries = function(object) {
-		var key, entries = [];
-		for(key in object) {
-			if(object.hasOwnProperty(key)) {
-				entries.push([key, object[key]]);
-			}
-		}
-		return entries;
-	};
-}
 if(!Object.key) {
 	Object.key = function(object, value) {
-		for(var key in object) {
+		for(const key in object) {
 			if(object.hasOwnProperty(key) && object[key] === value) {
 				return key;
 			}
@@ -101,21 +79,12 @@ if(!Object.key) {
 		throw new Error('Object does not contains value');
 	};
 }
-if(!Object.update) {
-	Object.update = function(object, values) {
-		for(var key in values) {
-			if(values.hasOwnProperty(key)) {
-				object[key] = values[key];
-			}
-		}
-	};
-}
 if(!Object.getObjectPathValue) {
 	Object.getObjectPathValue = function(source_object, source_path) {
-		var object = source_object;
-		var path = source_path;
+		let object = source_object;
+		let path = source_path;
 		while(path.includes('.')) {
-			var current = path.substring(0, path.indexOf('.'));
+			const current = path.substring(0, path.indexOf('.'));
 			object = Function.isFunction(object[current]) ? object[current]() : object[current];
 			path = path.substring(path.indexOf('.') + 1);
 		}
@@ -124,17 +93,17 @@ if(!Object.getObjectPathValue) {
 }
 if(!Object.getLastObjectInPath) {
 	Object.getLastObjectInPath = function(source_object, source_path) {
-		var object = source_object;
-		var path = source_path;
+		const object = source_object;
+		const path = source_path;
 		if(path.includes('.')) {
-			var last_property = path.substring(path.lastIndexOf('.') + 1);
+			const last_property = path.substring(path.lastIndexOf('.') + 1);
 			return {object : Object.getObjectPathValue(object, path.substring(0, path.lastIndexOf('.'))), property : last_property};
 		}
 		return {object : object, property : path};
 	};
 }
 
-//function
+//Function
 //helpers
 if(!Function.isFunction) {
 	Function.isFunction = function(object) {
@@ -144,14 +113,14 @@ if(!Function.isFunction) {
 
 //prototypes
 Function.prototype.negatize = function() {
-	var original = this;
+	const original = this;
 	return function() {
-		return !!!original.apply(undefined, arguments);
+		return !original.apply(undefined, arguments);
 	};
 };
 Function.prototype.callbackize = function() {
-	var original = this;
-	var args = arguments;
+	const original = this;
+	const args = arguments;
 	return function(object) {
 		return original.apply(object, args);
 	};
@@ -160,11 +129,11 @@ Function.prototype.unmemoize = function() {
 	throw new Error('Unable to unmemoize a function that has not been memoized');
 };
 Function.prototype.memoize = function() {
-	var original = this;
-	var cache = {};
+	const original = this;
+	const cache = {};
 
-	var memoized = function() {
-		var parameters = [];
+	const memoized = function() {
+		const parameters = [];
 		//add context in parameters
 		if(this) {
 			if(!this.serialize) {
@@ -192,7 +161,7 @@ Function.prototype.memoize = function() {
 	return memoized;
 };
 
-//string
+//String
 //helpers
 if(!String.isString) {
 	String.isString = function(object) {
@@ -201,21 +170,6 @@ if(!String.isString) {
 	};
 }
 //prototypes
-String.prototype.leftPad = function(length, pad) {
-	//clone string
-	var string = this + '';
-	while(string.length < length) {
-		string = pad + string;
-	}
-	return string;
-};
-String.prototype.rightPad = function(length, pad) {
-	var string = this;
-	while(string.length < length) {
-		string += pad;
-	}
-	return string;
-};
 String.prototype.capitalize = function() {
 	return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -234,14 +188,14 @@ String.prototype.replaceObject = function(object) {
 	});
 };
 String.prototype.getBytes = function() {
-	var bytes = [];
-	for(var i = 0; i < this.length; i++) {
+	const bytes = [];
+	for(let i = 0; i < this.length; i++) {
 		bytes.push(this.charCodeAt(i));
 	}
 	return bytes;
 };
 
-//boolean
+//Boolean
 //prototypes
 Boolean.prototype.compareTo = function(otherBoolean) {
 	if(this === otherBoolean) {
@@ -250,7 +204,7 @@ Boolean.prototype.compareTo = function(otherBoolean) {
 	return this ? -1 : 1;
 };
 
-//number
+//Number
 //helpers
 if(!Number.isNumber) {
 	Number.isNumber = function isNumber(object) {
@@ -260,20 +214,20 @@ if(!Number.isNumber) {
 
 //prototypes
 Number.prototype.pad = function(length, pad) {
-	return this.toString().leftPad(length, pad || '0');
+	return this.toString().padStart(length, pad || '0');
 };
 Number.prototype.compareTo = function(otherNumber) {
 	return this - otherNumber;
 };
 
-//array
+//Array
 //helpers
 Array.objectFilter = function(properties) {
 	return function(object) {
-		for(var property in properties) {
+		for(const property in properties) {
 			if(properties.hasOwnProperty(property)) {
 				//if object property is a function, call it only if the asked value is not a function too
-				var object_value = Function.isFunction(object[property]) && !Function.isFunction(properties[property]) ? object[property].call(object) : object[property];
+				const object_value = Function.isFunction(object[property]) && !Function.isFunction(properties[property]) ? object[property].call(object) : object[property];
 				if(object_value !== properties[property]) {
 					return false;
 				}
@@ -299,24 +253,18 @@ Array.prototype.first = function() {
 	return this[0];
 };
 Array.prototype.indexOfSame = function(element) {
-	var i = 0, length = this.length;
-	for(; i < length; i++) {
+	for(let i = 0; i < this.length; i++) {
 		if(Object.equals(this[i], element)) {
 			return i;
 		}
 	}
 	return -1;
 };
-if(!Array.prototype.includes) {
-	Array.prototype.includes = function(element) {
-		return this.indexOf(element) !== -1;
-	};
-}
 Array.prototype.includesSame = function(element) {
 	return this.indexOfSame(element) !== -1;
 };
 Array.prototype.includesAll = function(elements) {
-	for(var i = elements.length - 1; i >= 0; i--) {
+	for(let i = elements.length - 1; i >= 0; i--) {
 		if(!this.includes(elements[i])) {
 			return false;
 		}
@@ -324,7 +272,7 @@ Array.prototype.includesAll = function(elements) {
 	return true;
 };
 Array.prototype.includesOne = function(elements) {
-	for(var i = elements.length - 1; i >= 0; i--) {
+	for(let i = elements.length - 1; i >= 0; i--) {
 		if(this.includes(elements[i])) {
 			return true;
 		}
@@ -332,8 +280,7 @@ Array.prototype.includesOne = function(elements) {
 	return false;
 };
 Array.prototype.pushAll = function(array) {
-	var i = 0, length = array.length;
-	for(; i < length; i++) {
+	for(let i = 0; i < array.length; i++) {
 		this.push(array[i]);
 	}
 };
@@ -341,41 +288,29 @@ Array.prototype.insert = function(index, item) {
 	this.splice(index, 0, item);
 };
 Array.prototype.remove = function(from, to) {
-	var rest = this.slice((to || from) + 1 || this.length);
+	const rest = this.slice((to || from) + 1 || this.length);
 	this.length = from < 0 ? this.length + from : from;
 	this.push.apply(this, rest);
 };
 Array.prototype.removeElement = function(element) {
-	var index = this.indexOf(element);
+	const index = this.indexOf(element);
 	if(index !== -1) {
 		this.splice(index, 1);
 	}
 };
 Array.prototype.removeElements = function(elements) {
-	for(var i = 0, length = elements.length; i < length; i++) {
+	for(let i = 0, length = elements.length; i < length; i++) {
 		this.removeElement(elements[i]);
 	}
 };
 Array.prototype.replace = function(oldElement, newElement) {
-	var index = this.indexOf(oldElement);
+	const index = this.indexOf(oldElement);
 	if(index !== -1) {
 		this[index] = newElement;
 	}
 };
-if(!Array.prototype.find) {
-	Array.prototype.find = function(callback, thisArgument) {
-		var i = 0, length = this.length;
-		for(; i < length; i++) {
-			var element = this[i];
-			if(callback.call(thisArgument, element, i, this)) {
-				return element;
-			}
-		}
-		return undefined;
-	};
-}
 
-//date
+//Date
 //helpers
 if(!Date.isDate) {
 	Date.isDate = function(object) {
@@ -414,41 +349,53 @@ Date.locale = {
 
 //naive way to calculate differences
 Date.getDifferenceInDays = function(start, stop) {
-	var time = stop.getTime() - start.getTime();
+	const time = stop.getTime() - start.getTime();
 	return time / Date.MS_IN_DAY;
 };
 Date.getDifferenceInHours = function(start, stop) {
-	var time = stop.getTime() - start.getTime();
+	const time = stop.getTime() - start.getTime();
 	return time / Date.MS_IN_HOUR;
 };
 Date.getDifferenceInMinutes = function(start, stop) {
-	var time = stop.getTime() - start.getTime();
+	const time = stop.getTime() - start.getTime();
 	return time / Date.MS_IN_MINUTE;
 };
 Date.getDifferenceInSeconds = function(start, stop) {
-	var time = stop.getTime() - start.getTime();
+	const time = stop.getTime() - start.getTime();
 	return time / Date.MS_IN_SECOND;
 };
 Date.parseToDisplay = function(date) {
-	var parts = date.match(/^(\d{1,2}).(\d{1,2}).(\d{4})$/);
+	const parts = date.match(/^(\d{1,2}).(\d{1,2}).(\d{4})$/);
 	//return data only if format is valid
 	if(parts) {
 		return new Date(parts[3] + '/' + parts[2] + '/' + parts[1]);
 	}
+	//to be consistent with native date API, return an invalid date
+	return new Date('Invalid date');
 };
-Date.parseToFullDisplay = function(date) {
-	var parts = date.match(/^(\d{1,2}).(\d{1,2}).(\d{4}) (\d{1,2}):(\d{1,2}):(\d{1,2})/);
-	//return data only if format is valid
-	if(parts) {
-		return new Date(parts[3], parts[2] - 1, parts[1], parts[4], parts[5], parts[6]);
-	}
-};
-Date.parseToFullDisplayUTC = function(date) {
-	var parts = date.match(/^(\d{1,2}).(\d{1,2}).(\d{4}) (\d{1,2}):(\d{1,2}):(\d{1,2})/);
-	return new Date(Date.UTC(parts[3], parts[2] - 1, parts[1], parts[4], parts[5], parts[6]));
-};
+(function() {
+	const parts_regexp = /^(\d{1,2}).(\d{1,2}).(\d{4}) (\d{1,2}):(\d{1,2}):(\d{1,2})/;
+	Date.parseToFullDisplay = function(date) {
+		const parts = date.match(parts_regexp);
+		//return data only if format is valid
+		if(parts) {
+			return new Date(parseInt(parts[3]), parseInt(parts[2]) - 1, parseInt(parts[1]), parseInt(parts[4]), parseInt(parts[5]), parseInt(parts[6]));
+		}
+		//to be consistent with native date API, return an invalid date
+		return new Date('Invalid date');
+	};
+	Date.parseToFullDisplayUTC = function(date) {
+		const parts = date.match(parts_regexp);
+		//return data only if format is valid
+		if(parts) {
+			return new Date(Date.UTC(parseInt(parts[3]), parseInt(parts[2]) - 1, parseInt(parts[1]), parseInt(parts[4]), parseInt(parts[5]), parseInt(parts[6])));
+		}
+		//to be consistent with native date API, return an invalid date
+		return new Date('Invalid date');
+	};
+})();
 Date.getDurationLiteral = function(duration) {
-	var d, result = '';
+	let d, result = '';
 	//write seconds
 	d = duration % Date.SECONDS_IN_MINUTE;
 	if(d) {
@@ -497,20 +444,37 @@ Date.prototype.format = function(formatter) {
 		millisecond : this.getMilliseconds().pad(3)
 	});
 };
+Date.prototype.toUTCDisplay = function() {
+	return this.getUTCDate().pad(2) + '.' + (this.getUTCMonth() + 1).pad(2) + '.' + this.getUTCFullYear();
+};
+Date.prototype.toUTCFullDisplay = function() {
+	return this.toUTCDisplay() + ' ' + this.getUTCHours().pad(2) + ':' + this.getUTCMinutes().pad(2) + ':' + this.getUTCSeconds().pad(2);
+};
+Date.prototype.formatUTC = function(formatter) {
+	return formatter.replaceObject({
+		day : this.getUTCDate().pad(2),
+		month : (this.getUTCMonth() + 1).pad(2),
+		year : this.getUTCFullYear(),
+		hour : this.getUTCHours().pad(2),
+		minute : this.getUTCMinutes().pad(2),
+		second : this.getUTCSeconds().pad(2),
+		millisecond : this.getUTCMilliseconds().pad(3)
+	});
+};
 Date.prototype.getDayName = function(language) {
-	var lang = language && Date.locale.hasOwnProperty(language) ? language : 'en';
+	const lang = language && Date.locale.hasOwnProperty(language) ? language : 'en';
 	return Date.locale[lang].day_names[this.getDay()];
 };
 Date.prototype.getDayNameShort = function(language) {
-	var lang = language && Date.locale.hasOwnProperty(language) ? language : 'en';
+	const lang = language && Date.locale.hasOwnProperty(language) ? language : 'en';
 	return Date.locale[lang].day_names_short[this.getDay()];
 };
 Date.prototype.getMonthName = function(language) {
-	var lang = language && Date.locale.hasOwnProperty(language) ? language : 'en';
+	const lang = language && Date.locale.hasOwnProperty(language) ? language : 'en';
 	return Date.locale[lang].month_names[this.getMonth()];
 };
 Date.prototype.getMonthNameShort = function(language) {
-	var lang = language && Date.locale.hasOwnProperty(language) ? language : 'en';
+	const lang = language && Date.locale.hasOwnProperty(language) ? language : 'en';
 	return Date.locale[lang].month_names_short[this.getMonth()];
 };
 Date.prototype.equals = function(otherDate) {
@@ -583,37 +547,64 @@ Date.prototype.getAge = function() {
 	return new Date().getTime() - this.getTime();
 };
 Date.prototype.getAgeLiteral = function() {
-	var real_age = this.getAge();
-	if(real_age < 0) {
-		throw new Error('Date in the future not supported');
-	}
-	var age = Math.round(real_age / Date.MS_IN_SECOND);
+	const real_age = this.getAge();
+
+	let age = Math.round(real_age / Date.MS_IN_SECOND);
 	if(age === 0) {
 		return 'just now';
 	}
 	if(age === 1) {
 		return 'a second ago';
 	}
-	if(age < Date.SECONDS_IN_MINUTE) {
+	if(age === -1) {
+		return 'in a second';
+	}
+	if(age > 0 && age < Date.SECONDS_IN_MINUTE) {
 		return age + ' seconds ago';
 	}
+	if(age < 0 && -age < Date.SECONDS_IN_MINUTE) {
+		return 'in ' + (-age) + ' seconds';
+	}
+
 	age = Math.round(real_age / Date.MS_IN_MINUTE);
 	if(age === 1) {
 		return 'a minute ago';
 	}
-	if(age < Date.MINUTES_IN_HOUR) {
+	if(age === -1) {
+		return 'in a minute';
+	}
+	if(age > 0 && age < Date.MINUTES_IN_HOUR) {
 		return age + ' minutes ago';
 	}
+	if(age < 0 && -age < Date.MINUTES_IN_HOUR) {
+		return 'in ' + (-age) + ' minutes';
+	}
+
 	age = Math.round(real_age / Date.MS_IN_HOUR);
 	if(age === 1) {
 		return 'an hour ago';
 	}
-	if(age < Date.HOURS_IN_DAY) {
+	if(age === -1) {
+		return 'in an hour';
+	}
+	if(age > 0 && age < Date.HOURS_IN_DAY) {
 		return age + ' hours ago';
 	}
+	if(age < 0 && -age < Date.HOURS_IN_DAY) {
+		return 'in ' + (-age) + ' hours';
+	}
+
 	age = Math.round(real_age / Date.MS_IN_DAY);
 	if(age === 1) {
 		return 'a day ago';
 	}
-	return age + ' days ago';
+	if(age === -1) {
+		return 'in a day';
+	}
+	if(age > 0) {
+		return age + ' days ago';
+	}
+	else {
+		return 'in ' + (-age) + ' days';
+	}
 };
