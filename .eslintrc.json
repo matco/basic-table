@@ -25,6 +25,11 @@
 		"eqeqeq": "error",
 		"quotes": ["error", "single"],
 		"semi": ["error", "always"],
-		"indent": ["error", "tab", {"SwitchCase": 1}]
+		"indent": ["error", "tab", {"SwitchCase": 1}],
+		"key-spacing": "error",
+		"strict": "error",
+		"eol-last": "error",
+		"no-multiple-empty-lines": "error",
+		"spaced-comment": ["error", "never"]
 	}
 }

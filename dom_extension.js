@@ -1,5 +1,3 @@
-'use strict';
-
 //Generic
 ['indexOf', 'first', 'last', 'isEmpty', 'includes', 'slice', 'sort', 'forEach', 'map', 'find', 'filter', 'every', 'some'].forEach(function(method) {
 	//NodeList
@@ -87,10 +85,10 @@ Element.prototype.setAttributes = function(attributes) {
 //HTML
 //HTMLElement
 HTMLElement.prototype.getPosition = function() {
-	const position = {left : this.offsetLeft, top : this.offsetTop};
+	const position = {left: this.offsetLeft, top: this.offsetTop};
 	if(this.offsetParent) {
 		const parent_position = this.offsetParent.getPosition();
-		return {left : parent_position.left + position.left, top : parent_position.top + position.top};
+		return {left: parent_position.left + position.left, top: parent_position.top + position.top};
 	}
 	return position;
 };
@@ -160,7 +158,7 @@ HTMLSelectElement.prototype.fill = function(entries, blank_entry, selected_entri
 	let properties;
 	for(const option in options) {
 		if(options.hasOwnProperty(option)) {
-			properties = {value : option};
+			properties = {value: option};
 			if(selected_options.includes(properties.value)) {
 				properties.selected = 'selected';
 			}

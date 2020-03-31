@@ -1,5 +1,3 @@
-'use strict';
-
 //Object
 //helpers
 if(!Object.isObject) {
@@ -97,9 +95,9 @@ if(!Object.getLastObjectInPath) {
 		const path = source_path;
 		if(path.includes('.')) {
 			const last_property = path.substring(path.lastIndexOf('.') + 1);
-			return {object : Object.getObjectPathValue(object, path.substring(0, path.lastIndexOf('.'))), property : last_property};
+			return {object: Object.getObjectPathValue(object, path.substring(0, path.lastIndexOf('.'))), property: last_property};
 		}
-		return {object : object, property : path};
+		return {object: object, property: path};
 	};
 }
 
@@ -333,17 +331,17 @@ Date.MS_IN_HOUR = Date.MINUTES_IN_HOUR * Date.MS_IN_MINUTE;
 Date.MS_IN_DAY = Date.HOURS_IN_DAY * Date.MS_IN_HOUR;
 
 Date.locale = {
-	en : {
-		day_names : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-		day_names_short : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-		month_names : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-		month_names_short : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+	en: {
+		day_names: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+		day_names_short: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+		month_names: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+		month_names_short: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 	},
-	fr : {
-		day_names : ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-		day_names_short : ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-		month_names : ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
-		month_names_short : ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Dec']
+	fr: {
+		day_names: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+		day_names_short: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+		month_names: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
+		month_names_short: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Dec']
 	}
 };
 
@@ -435,13 +433,13 @@ Date.prototype.toFullDisplay = function() {
 };
 Date.prototype.format = function(formatter) {
 	return formatter.replaceObject({
-		day : this.getDate().pad(2),
-		month : (this.getMonth() + 1).pad(2),
-		year : this.getFullYear(),
-		hour : this.getHours().pad(2),
-		minute : this.getMinutes().pad(2),
-		second : this.getSeconds().pad(2),
-		millisecond : this.getMilliseconds().pad(3)
+		day: this.getDate().pad(2),
+		month: (this.getMonth() + 1).pad(2),
+		year: this.getFullYear(),
+		hour: this.getHours().pad(2),
+		minute: this.getMinutes().pad(2),
+		second: this.getSeconds().pad(2),
+		millisecond: this.getMilliseconds().pad(3)
 	});
 };
 Date.prototype.toUTCDisplay = function() {
@@ -452,13 +450,13 @@ Date.prototype.toUTCFullDisplay = function() {
 };
 Date.prototype.formatUTC = function(formatter) {
 	return formatter.replaceObject({
-		day : this.getUTCDate().pad(2),
-		month : (this.getUTCMonth() + 1).pad(2),
-		year : this.getUTCFullYear(),
-		hour : this.getUTCHours().pad(2),
-		minute : this.getUTCMinutes().pad(2),
-		second : this.getUTCSeconds().pad(2),
-		millisecond : this.getUTCMilliseconds().pad(3)
+		day: this.getUTCDate().pad(2),
+		month: (this.getUTCMonth() + 1).pad(2),
+		year: this.getUTCFullYear(),
+		hour: this.getUTCHours().pad(2),
+		minute: this.getUTCMinutes().pad(2),
+		second: this.getUTCSeconds().pad(2),
+		millisecond: this.getUTCMilliseconds().pad(3)
 	});
 };
 Date.prototype.getDayName = function(language) {
