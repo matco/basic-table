@@ -1,0 +1,21 @@
+{
+	"name": "js-grid",
+	"description": "js-grid displays your tabular data in a nice HTML grid",
+	"version": "0.0.1",
+	"keywords": [],
+	"author": {
+		"name": "Matthieu Corageoud",
+		"email": "matthieu.corageoud@gmail.com"
+	},
+	"license": "Unlicense",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/matco/js-grid.git"
+	},
+	"bugs": {
+		"url": "https://github.com/matco/js-grid/issues"
+	},
+	"scripts": {},
+	"dependencies": {},
+	"devDependencies": {}
+}
