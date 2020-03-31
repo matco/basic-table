@@ -1,4 +1,4 @@
-/* global get, click, type, wait */
+/* global assert, get, click, type, wait */
 
 'use strict';
 

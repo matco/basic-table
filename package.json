@@ -2,6 +2,9 @@
 	"name": "js-grid",
 	"description": "js-grid displays your tabular data in a nice HTML grid",
 	"version": "0.0.1",
+	"scripts": {
+		"lint": "./node_modules/.bin/eslint ."
+	},
 	"keywords": [],
 	"author": {
 		"name": "Matthieu Corageoud",
@@ -15,7 +18,8 @@
 	"bugs": {
 		"url": "https://github.com/matco/js-grid/issues"
 	},
-	"scripts": {},
 	"dependencies": {},
-	"devDependencies": {}
+	"devDependencies": {
+		"eslint": "^6.8.0"
+	}
 }
