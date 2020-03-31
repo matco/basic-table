@@ -1,5 +1,37 @@
 import {Datasource} from './datasource.js';
 
+function is_string(object) {
+	return typeof(object) === 'string';
+}
+
+function create_element(tag, attributes, text, listeners) {
+	const element = document.createElement(tag);
+	if(attributes) {
+		for(const attribute in attributes) {
+			if(attributes.hasOwnProperty(attribute)) {
+				element.setAttribute(attribute, attributes[attribute]);
+			}
+		}
+	}
+	if(text !== undefined) {
+		element.appendChild(document.createTextNode(text));
+	}
+	if(listeners) {
+		for(const listener in listeners) {
+			if(listeners.hasOwnProperty(listener)) {
+				element.addEventListener(listener, listeners[listener], false);
+			}
+		}
+	}
+	return element;
+}
+
+function clear_element(element) {
+	while(element.firstChild) {
+		element.removeChild(element.firstChild);
+	}
+}
+
 function resort(grid) {
 	grid.start = 0;
 	grid.draw();
@@ -81,24 +113,24 @@ export class Grid {
 		const that = this;
 
 		//header
-		this.header = document.createFullElement('div', {'class': 'grid_header'});
+		this.header = create_element('div', {'class': 'grid_header'});
 		if(this.title) {
-			this.header.appendChild(document.createFullElement('h2', {}, this.title));
+			this.header.appendChild(create_element('h2', {}, this.title));
 		}
 
 		//table
-		this.table = document.createFullElement('table', {'class': 'grid_content'});
+		this.table = create_element('table', {'class': 'grid_content'});
 
 		//table header
 		this.head = document.createElement('thead');
-		const header_line = document.createFullElement('tr', {style: 'height: 21px;'});
+		const header_line = create_element('tr', {style: 'height: 21px;'});
 		this.head.appendChild(header_line);
 
 		for(let i = 0; i < this.columns.length; i++) {
 			const column = this.columns[i];
-			const header_column = document.createFullElement('th', {style: 'width: ' + column.width + 'px;'});
+			const header_column = create_element('th', {style: 'width: ' + column.width + 'px;'});
 			//create or use label
-			const header_label = String.isString(column.label) ? document.createTextNode(column.label) : column.label;
+			const header_label = is_string(column.label) ? document.createTextNode(column.label) : column.label;
 			header_column.appendChild(header_label);
 			if(!column.unsortable) {
 				header_column.style.cursor = 'pointer';
@@ -111,30 +143,30 @@ export class Grid {
 						};
 					})(column.data)
 				);
-				header_column.appendChild(document.createFullElement('img', {src: this.path + 'bullet_arrow_up.png', style: 'display : none;'}));
+				header_column.appendChild(create_element('img', {src: this.path + 'bullet_arrow_up.png', style: 'display : none;'}));
 			}
 			header_line.appendChild(header_column);
 		}
 		this.table.appendChild(this.head);
 
 		//table body
-		this.body = document.createFullElement('tbody');
+		this.body = create_element('tbody');
 		this.table.appendChild(this.body);
 
 		//footer
-		this.footer = document.createFullElement('div', {'class': 'grid_footer'});
+		this.footer = create_element('div', {'class': 'grid_footer'});
 
-		const search_bar = document.createFullElement('div', {'class': 'grid_footer_search'});
+		const search_bar = create_element('div', {'class': 'grid_footer_search'});
 		this.footer.appendChild(search_bar);
 
-		/*this.refreshButton = document.createFullElement('a');
-		this.refreshButton.appendChild(document.createFullElement('img', {'src' : this.path + 'arrow_refresh.png'}));
+		/*this.refreshButton = create_element('a');
+		this.refreshButton.appendChild(create_element('img', {'src' : this.path + 'arrow_refresh.png'}));
 		this.footer.appendChild(this.refreshButton);*/
 
 		if(this.enableSearch) {
-			const search_form = document.createFullElement('form', {style: 'float: left;'});
-			const search_label = document.createFullElement('label', {}, 'Filter');
-			this.search_input = document.createFullElement('input', {type: 'search', style: 'margin-left: 10px; margin-right: 10px;'});
+			const search_form = create_element('form', {style: 'float: left;'});
+			const search_label = create_element('label', {}, 'Filter');
+			this.search_input = create_element('input', {type: 'search', style: 'margin-left: 10px; margin-right: 10px;'});
 			//scan search input
 			let last_filter = '';
 			setInterval(function() {
@@ -148,30 +180,30 @@ export class Grid {
 			search_bar.appendChild(search_form);
 		}
 
-		this.loading = document.createFullElement('img', {src: this.path + 'loading.png'});
+		this.loading = create_element('img', {src: this.path + 'loading.png'});
 		search_bar.appendChild(this.loading);
 
-		this.buttons = document.createFullElement('div', {'class': 'grid_footer_buttons'});
+		this.buttons = create_element('div', {'class': 'grid_footer_buttons'});
 		this.footer.appendChild(this.buttons);
 
 		this.setActions(this.actions);
 
 		if(this.rowPerPage) {
 			//info
-			this.info = document.createFullElement('div', {'class': 'grid_footer_info'});
-			this.status = document.createFullElement('span', {style: 'margin-left: 5px;'});
+			this.info = create_element('div', {'class': 'grid_footer_info'});
+			this.status = create_element('span', {style: 'margin-left: 5px;'});
 			this.info.appendChild(this.status);
 			this.footer.appendChild(this.info);
 
 			//controls
-			this.controls = document.createFullElement('div', {'class': 'grid_footer_controls'});
+			this.controls = create_element('div', {'class': 'grid_footer_controls'});
 			this.footer.appendChild(this.controls);
 
 			//first
-			this.firstButton = document.createFullElement('a', {href: '#', title: 'First', alt: 'First', 'class': 'control_first'}, undefined,
+			this.firstButton = create_element('a', {href: '#', title: 'First', alt: 'First', 'class': 'control_first'}, undefined,
 				{
 					'click': function(event) {
-						Event.stop(event);
+						event.preventDefault();
 						if(that.start !== 0) {
 							that.start = 0;
 							that.draw();
@@ -181,10 +213,10 @@ export class Grid {
 			);
 			this.controls.appendChild(this.firstButton);
 			//previous
-			this.previousButton = document.createFullElement('a', {href: '#', title: 'Previous', alt: 'Previous', 'class': 'control_previous'}, undefined,
+			this.previousButton = create_element('a', {href: '#', title: 'Previous', alt: 'Previous', 'class': 'control_previous'}, undefined,
 				{
 					'click': function(event) {
-						Event.stop(event);
+						event.preventDefault();
 						if(that.start > 1) {
 							that.start -= that.rowPerPage;
 							that.draw();
@@ -194,10 +226,10 @@ export class Grid {
 			);
 			this.controls.appendChild(this.previousButton);
 			//next
-			this.nextButton = document.createFullElement('a', {href: '#', title: 'Next', alt: 'Next', 'class': 'control_next'}, undefined,
+			this.nextButton = create_element('a', {href: '#', title: 'Next', alt: 'Next', 'class': 'control_next'}, undefined,
 				{
 					'click': function(event) {
-						Event.stop(event);
+						event.preventDefault();
 						if(that.start + that.rowPerPage < that.datasource.getLength()) {
 							that.start += that.rowPerPage;
 							that.draw();
@@ -207,10 +239,10 @@ export class Grid {
 			);
 			this.controls.appendChild(this.nextButton);
 			//last
-			this.lastButton = document.createFullElement('a', {href: '#', title: 'Last', alt: 'Last', 'class': 'control_last'}, undefined,
+			this.lastButton = create_element('a', {href: '#', title: 'Last', alt: 'Last', 'class': 'control_last'}, undefined,
 				{
 					'click': function(event) {
-						Event.stop(event);
+						event.preventDefault();
 						const last_start = (Math.ceil(that.datasource.length / that.rowPerPage) - 1) * that.rowPerPage;
 						if(that.start !== last_start) {
 							that.start = last_start;
@@ -222,21 +254,21 @@ export class Grid {
 			this.controls.appendChild(this.lastButton);
 		}
 		//insertion
-		this.container.clear();
+		clear_element(this.container);
 		this.container.appendChild(this.header);
 		this.container.appendChild(this.table);
 		this.container.appendChild(this.footer);
 		//display footer only if there is something in it
-		this.footer.style.display = this.enableSearch || this.rowPerPage || !this.actions.isEmpty() ? 'block' : 'none';
+		this.footer.style.display = this.enableSearch || this.rowPerPage || this.actions.length > 0 ? 'block' : 'none';
 	}
 	setActions(actions) {
 		this.actions = actions;
-		this.buttons.clear();
+		clear_element(this.buttons);
 		for(let i = 0; i < this.actions.length; i++) {
 			const action = this.actions[i];
 			let action_item;
-			if(String.isString(action.label)) {
-				action_item = document.createFullElement('a', {href: action.url, 'class': 'button'}, action.label);
+			if(is_string(action.label)) {
+				action_item = create_element('a', {href: action.url, 'class': 'button'}, action.label);
 			}
 			else {
 				action_item = action.label;
@@ -244,7 +276,7 @@ export class Grid {
 			this.buttons.appendChild(action_item);
 		}
 		//display footer only if there is something in it
-		this.footer.style.display = this.enableSearch || this.rowPerPage || !this.actions.isEmpty() ? 'block' : 'none';
+		this.footer.style.display = this.enableSearch || this.rowPerPage || this.actions.length > 0 ? 'block' : 'none';
 	}
 	setOrdering(field, descendant) {
 		this.datasource.sortingOrders = [{field: field, descendant: descendant}];
@@ -262,6 +294,7 @@ export class Grid {
 		resort(this);
 	}
 	filter(filter, filter_column, exact_matching) {
+		const lower_filter = filter.toLowerCase();
 		const that = this;
 		data_filter.call(this, function(record) {
 			for(let i = 0; i < that.columns.length; i++) {
@@ -271,13 +304,13 @@ export class Grid {
 					//var value = column.render ? record[i].rendered : record[i].raw;
 					const value = record[column.data];
 					if(typeof value === 'string') {
-						if(exact_matching && value === filter || value.nocaseIncludes(filter)) {
+						if(exact_matching && value === filter || value.toLowerCase().includes(lower_filter)) {
 							return true;
 						}
 					}
 					else if(typeof value === 'object') {
 						//this does not work anymore
-						if(exact_matching && value.innerHTML === filter || value.innerHTML.nocaseIncludes(filter)) {
+						if(exact_matching && value.innerHTML === filter || value.innerHTML.toLowerCase().includes(lower_filter)) {
 							return true;
 						}
 					}
@@ -337,7 +370,7 @@ export class Grid {
 		}
 
 		//set arbitrary sorting order if needed
-		if(this.datasource.sortingOrders.isEmpty()) {
+		if(this.datasource.sortingOrders.length === 0) {
 			//find first sortable column
 			const column = this.columns.find(c => !c.unsortable);
 			//if there is a sortable column, add it in sorting orders
@@ -458,13 +491,13 @@ export class Grid {
 		const that = this;
 		this.datasource.getData(this.start, this.rowPerPage, function(data) {
 			//no data
-			if(data.isEmpty()) {
-				const no_data = document.createFullElement('tr', {'class': 'even'});
-				no_data.appendChild(document.createFullElement('td', {colspan: that.columns.length}, 'No data to display'));
+			if(data.length === 0) {
+				const no_data = create_element('tr', {'class': 'even'});
+				no_data.appendChild(create_element('td', {colspan: that.columns.length}, 'No data to display'));
 				that.body.appendChild(no_data);
 				//display status
 				if(that.rowPerPage) {
-					that.status.clear();
+					clear_element(that.status);
 				}
 			}
 			else {
@@ -512,7 +545,7 @@ export class Grid {
 					for(let j = 0; j < that.columns.length; j++) {
 						const column = that.columns[j];
 						const value = column.render ? rendered_data[i][j].rendered : rendered_data[i][j].raw;
-						const element = document.createFullElement('td');
+						const element = create_element('td');
 						//string are just appended
 						if(typeof value === 'string') {
 							//value must not be falsy
@@ -542,12 +575,13 @@ export class Grid {
 				}
 				//display status
 				if(that.rowPerPage) {
-					that.status.clear();
+					clear_element(that.status);
 					//calculate max index
 					const max = that.rowPerPage ? that.start + that.rowPerPage >= that.datasource.getLength() ? that.datasource.getLength() : that.start + that.rowPerPage : that.datasource.getLength();
 					//correct min index if needed
 					const min = that.start >= that.datasource.getLength() ? that.rowPerPage ? that.datasource.getLength() - that.rowPerPage : 0 : that.start;
-					that.status.appendChild(document.createTextNode(that.statusText.replaceObject({start: (min + 1), stop: max, total: that.datasource.getLength()})));
+					const status = that.statusText.replace('${start}', (min + 1)).replace('${stop}', max).replace('${total}', that.datasource.getLength());
+					that.status.appendChild(document.createTextNode(status));
 				}
 			}
 		});

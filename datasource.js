@@ -2,6 +2,41 @@ function uncache(url) {
 	return url + (url.includes('?') ? '&' : '?') + 't=' + new Date().getTime();
 }
 
+function is_string(object) {
+	return typeof(object) === 'string';
+}
+
+function is_number(object) {
+	return !isNaN(parseFloat(object)) && isFinite(object);
+}
+
+function is_date(object) {
+	return Object.prototype.toString.call(object) === '[object Date]';
+}
+
+function is_boolean(object) {
+	return typeof object === 'boolean';
+}
+
+function compare(object_1, object_2) {
+	if(is_string(object_1) && is_string(object_2)) {
+		return object_1.localeCompare(object_2);
+	}
+	if(is_number(object_1) && is_number(object_2)) {
+		return object_1 - object_2;
+	}
+	if(is_date(object_1) && is_date(object_2)) {
+		return object_1.getTime() - object_2.getTime();
+	}
+	if(is_boolean(object_1) && is_date(object_2)) {
+		if(object_1 === object_2) {
+			return 0;
+		}
+		return object_1 ? -1 : 1;
+	}
+	return 0;
+}
+
 function sort(data) {
 	const that = this;
 	data.sort(function(a, b) {
@@ -23,7 +58,7 @@ function sort(data) {
 					result = 1;
 				}
 				else {
-					result = a_data.compareTo(b_data);
+					result = compare(a_data, b_data);
 				}
 			}
 			index++;
@@ -143,7 +178,7 @@ export class Datasource {
 				if(this.lazy) {
 					url += ('&start=' + start);
 					url += ('&limit=' + limit);
-					if(!this.sortingOrders.isEmpty()) {
+					if(this.sortingOrders.length > 0) {
 						url += ('&order=' + this.sortingOrders[0].field);
 						url += ('&descendant=' + this.sortingOrders[0].descendant);
 					}

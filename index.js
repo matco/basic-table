@@ -1,6 +1,20 @@
 import {Datasource} from './datasource.js';
 import {Grid} from './grid.js';
 
+function parse_date(date) {
+	const parts = date.match(/^(\d{1,2}).(\d{1,2}).(\d{4})$/);
+	//return data only if format is valid
+	if(parts) {
+		return new Date(parts[3] + '/' + parts[2] + '/' + parts[1]);
+	}
+	//to be consistent with native date API, return an invalid date
+	return new Date('Invalid date');
+}
+
+function format_date(date) {
+	return date.getDate().toString().padStart(2, '0') + '.' + (date.getMonth() + 1).toString().padStart(2, '0') + '.' + date.getFullYear();
+}
+
 window.addEventListener(
 	'load',
 	function() {
@@ -9,18 +23,18 @@ window.addEventListener(
 				'submit',
 				function(event) {
 					event.preventDefault();
-					const start = this['start'].value ? Date.parseToDisplay(this['start'].value) : undefined;
-					const stop = this['stop'].value ? Date.parseToDisplay(this['stop'].value) : undefined;
+					const start = this['start'].value ? parse_date(this['start'].value) : undefined;
+					const stop = this['stop'].value ? parse_date(this['stop'].value) : undefined;
 					const xhr = new XMLHttpRequest();
 					xhr.addEventListener(
 						'load',
 						function(xhr_event) {
 							const data = xhr_event.target.response.filter(function(row) {
 								const row_date = new Date(row.date);
-								if(start && start.isAfter(row_date)) {
+								if(start && start.getTime() > row_date.getTime()) {
 									return false;
 								}
-								if(stop && stop.isBefore(row_date)) {
+								if(stop && stop.getTime() < row_date.getTime()) {
 									return false;
 								}
 								return true;
@@ -28,10 +42,10 @@ window.addEventListener(
 							grid.render(new Datasource({data: data}));
 							let export_url = '#export';
 							if(start) {
-								export_url += ('|start=' + start.toDisplay());
+								export_url += ('|start=' + format_date(start));
 							}
 							if(stop) {
-								export_url += ('|stop=' + stop.toDisplay());
+								export_url += ('|stop=' + format_date(stop));
 							}
 							grid.setActions([{label: 'Export', url: export_url}]);
 						}
@@ -50,7 +64,7 @@ window.addEventListener(
 			}
 
 			function render_date(value) {
-				return value.toDisplay();
+				return format_date(value);
 			}
 
 			function render_value(value) {
@@ -105,8 +119,12 @@ window.addEventListener(
 				return link;
 			}
 
+			const user_label = document.createElement('span');
+			user_label.style.color = 'blue';
+			user_label.textContent = 'User';
+
 			const columns = [
-				{label: document.createFullElement('span', {style: 'color: blue;'}, 'User'), data: 'login', type: Grid.DataType.STRING, render: render_user},
+				{label: user_label, data: 'login', type: Grid.DataType.STRING, render: render_user},
 				{label: 'Jedi', type: Grid.DataType.STRING, width: 100, unsortable: true, render: render_right.bind(undefined, 'JEDI')},
 				{label: 'Sith', type: Grid.DataType.STRING, width: 100, unsortable: true, render: render_right.bind(undefined, 'SITH')},
 				{label: 'Rebel', type: Grid.DataType.STRING, width: 100, unsortable: true, render: render_right.bind(undefined, 'REBEL')}
@@ -137,7 +155,7 @@ window.addEventListener(
 			];
 
 			function render_date(value) {
-				return value !== null ? value.toDisplay() : 'NA';
+				return value !== null ? format_date(value) : 'NA';
 			}
 
 			function render_delete(value, record) {
@@ -146,7 +164,8 @@ window.addEventListener(
 				button.addEventListener(
 					'click',
 					function() {
-						data.removeElement(record);
+						const index = data.indexOf(record);
+						data.splice(index, 1);
 						grid.render(new Datasource({data: data}));
 						console.log('Authorization ' + record.key + ' deleted');
 					}
