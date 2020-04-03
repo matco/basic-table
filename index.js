@@ -96,7 +96,7 @@ window.addEventListener(
 			grid.render(new Datasource({url: 'data1.json'}));
 
 			//make this grid global so it can be tested
-			window.grid1 = grid;
+			window['grid1'] = grid;
 		})();
 
 		(function() {
@@ -139,7 +139,7 @@ window.addEventListener(
 			grid.render(new Datasource({url: 'data2.json'}));
 
 			//make this grid global so it can be tested
-			window.grid2 = grid;
+			window['grid2'] = grid;
 		})();
 
 		(function() {
@@ -192,7 +192,7 @@ window.addEventListener(
 			grid.render(new Datasource({data: data}));
 
 			//make this grid global so it can be tested
-			window.grid3 = grid;
+			window['grid3'] = grid;
 		})();
 	}
 );

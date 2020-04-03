@@ -65,21 +65,21 @@ function data_filter(filter) {
 export class Grid {
 	constructor(parameters) {
 		//required parameters
-		this.container;
-		this.columns;
+		this.container = undefined;
+		this.columns = [];
 		this.datasource;
-		this.path;
+		this.path = undefined;
 		//optional parameters with default value
 		this.id;
-		this.title;
+		this.title = undefined;
 		this.actions = [];
 		this.statusText = 'Display items ${start} - ${stop} of ${total}';
 		this.rowPerPage = 10;
-		this.rowClass;
+		this.rowClass = undefined;
 		this.enableSearch = true;
 		this.allowMissingData = false;
 		//events
-		this.afterRender;
+		this.afterRender = undefined;
 
 		//bind parameters
 		for(const parameter in parameters) {
@@ -580,7 +580,7 @@ export class Grid {
 					const max = that.rowPerPage ? that.start + that.rowPerPage >= that.datasource.getLength() ? that.datasource.getLength() : that.start + that.rowPerPage : that.datasource.getLength();
 					//correct min index if needed
 					const min = that.start >= that.datasource.getLength() ? that.rowPerPage ? that.datasource.getLength() - that.rowPerPage : 0 : that.start;
-					const status = that.statusText.replace('${start}', (min + 1)).replace('${stop}', max).replace('${total}', that.datasource.getLength());
+					const status = that.statusText.replace('${start}', (min + 1).toString()).replace('${stop}', max.toString()).replace('${total}', that.datasource.getLength());
 					that.status.appendChild(document.createTextNode(status));
 				}
 			}

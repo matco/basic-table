@@ -71,14 +71,14 @@ export class Datasource {
 	constructor(parameters) {
 		//data
 		//asynchronous mode
-		this.url;
-		this.lazy;
+		this.url = undefined;
+		this.lazy = false;
 
 		//synchronous mode
-		this.data;
+		this.data = [];
 
 		//events
-		this.ready;
+		this.ready = false;
 
 		//bind parameters
 		for(const parameter in parameters) {
