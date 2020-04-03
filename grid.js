@@ -200,10 +200,9 @@ export class Grid {
 			this.footer.appendChild(this.controls);
 
 			//first
-			this.firstButton = create_element('a', {href: '#', title: 'First', alt: 'First', 'class': 'control_first'}, undefined,
+			this.firstButton = create_element('button', {title: 'First', alt: 'First', 'class': 'control_first'}, undefined,
 				{
-					'click': function(event) {
-						event.preventDefault();
+					'click': function() {
 						if(that.start !== 0) {
 							that.start = 0;
 							that.draw();
@@ -213,10 +212,9 @@ export class Grid {
 			);
 			this.controls.appendChild(this.firstButton);
 			//previous
-			this.previousButton = create_element('a', {href: '#', title: 'Previous', alt: 'Previous', 'class': 'control_previous'}, undefined,
+			this.previousButton = create_element('button', {title: 'Previous', alt: 'Previous', 'class': 'control_previous'}, undefined,
 				{
-					'click': function(event) {
-						event.preventDefault();
+					'click': function() {
 						if(that.start > 1) {
 							that.start -= that.rowPerPage;
 							that.draw();
@@ -226,10 +224,9 @@ export class Grid {
 			);
 			this.controls.appendChild(this.previousButton);
 			//next
-			this.nextButton = create_element('a', {href: '#', title: 'Next', alt: 'Next', 'class': 'control_next'}, undefined,
+			this.nextButton = create_element('button', {title: 'Next', alt: 'Next', 'class': 'control_next'}, undefined,
 				{
-					'click': function(event) {
-						event.preventDefault();
+					'click': function() {
 						if(that.start + that.rowPerPage < that.datasource.getLength()) {
 							that.start += that.rowPerPage;
 							that.draw();
@@ -239,10 +236,9 @@ export class Grid {
 			);
 			this.controls.appendChild(this.nextButton);
 			//last
-			this.lastButton = create_element('a', {href: '#', title: 'Last', alt: 'Last', 'class': 'control_last'}, undefined,
+			this.lastButton = create_element('button', {title: 'Last', alt: 'Last', 'class': 'control_last'}, undefined,
 				{
-					'click': function(event) {
-						event.preventDefault();
+					'click': function() {
 						const last_start = (Math.ceil(that.datasource.length / that.rowPerPage) - 1) * that.rowPerPage;
 						if(that.start !== last_start) {
 							that.start = last_start;
@@ -462,29 +458,21 @@ export class Grid {
 			}
 			//manage first and previous button
 			if(this.start > 1) {
-				this.previousButton.style.opacity = 1;
-				this.previousButton.style.cursor = 'pointer';
-				this.firstButton.style.opacity = 1;
-				this.firstButton.style.cursor = 'pointer';
+				this.previousButton.removeAttribute('disabled');
+				this.firstButton.removeAttribute('disabled');
 			}
 			else {
-				this.previousButton.style.opacity = 0.2;
-				this.previousButton.style.cursor = 'auto';
-				this.firstButton.style.opacity = 0.2;
-				this.firstButton.style.cursor = 'auto';
+				this.previousButton.setAttribute('disabled', 'disabled');
+				this.firstButton.setAttribute('disabled', 'disabled');
 			}
 			//manage next and last button
 			if(this.start + this.rowPerPage < this.datasource.getLength()) {
-				this.nextButton.style.opacity = 1;
-				this.nextButton.style.cursor = 'pointer';
-				this.lastButton.style.opacity = 1;
-				this.lastButton.style.cursor = 'pointer';
+				this.nextButton.removeAttribute('disabled');
+				this.lastButton.removeAttribute('disabled');
 			}
 			else {
-				this.nextButton.style.opacity = 0.2;
-				this.nextButton.style.cursor = 'auto';
-				this.lastButton.style.opacity = 0.2;
-				this.lastButton.style.cursor = 'auto';
+				this.nextButton.setAttribute('disabled', 'disabled');
+				this.lastButton.setAttribute('disabled', 'disabled');
 			}
 		}
 		//retrieve data to display

@@ -102,28 +102,36 @@
 	float: right;
 	margin: 3px;
 }
-.grid_footer_controls a {
+.grid_footer_controls button {
+	outline: none;
 	float: left;
+	border: 0;
 	border-right: 1px solid #7f7f7f;
 	height: 18px;
 	width: 20px;
+	background-color: transparent;
 	background-repeat: no-repeat;
 	background-position: center;
+	cursor: pointer;
 }
-.grid_footer_controls a:hover {
+.grid_footer_controls button:hover {
 	background-color: #ddd;
 	background-image: linear-gradient(to bottom, #ddd, #d1d1d1);
 }
-.grid_footer_controls a.control_first {
+.grid_footer_controls button[disabled] {
+	opacity: 0.2;
+	cursor: auto;
+}
+.grid_footer_controls button.control_first {
 	background-image: url(resultset_first.png);
 }
-.grid_footer_controls a.control_previous {
+.grid_footer_controls button.control_previous {
 	background-image: url(resultset_previous.png);
 }
-.grid_footer_controls a.control_next {
+.grid_footer_controls button.control_next {
 	background-image: url(resultset_next.png);
 }
-.grid_footer_controls a.control_last {
+.grid_footer_controls button.control_last {
 	background-image: url(resultset_last.png);
 	border: 0;
 }
