@@ -92,7 +92,7 @@ export class Datasource {
 
 		//check consistency
 		if(this.lazy && !this.url) {
-			throw new Error('Lazy grid requires following parameter : url');
+			throw new Error('Lazy table requires following parameter : url');
 		}
 
 		//internal variables
@@ -167,12 +167,12 @@ export class Datasource {
 			callback.call(undefined, this.filteredData.slice(start, limit ? start + limit : undefined));
 		}
 		else {
-			//non lazy grids, data are already here
+			//non lazy tables, data are already here
 			if(this.data) {
 				sort.call(this, this.data);
 				callback.call(undefined, this.data.slice(start, limit ? start + limit : undefined));
 			}
-			//lazy grids
+			//lazy tables
 			else {
 				let url = uncache(this.url);
 				if(this.lazy) {

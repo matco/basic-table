@@ -1,7 +1,7 @@
 {
-	"name": "js-grid",
-	"description": "js-grid displays your tabular data in a nice HTML grid",
-	"version": "0.0.1",
+	"name": "basic-table",
+	"description": "basic-table displays your tabular data in a nice HTML table",
+	"version": "1.0.0",
 	"scripts": {
 		"start": "node server.js",
 		"lint": "./node_modules/.bin/eslint ."
@@ -15,10 +15,10 @@
 	"license": "Unlicense",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/matco/js-grid.git"
+		"url": "https://github.com/matco/basic-table.git"
 	},
 	"bugs": {
-		"url": "https://github.com/matco/js-grid/issues"
+		"url": "https://github.com/matco/basic-table/issues"
 	},
 	"dependencies": {
 		"finalhandler": "1.1.2",

@@ -32,20 +32,20 @@ function clear_element(element) {
 	}
 }
 
-function resort(grid) {
-	grid.start = 0;
-	grid.draw();
-	const sorting_order = grid.datasource.sortingOrders[0];
+function resort(table) {
+	table.start = 0;
+	table.draw();
+	const sorting_order = table.datasource.sortingOrders[0];
 	//update sort image
 	let i, column;
-	for(i = 0; i < grid.columns.length; i++) {
-		column = grid.columns[i];
+	for(i = 0; i < table.columns.length; i++) {
+		column = table.columns[i];
 		//only columns with data are sortable
 		if(column.data && !column.unsortable) {
-			const header_column = grid.head.firstChild.childNodes[i];
+			const header_column = table.head.firstChild.childNodes[i];
 			if(column.data === sorting_order.field) {
 				header_column.lastChild.style.display = 'inline';
-				header_column.lastChild.src = grid.path + (sorting_order.descendant ? 'bullet_arrow_down.png' : 'bullet_arrow_up.png');
+				header_column.lastChild.src = table.path + (sorting_order.descendant ? 'bullet_arrow_down.png' : 'bullet_arrow_up.png');
 			}
 			else {
 				header_column.lastChild.style.display = 'none';
@@ -62,7 +62,7 @@ function data_filter(filter) {
 	this.loading.style.display = 'none';
 }
 
-export class Grid {
+export class Table {
 	constructor(parameters) {
 		//required parameters
 		this.container = undefined;
@@ -89,7 +89,7 @@ export class Grid {
 		//internal variables
 		this.start = 0;
 
-		//try to identify grid
+		//try to identify table
 		if(!this.id) {
 			this.id = this.container.id;
 		}
@@ -113,13 +113,13 @@ export class Grid {
 		const that = this;
 
 		//header
-		this.header = create_element('div', {'class': 'grid_header'});
+		this.header = create_element('div', {'class': 'table_header'});
 		if(this.title) {
 			this.header.appendChild(create_element('h2', {}, this.title));
 		}
 
 		//table
-		this.table = create_element('table', {'class': 'grid_content'});
+		this.table = create_element('table', {'class': 'table_content'});
 
 		//table header
 		this.head = document.createElement('thead');
@@ -154,9 +154,9 @@ export class Grid {
 		this.table.appendChild(this.body);
 
 		//footer
-		this.footer = create_element('div', {'class': 'grid_footer'});
+		this.footer = create_element('div', {'class': 'table_footer'});
 
-		const search_bar = create_element('div', {'class': 'grid_footer_search'});
+		const search_bar = create_element('div', {'class': 'table_footer_search'});
 		this.footer.appendChild(search_bar);
 
 		/*this.refreshButton = create_element('a');
@@ -183,14 +183,14 @@ export class Grid {
 		this.loading = create_element('img', {src: this.path + 'loading.png'});
 		search_bar.appendChild(this.loading);
 
-		this.buttons = create_element('div', {'class': 'grid_footer_buttons'});
+		this.buttons = create_element('div', {'class': 'table_footer_buttons'});
 		this.footer.appendChild(this.buttons);
 
 		this.setActions(this.actions);
 
 		if(this.rowPerPage) {
 			//controls
-			this.controls = create_element('div', {'class': 'grid_footer_controls'});
+			this.controls = create_element('div', {'class': 'table_footer_controls'});
 			this.footer.appendChild(this.controls);
 
 			//first
@@ -244,7 +244,7 @@ export class Grid {
 			this.controls.appendChild(this.lastButton);
 
 			//info
-			this.info = create_element('div', {'class': 'grid_footer_info'});
+			this.info = create_element('div', {'class': 'table_footer_info'});
 			this.status = create_element('span');
 			this.info.appendChild(this.status);
 			this.footer.appendChild(this.info);
@@ -331,9 +331,9 @@ export class Grid {
 		this.loading.style.display = 'inline';
 		//keep a handle on datasource
 		this.datasource = datasource;
-		//datasource is required and must be a grid datasource
+		//datasource is required and must be a table datasource
 		if(!this.datasource || this.datasource.constructor !== Datasource) {
-			throw new Error('A datasource is required to render the grid');
+			throw new Error('A datasource is required to render the table');
 		}
 		//search can not be enabled for lazy datasource
 		if(this.datasource && this.datasource.lazy) {
@@ -361,7 +361,7 @@ export class Grid {
 			}
 			catch(exception) {
 				//unable to restore state
-				console.error('Unable to restore state for grid ' + this.id);
+				console.error('Unable to restore state for table ' + this.id);
 			}
 		}
 
@@ -424,7 +424,7 @@ export class Grid {
 				that.loading.style.display = 'none';
 			}
 			catch(exception) {
-				throw new Error('Unable to draw grid : ' + exception);
+				throw new Error('Unable to draw table: ' + exception);
 			}
 		});
 	}
@@ -503,7 +503,7 @@ export class Grid {
 							record.raw = original_record[column.data];
 						}
 						//revive date
-						if(column.type === Grid.DataType.DATE && record.raw) {
+						if(column.type === Table.DataType.DATE && record.raw) {
 							record.raw = new Date(record.raw);
 						}
 						//render
@@ -576,7 +576,7 @@ export class Grid {
 	}
 }
 
-Grid.DataType = {
+Table.DataType = {
 	STRING: 'String',
 	DATE: 'Date',
 	NUMBER: 'Number'

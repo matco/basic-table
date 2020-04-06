@@ -1,5 +1,5 @@
 import {Datasource} from './datasource.js';
-import {Grid} from './grid.js';
+import {Table} from './table.js';
 
 function parse_date(date) {
 	const parts = date.match(/^(\d{1,2}).(\d{1,2}).(\d{4})$/);
@@ -19,7 +19,7 @@ window.addEventListener(
 	'load',
 	function() {
 		(function() {
-			document.getElementById('grid1_search').addEventListener(
+			document.getElementById('table1_search').addEventListener(
 				'submit',
 				function(event) {
 					event.preventDefault();
@@ -39,7 +39,7 @@ window.addEventListener(
 								}
 								return true;
 							});
-							grid.render(new Datasource({data: data}));
+							table.render(new Datasource({data: data}));
 							let export_url = '#export';
 							if(start) {
 								export_url += ('|start=' + format_date(start));
@@ -47,7 +47,7 @@ window.addEventListener(
 							if(stop) {
 								export_url += ('|stop=' + format_date(stop));
 							}
-							grid.setActions([{label: 'Export', url: export_url}]);
+							table.setActions([{label: 'Export', url: export_url}]);
 						}
 					);
 					xhr.open('GET', 'data1.json', true);
@@ -78,25 +78,25 @@ window.addEventListener(
 			}
 
 			const columns = [
-				{label: 'Country', data: 'country', type: Grid.DataType.STRING, width: 250},
-				{label: 'Name', data: 'name', type: Grid.DataType.STRING, render: render_name, width: 200},
-				{label: 'Date', data: 'date', type: Grid.DataType.DATE, render: render_date, width: 120},
-				{label: 'IBAN', data: 'iban', type: Grid.DataType.STRING},
-				{label: 'Value', data: 'value', type: Grid.DataType.NUMBER, render: render_value, width: 120}
+				{label: 'Country', data: 'country', type: Table.DataType.STRING, width: 250},
+				{label: 'Name', data: 'name', type: Table.DataType.STRING, render: render_name, width: 200},
+				{label: 'Date', data: 'date', type: Table.DataType.DATE, render: render_date, width: 120},
+				{label: 'IBAN', data: 'iban', type: Table.DataType.STRING},
+				{label: 'Value', data: 'value', type: Table.DataType.NUMBER, render: render_value, width: 120}
 			];
 
-			const grid = new Grid({
-				container: document.getElementById('grid1'),
+			const table = new Table({
+				container: document.getElementById('table1'),
 				columns: columns,
 				path: '',
 				actions: [
 					{label: 'Export', url: '#export'}
 				]
 			});
-			grid.render(new Datasource({url: 'data1.json'}));
+			table.render(new Datasource({url: 'data1.json'}));
 
-			//make this grid global so it can be tested
-			window['grid1'] = grid;
+			//make this table global so it can be tested
+			window['table1'] = table;
 		})();
 
 		(function() {
@@ -124,22 +124,22 @@ window.addEventListener(
 			user_label.textContent = 'User';
 
 			const columns = [
-				{label: user_label, data: 'login', type: Grid.DataType.STRING, render: render_user},
-				{label: 'Jedi', type: Grid.DataType.STRING, width: 100, unsortable: true, render: render_right.bind(undefined, 'JEDI')},
-				{label: 'Sith', type: Grid.DataType.STRING, width: 100, unsortable: true, render: render_right.bind(undefined, 'SITH')},
-				{label: 'Rebel', type: Grid.DataType.STRING, width: 100, unsortable: true, render: render_right.bind(undefined, 'REBEL')}
+				{label: user_label, data: 'login', type: Table.DataType.STRING, render: render_user},
+				{label: 'Jedi', type: Table.DataType.STRING, width: 100, unsortable: true, render: render_right.bind(undefined, 'JEDI')},
+				{label: 'Sith', type: Table.DataType.STRING, width: 100, unsortable: true, render: render_right.bind(undefined, 'SITH')},
+				{label: 'Rebel', type: Table.DataType.STRING, width: 100, unsortable: true, render: render_right.bind(undefined, 'REBEL')}
 			];
 
-			const grid = new Grid({
-				container: document.getElementById('grid2'),
+			const table = new Table({
+				container: document.getElementById('table2'),
 				columns: columns,
 				path: '',
 				enableSearch: false
 			});
-			grid.render(new Datasource({url: 'data2.json'}));
+			table.render(new Datasource({url: 'data2.json'}));
 
-			//make this grid global so it can be tested
-			window['grid2'] = grid;
+			//make this table global so it can be tested
+			window['table2'] = table;
 		})();
 
 		(function() {
@@ -166,7 +166,7 @@ window.addEventListener(
 					function() {
 						const index = data.indexOf(record);
 						data.splice(index, 1);
-						grid.render(new Datasource({data: data}));
+						table.render(new Datasource({data: data}));
 						console.log('Authorization ' + record.key + ' deleted');
 					}
 				);
@@ -174,25 +174,25 @@ window.addEventListener(
 			}
 
 			const columns = [
-				{label: 'Date', data: 'date', type: Grid.DataType.DATE, render: render_date, width: 110},
-				{label: 'Host', data: 'host', type: Grid.DataType.STRING, width: 120},
-				{label: 'Agent', data: 'agent', type: Grid.DataType.STRING},
-				{label: 'Last use', data: 'last_use', type: Grid.DataType.DATE, render: render_date, width: 100},
-				{label: 'Entries', data: 'entries', type: Grid.DataType.NUMBER, width: 100},
-				{label: 'Delete', data: 'key', render: render_delete, type: Grid.DataType.STRING, width: 60}
+				{label: 'Date', data: 'date', type: Table.DataType.DATE, render: render_date, width: 110},
+				{label: 'Host', data: 'host', type: Table.DataType.STRING, width: 120},
+				{label: 'Agent', data: 'agent', type: Table.DataType.STRING},
+				{label: 'Last use', data: 'last_use', type: Table.DataType.DATE, render: render_date, width: 100},
+				{label: 'Entries', data: 'entries', type: Table.DataType.NUMBER, width: 100},
+				{label: 'Delete', data: 'key', render: render_delete, type: Table.DataType.STRING, width: 60}
 			];
 
-			const grid = new Grid({
-				container: document.getElementById('grid3'),
+			const table = new Table({
+				container: document.getElementById('table3'),
 				columns: columns,
 				path: '',
 				enableSearch: false,
 				statusText: 'Display clients ${start} - ${stop} of ${total}'
 			});
-			grid.render(new Datasource({data: data}));
+			table.render(new Datasource({data: data}));
 
-			//make this grid global so it can be tested
-			window['grid3'] = grid;
+			//make this table global so it can be tested
+			window['table3'] = table;
 		})();
 	}
 );
