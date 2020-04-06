@@ -1,7 +1,7 @@
 /* header */
 .grid_header {
 	color: #555;
-	margin-bottom: 5px;
+	margin-bottom: 0.2rem;
 }
 /* content */
 .grid_content {
@@ -26,11 +26,10 @@
 	text-overflow: ellipsis;
 }
 .grid_content th img {
-	vertical-align: bottom;
+	vertical-align: middle;
 }
 .grid_content tr {
 	border: 1px solid #c0c0c0;
-	margin: 0 2px;
 }
 .grid_content tr.odd {
 	background-color: #fafafa;
@@ -44,26 +43,25 @@
 .grid_content td {
 	overflow: hidden;
 	border: 1px solid #c0c0c0;
-	padding: 3px;
-	padding-right: 8px;
+	padding: 0.2rem;
 	margin: 0;
 }
 /* footer */
 .grid_footer {
+	display: flex;
 	background-color: #ddd;
 	color: #555;
-	height: 26px;
 	border: 1px solid #c0c0c0;
 	border-top: 0;
-	padding: 0 5px;
+	padding: 0.2rem;
 	margin: 0;
 }
-.grid_footer_search {
-	margin: 5px;
-	float: left;
+.grid_footer > * {
+	margin: 0.2rem;
 }
 .grid_footer_search input {
-	padding: 0 2px;
+	margin: 0 0.5rem;
+	vertical-align: middle;
 	border-radius: 2px;
 	border: 1px solid #C0C0C0;
 }
@@ -71,11 +69,10 @@
 	vertical-align: middle;
 	padding: 0 1px;
 	margin-bottom: 1px;
-	margin-right: 10px;
+	margin-right: 0.5rem;
 }
 .grid_footer_buttons {
-	margin: 5px;
-	float: left;
+	flex-grow: 2;
 }
 .grid_footer_buttons .button {
 	color: #484848;
@@ -86,7 +83,7 @@
 	border: 1px solid #7F7F7F;
 	border-radius: 2px;
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-	padding: 1px 9px;
+	padding: 0 0.5rem;
 	cursor: pointer;
 }
 .grid_footer_buttons .button:hover {
@@ -99,16 +96,13 @@
 	border: 1px solid #7F7F7F;
 	border-radius: 2px;
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-	float: right;
-	margin: 3px;
 }
 .grid_footer_controls button {
 	outline: none;
-	float: left;
 	border: 0;
 	border-right: 1px solid #7f7f7f;
-	height: 18px;
-	width: 20px;
+	height: 100%;
+	width: 1.5rem;
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -136,6 +130,5 @@
 	border: 0;
 }
 .grid_footer_info {
-	margin: 5px;
-	float: right;
+	margin-left: 0.5rem;
 }

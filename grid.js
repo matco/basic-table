@@ -123,7 +123,7 @@ export class Grid {
 
 		//table header
 		this.head = document.createElement('thead');
-		const header_line = create_element('tr', {style: 'height: 21px;'});
+		const header_line = create_element('tr');
 		this.head.appendChild(header_line);
 
 		for(let i = 0; i < this.columns.length; i++) {
@@ -164,9 +164,9 @@ export class Grid {
 		this.footer.appendChild(this.refreshButton);*/
 
 		if(this.enableSearch) {
-			const search_form = create_element('form', {style: 'float: left;'});
+			const search_form = create_element('form');
 			const search_label = create_element('label', {}, 'Filter');
-			this.search_input = create_element('input', {type: 'search', style: 'margin-left: 10px; margin-right: 10px;'});
+			this.search_input = create_element('input', {type: 'search'});
 			//scan search input
 			let last_filter = '';
 			setInterval(function() {
@@ -189,12 +189,6 @@ export class Grid {
 		this.setActions(this.actions);
 
 		if(this.rowPerPage) {
-			//info
-			this.info = create_element('div', {'class': 'grid_footer_info'});
-			this.status = create_element('span', {style: 'margin-left: 5px;'});
-			this.info.appendChild(this.status);
-			this.footer.appendChild(this.info);
-
 			//controls
 			this.controls = create_element('div', {'class': 'grid_footer_controls'});
 			this.footer.appendChild(this.controls);
@@ -248,6 +242,12 @@ export class Grid {
 				}
 			);
 			this.controls.appendChild(this.lastButton);
+
+			//info
+			this.info = create_element('div', {'class': 'grid_footer_info'});
+			this.status = create_element('span');
+			this.info.appendChild(this.status);
+			this.footer.appendChild(this.info);
 		}
 		//insertion
 		clear_element(this.container);
@@ -255,7 +255,7 @@ export class Grid {
 		this.container.appendChild(this.table);
 		this.container.appendChild(this.footer);
 		//display footer only if there is something in it
-		this.footer.style.display = this.enableSearch || this.rowPerPage || this.actions.length > 0 ? 'block' : 'none';
+		this.footer.style.display = this.enableSearch || this.rowPerPage || this.actions.length > 0 ? 'flex' : 'none';
 	}
 	setActions(actions) {
 		this.actions = actions;
@@ -272,7 +272,7 @@ export class Grid {
 			this.buttons.appendChild(action_item);
 		}
 		//display footer only if there is something in it
-		this.footer.style.display = this.enableSearch || this.rowPerPage || this.actions.length > 0 ? 'block' : 'none';
+		this.footer.style.display = this.enableSearch || this.rowPerPage || this.actions.length > 0 ? 'flex' : 'none';
 	}
 	setOrdering(field, descendant) {
 		this.datasource.sortingOrders = [{field: field, descendant: descendant}];
