@@ -156,10 +156,6 @@ export class Table {
 		const search_bar = create_element('div', {'class': 'table_footer_search'});
 		this.footer.appendChild(search_bar);
 
-		/*this.refreshButton = create_element('a');
-		this.refreshButton.appendChild(create_element('img', {'src' : this.path + 'arrow_refresh.png'}));
-		this.footer.appendChild(this.refreshButton);*/
-
 		if(this.enableSearch) {
 			const search_form = create_element('form');
 			const search_label = create_element('label', {}, 'Filter');
