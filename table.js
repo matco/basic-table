@@ -43,12 +43,10 @@ function resort(table) {
 		//only columns with data are sortable
 		if(column.data && !column.unsortable) {
 			const header_column = table.head.firstChild.childNodes[i];
+			header_column.classList.remove('sort_ascending');
+			header_column.classList.remove('sort_descending');
 			if(column.data === sorting_order.field) {
-				header_column.lastChild.style.display = 'inline';
-				header_column.lastChild.src = table.path + (sorting_order.descendant ? 'bullet_arrow_down.png' : 'bullet_arrow_up.png');
-			}
-			else {
-				header_column.lastChild.style.display = 'none';
+				header_column.classList.add(sorting_order.descendant ? 'sort_descending' : 'sort_ascending');
 			}
 		}
 	}
@@ -143,7 +141,6 @@ export class Table {
 						};
 					})(column.data)
 				);
-				header_column.appendChild(create_element('img', {src: this.path + 'bullet_arrow_up.png', style: 'display : none;'}));
 			}
 			header_line.appendChild(header_column);
 		}
@@ -385,9 +382,10 @@ export class Table {
 
 			//update column ui
 			const column_index = that.columns.findIndex(c => c.data === that.datasource.sortingOrders[0].field);
-			const header_column = that.head.childNodes[0].childNodes[column_index];
-			header_column.lastChild.style.display = 'inline';
-			header_column.lastChild.src = that.path + (that.datasource.sortingOrders[0].descendant ? 'bullet_arrow_down.png' : 'bullet_arrow_up.png');
+			const header_column = that.head.children[0].children[column_index];
+			header_column.classList.remove('sort_ascending');
+			header_column.classList.remove('sort_descending');
+			header_column.classList.add(that.datasource.sortingOrders[0].descendant ? 'sort_descending' : 'sort_ascending');
 
 			//data may already be available
 			if(datasource.data) {

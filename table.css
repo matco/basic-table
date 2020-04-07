@@ -15,7 +15,6 @@
 .table_content th {
 	background-color: #ddd;
 	color: #555;
-	padding-left: 2px;
 	border: 1px solid #c0c0c0;
 	border-top: 0;
 	-webkit-user-select: none;
@@ -24,9 +23,15 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	padding-right: 1rem;
+	background-position: right;
+	background-repeat: no-repeat;
 }
-.table_content th img {
-	vertical-align: middle;
+.table_content th.sort_ascending {
+	background-image: url(bullet_arrow_up.png);
+}
+.table_content th.sort_descending {
+	background-image: url(bullet_arrow_down.png);
 }
 .table_content tr {
 	border: 1px solid #c0c0c0;

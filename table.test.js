@@ -1,6 +1,5 @@
 /*global assert, get, click, type, wait */
 
-
 assert.begin();
 
 //let table load
@@ -12,9 +11,9 @@ wait(function() {
 	assert.equal(get('#table1 > table > thead > tr > th:nth-child(2)').textContent, 'Name', 'Column 2 header is "Name"');
 
 	//check sort
-	const country_sort_image = get('#table1 > table > thead > tr > th > img');
+	const country_column = get('#table1 > table > thead > tr > th');
 	function sort_on_first_column_ascending() {
-		if(!country_sort_image.style.display === 'none' || country_sort_image.getAttribute('src') === 'bullet_arrow_down.png') {
+		if(country_column.classList.contains('sort_descending')) {
 			//sort according to first column, ascending
 			click('#table1 > table > thead > tr > th');
 		}
