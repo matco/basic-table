@@ -37,9 +37,8 @@ function resort(table) {
 	table.draw();
 	const sorting_order = table.datasource.sortingOrders[0];
 	//update sort image
-	let i, column;
-	for(i = 0; i < table.columns.length; i++) {
-		column = table.columns[i];
+	for(let i = 0; i < table.columns.length; i++) {
+		const column = table.columns[i];
 		//only columns with data are sortable
 		if(column.data && !column.unsortable) {
 			const header_column = table.head.firstChild.childNodes[i];
@@ -98,10 +97,10 @@ export class Table {
 		for(let i = 0; i < this.columns.length; i++) {
 			const column = this.columns[i];
 			if(!column.data && !column.render || !column.label) {
-				throw new Error('Column ' + i + ' is incomplete (must have data or render, and label)');
+				throw new Error(`Column ${i} is incomplete (must have data or render, and label)`);
 			}
 			if(!column.unsortable && (!column.data || !column.type)) {
-				throw new Error('Column ' + column.label + ' must have data or type to be sortable or be set as unsortable');
+				throw new Error(`Column ${column.label} must have data or type to be sortable or be set as unsortable`);
 			}
 		}
 
@@ -159,10 +158,10 @@ export class Table {
 			this.search_input = create_element('input', {type: 'search'});
 			//scan search input
 			let last_filter = '';
-			setInterval(function() {
-				if(last_filter !== that.search_input.value) {
-					last_filter = that.search_input.value;
-					that.filter(last_filter);
+			setInterval(() => {
+				if(last_filter !== this.search_input.value) {
+					last_filter = this.search_input.value;
+					this.filter(last_filter);
 				}
 			}, 300);
 			search_label.appendChild(this.search_input);
@@ -278,10 +277,9 @@ export class Table {
 	}
 	filter(filter, filter_column, exact_matching) {
 		const lower_filter = filter.toLowerCase();
-		const that = this;
-		data_filter.call(this, function(record) {
-			for(let i = 0; i < that.columns.length; i++) {
-				const column = that.columns[i];
+		data_filter.call(this, record => {
+			for(let i = 0; i < this.columns.length; i++) {
+				const column = this.columns[i];
 				//filter only on one column if asked
 				if(!filter_column || filter_column && column.data === filter_column.data) {
 					//var value = column.render ? record[i].rendered : record[i].raw;
@@ -340,7 +338,7 @@ export class Table {
 			}
 			catch(exception) {
 				//unable to restore state
-				console.error('Unable to restore state for table ' + this.id);
+				console.error(`Unable to restore state for table ${this.id}`);
 			}
 		}
 
@@ -355,35 +353,34 @@ export class Table {
 		}
 
 		//initialize datasource and render retrieved data if any
-		const that = this;
-		datasource.init(function() {
+		datasource.init().then(() => {
 			//check start offset
-			if(that.start > that.datasource.getLength()) {
-				that.start = 0;
+			if(this.start > this.datasource.getLength()) {
+				this.start = 0;
 			}
 
 			//update column ui
-			if(that.datasource.sortingOrders.length > 0) {
-				const column_index = that.columns.findIndex(c => c.data === that.datasource.sortingOrders[0].field);
-				const header_column = that.head.children[0].children[column_index];
+			if(this.datasource.sortingOrders.length > 0) {
+				const column_index = this.columns.findIndex(c => c.data === this.datasource.sortingOrders[0].field);
+				const header_column = this.head.children[0].children[column_index];
 				header_column.classList.remove('sort_ascending');
 				header_column.classList.remove('sort_descending');
-				header_column.classList.add(that.datasource.sortingOrders[0].descendant ? 'sort_descending' : 'sort_ascending');
+				header_column.classList.add(this.datasource.sortingOrders[0].descendant ? 'sort_descending' : 'sort_ascending');
 			}
 
 			//data may already be available
 			if(datasource.data) {
-				const columns_length = that.columns.length;
+				const columns_length = this.columns.length;
 				let i, j, column;
 
 				//check data
-				if(!that.allowMissingData) {
+				if(!this.allowMissingData) {
 					for(i = 0; i < columns_length; i++) {
-						column = that.columns[i];
+						column = this.columns[i];
 						if(column.data) {
 							for(j = 0; j < datasource.data.length; j++) {
-								if(!datasource.data[j].hasOwnProperty(that.columns[i].data)) {
-									throw new Error('Column ' + i + ' used data ' + that.columns[i].data + ' but this data does not exist in record ' + j);
+								if(!datasource.data[j].hasOwnProperty(this.columns[i].data)) {
+									throw new Error(`Column ${i} uses data ${this.columns[i].data} but this data does not exist in record ${j}`);
 								}
 							}
 						}
@@ -391,19 +388,19 @@ export class Table {
 				}
 
 				//do search if needed
-				if(that.enableSearch && that.search_input.value) {
-					that.filter(that.search_input.value);
+				if(this.enableSearch && this.search_input.value) {
+					this.filter(this.search_input.value);
 				}
 			}
 
 			//call callback
-			if(that.afterRender) {
-				that.afterRender.call(that);
+			if(this.afterRender) {
+				this.afterRender.call(this);
 			}
 
 			try {
-				that.draw();
-				that.footer.classList.remove('loading');
+				this.draw();
+				this.footer.classList.remove('loading');
 			}
 			catch(exception) {
 				throw new Error('Unable to draw table: ' + exception);
@@ -458,103 +455,101 @@ export class Table {
 			}
 		}
 		//retrieve data to display
-		const that = this;
-		this.datasource.getData(this.start, this.rowPerPage, function(data) {
-			//no data
-			if(data.length === 0) {
-				const no_data = create_element('tr', {'class': 'even'});
-				no_data.appendChild(create_element('td', {colspan: that.columns.length}, 'No data to display'));
-				that.body.appendChild(no_data);
-				//display status
-				if(that.rowPerPage) {
-					clear_element(that.status);
+		const data = this.datasource.getData(this.start, this.rowPerPage);
+		//no data
+		if(data.length === 0) {
+			const no_data = create_element('tr', {'class': 'even'});
+			no_data.appendChild(create_element('td', {colspan: this.columns.length}, 'No data to display'));
+			this.body.appendChild(no_data);
+			//display status
+			if(this.rowPerPage) {
+				clear_element(this.status);
+			}
+		}
+		else {
+			//revive and render data
+			const rendered_data = [];
+			for(let i = 0; i < data.length; i++) {
+				rendered_data[i] = [];
+				const original_record = data[i];
+				//store original record //TODO find an other way to store it as this prevent having a column linked to data name "record"
+				rendered_data[i].record = original_record;
+				for(let j = 0; j < this.columns.length; j++) {
+					const column = this.columns[j];
+					const record = {};
+					if(column.data) {
+						record.raw = original_record[column.data];
+					}
+					//revive date
+					if(column.type === Table.DataType.DATE && record.raw) {
+						record.raw = new Date(record.raw);
+					}
+					//render
+					if(column.render) {
+						try {
+							record.rendered = column.render(record.raw, original_record);
+						}
+						catch(exception) {
+							throw new Error(`Unable to use render function for column ${i} with data ${record.raw}: ${exception}`);
+						}
+						if(record.rendered === undefined) {
+							throw new Error(`Render function for column ${i} does not produce a valid result with data ${record.raw}`);
+						}
+					}
+					rendered_data[i][j] = record;
 				}
 			}
-			else {
-				//revive and render data
-				const rendered_data = [];
-				for(let i = 0; i < data.length; i++) {
-					rendered_data[i] = [];
-					const original_record = data[i];
-					//store original record //TODO find an other way to store it as this prevent having a column linked to data name "record"
-					rendered_data[i].record = original_record;
-					for(let j = 0; j < that.columns.length; j++) {
-						const column = that.columns[j];
-						const record = {};
-						if(column.data) {
-							record.raw = original_record[column.data];
-						}
-						//revive date
-						if(column.type === Table.DataType.DATE && record.raw) {
-							record.raw = new Date(record.raw);
-						}
-						//render
-						if(column.render) {
-							try {
-								record.rendered = column.render(record.raw, original_record);
-							}
-							catch(exception) {
-								throw new Error('Unable to use render function for column ' + i + ' with data ' + record.raw + ' : ' + exception);
-							}
-							if(record.rendered === undefined) {
-								throw new Error('Render function for column ' + i + ' does not produce a valid result with data ' + record.raw);
-							}
-						}
-						rendered_data[i][j] = record;
-					}
+			//insert in table
+			for(let i = 0; i < rendered_data.length; i++) {
+				const line = document.createElement('tr');
+				if(this.rowClass) {
+					line.classList.add(this.rowClass.call(undefined, rendered_data[i].record));
 				}
-				//insert in table
-				for(let i = 0; i < rendered_data.length; i++) {
-					const line = document.createElement('tr');
-					if(that.rowClass) {
-						line.classList.add(that.rowClass.call(undefined, rendered_data[i].record));
+				else {
+					line.classList.add(i % 2 === 0 ? 'even' : 'odd');
+				}
+				for(let j = 0; j < this.columns.length; j++) {
+					const column = this.columns[j];
+					const value = column.render ? rendered_data[i][j].rendered : rendered_data[i][j].raw;
+					const element = create_element('td');
+					//string are just appended
+					if(typeof value === 'string') {
+						//value must not be falsy
+						if(value) {
+							element.appendChild(document.createTextNode(value));
+						}
 					}
+					//number are aligned to the right
+					else if(typeof value === 'number') {
+						element.setAttribute('style', 'text-align: right;');
+						element.appendChild(document.createTextNode(value + ''));
+					}
+					//boolean are converted to string
+					else if(typeof value === 'boolean') {
+						element.appendChild(document.createTextNode(value + ''));
+					}
+					//render function may have returned a HTML element
 					else {
-						line.classList.add(i % 2 === 0 ? 'even' : 'odd');
+						//value must not be falsy
+						if(value) {
+							element.appendChild(value);
+						}
 					}
-					for(let j = 0; j < that.columns.length; j++) {
-						const column = that.columns[j];
-						const value = column.render ? rendered_data[i][j].rendered : rendered_data[i][j].raw;
-						const element = create_element('td');
-						//string are just appended
-						if(typeof value === 'string') {
-							//value must not be falsy
-							if(value) {
-								element.appendChild(document.createTextNode(value));
-							}
-						}
-						//number are aligned to the right
-						else if(typeof value === 'number') {
-							element.setAttribute('style', 'text-align: right;');
-							element.appendChild(document.createTextNode(value + ''));
-						}
-						//boolean are converted to string
-						else if(typeof value === 'boolean') {
-							element.appendChild(document.createTextNode(value + ''));
-						}
-						//render function may have returned a HTML element
-						else {
-							//value must not be falsy
-							if(value) {
-								element.appendChild(value);
-							}
-						}
-						line.appendChild(element);
-					}
-					that.body.appendChild(line);
+					line.appendChild(element);
 				}
-				//display status
-				if(that.rowPerPage) {
-					clear_element(that.status);
-					//calculate max index
-					const max = that.rowPerPage ? that.start + that.rowPerPage >= that.datasource.getLength() ? that.datasource.getLength() : that.start + that.rowPerPage : that.datasource.getLength();
-					//correct min index if needed
-					const min = that.start >= that.datasource.getLength() ? that.rowPerPage ? that.datasource.getLength() - that.rowPerPage : 0 : that.start;
-					const status = that.statusText.replace('${start}', (min + 1).toString()).replace('${stop}', max.toString()).replace('${total}', that.datasource.getLength());
-					that.status.appendChild(document.createTextNode(status));
-				}
+				this.body.appendChild(line);
 			}
-		});
+			//display status
+			if(this.rowPerPage) {
+				clear_element(this.status);
+				//calculate max index
+				const max = this.rowPerPage ? this.start + this.rowPerPage >= this.datasource.getLength() ? this.datasource.getLength() : this.start + this.rowPerPage : this.datasource.getLength();
+				//correct min index if needed
+				const min = this.start >= this.datasource.getLength() ? this.rowPerPage ? this.datasource.getLength() - this.rowPerPage : 0 : this.start;
+				const status = this.statusText.replace('${start}', (min + 1).toString()).replace('${stop}', max.toString()).replace('${total}', this.datasource.getLength());
+				this.status.appendChild(document.createTextNode(status));
+			}
+		}
 	}
 }
 
