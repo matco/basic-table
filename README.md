@@ -49,7 +49,6 @@ new Table({
 		{label : 'IBAN', data : 'iban', type : Table.DataType.STRING},
 		{label : 'Value', data : 'value', type : Table.DataType.NUMBER, width : 120}
 	],
-	path : '',
 	actions : [
 		{label : 'Export', url : '#export'}
 	]
