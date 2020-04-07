@@ -320,12 +320,6 @@ export class Table {
 		if(!this.datasource || this.datasource.constructor !== Datasource) {
 			throw new Error('A datasource is required to render the table');
 		}
-		//search can not be enabled for lazy datasource
-		if(this.datasource && this.datasource.lazy) {
-			if(this.enableSearch) {
-				throw new Error('Search can not be enabled for lazy datasource');
-			}
-		}
 		//restore state
 		const serialized_state = sessionStorage.getItem(this.id);
 		if(serialized_state) {

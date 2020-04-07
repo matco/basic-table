@@ -1,7 +1,3 @@
-function uncache(url) {
-	return url + (url.includes('?') ? '&' : '?') + 't=' + new Date().getTime();
-}
-
 function is_string(object) {
 	return typeof(object) === 'string';
 }
@@ -71,11 +67,8 @@ function sort(data) {
 
 export class Datasource {
 	constructor(parameters) {
-		//data
 		//asynchronous mode
 		this.url = undefined;
-		this.lazy = false;
-
 		//synchronous mode
 		this.data = [];
 
@@ -92,11 +85,6 @@ export class Datasource {
 			throw new Error('One of following parameters is required : url or data');
 		}
 
-		//check consistency
-		if(this.lazy && !this.url) {
-			throw new Error('Lazy table requires following parameter : url');
-		}
-
 		//internal variables
 		this.length;
 		this.filteredData;
@@ -105,54 +93,30 @@ export class Datasource {
 	init(callback) {
 		const that = this;
 
-		//retrieve amount (length) of data
-		//datasources that must retrieve data
+		//URL datasources
 		if(this.url) {
-			//datasources that can retrieve all data at once using an url
-			if(!this.lazy) {
-				const url = uncache(this.url);
-				const xhr = new XMLHttpRequest();
-				xhr.addEventListener(
-					'load',
-					function(event) {
-						if(event.target.status === 200) {
-							that.data = event.target.response;
-							that.length = that.data.length;
-							if(callback) {
-								callback.call();
-							}
-						}
-						else {
-							throw new Error('Unable to retrieve data : ' + xhr.status + ' ' + xhr.statusText);
+			const xhr = new XMLHttpRequest();
+			xhr.addEventListener(
+				'load',
+				function(event) {
+					if(event.target.status === 200) {
+						that.data = event.target.response;
+						that.length = that.data.length;
+						if(callback) {
+							callback.call();
 						}
 					}
-				);
-				xhr.open('GET', url, true);
-				xhr.responseType = 'json';
-				xhr.send();
-			}
-			//datasources that are lazy, length must be retrieved explicitly
-			else {
-				const xhr = new XMLHttpRequest();
-				xhr.onreadystatechange = function() {
-					if(xhr.readyState === 4) {
-						if(xhr.status === 200) {
-							that.length = JSON.parse(xhr.responseText).length;
-							if(callback) {
-								callback.call();
-							}
-						}
-						else {
-							throw new Error('Unable to retrieve data length : ' + xhr.status + ' ' + xhr.statusText);
-						}
+					else {
+						throw new Error('Unable to retrieve data : ' + xhr.status + ' ' + xhr.statusText);
 					}
-				};
-				xhr.open('GET', uncache(that.url) + '&length=true', true);
-				xhr.send();
-			}
+				}
+			);
+			xhr.open('GET', this.url, true);
+			xhr.responseType = 'json';
+			xhr.send();
 		}
+		//preloaded datasource
 		else {
-			//datasources that already have data
 			this.length = this.data.length;
 			if(callback) {
 				callback.call();
@@ -169,37 +133,8 @@ export class Datasource {
 			callback.call(undefined, this.filteredData.slice(start, limit ? start + limit : undefined));
 		}
 		else {
-			//non lazy tables, data are already here
-			if(this.data) {
-				sort.call(this, this.data);
-				callback.call(undefined, this.data.slice(start, limit ? start + limit : undefined));
-			}
-			//lazy tables
-			else {
-				let url = uncache(this.url);
-				if(this.lazy) {
-					url += ('&start=' + start);
-					url += ('&limit=' + limit);
-					if(this.sortingOrders.length > 0) {
-						url += ('&order=' + this.sortingOrders[0].field);
-						url += ('&descendant=' + this.sortingOrders[0].descendant);
-					}
-				}
-				const xhr = new XMLHttpRequest();
-				xhr.onreadystatechange = function() {
-					if(xhr.readyState === 4) {
-						if(xhr.status === 200) {
-							const data = JSON.parse(xhr.responseText);
-							callback.call(undefined, data);
-						}
-						else {
-							throw new Error('Unable to retrieve data : ' + xhr.status + ' ' + xhr.statusText);
-						}
-					}
-				};
-				xhr.open('GET', url, true);
-				xhr.send();
-			}
+			sort.call(this, this.data);
+			callback.call(undefined, this.data.slice(start, limit ? start + limit : undefined));
 		}
 	}
 	filter(filter) {
