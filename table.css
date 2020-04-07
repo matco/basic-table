@@ -59,7 +59,13 @@
 	border: 1px solid #c0c0c0;
 	border-top: 0;
 	padding: 0.2rem;
+	padding-right: 2rem;
 	margin: 0;
+	background-repeat: no-repeat;
+	background-position: calc(100% - 0.5rem);
+}
+.table_footer.loading {
+	background-image: url(loading.png);
 }
 .table_footer > * {
 	margin: 0.2rem;

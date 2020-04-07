@@ -53,11 +53,9 @@ function resort(table) {
 }
 
 function data_filter(filter) {
-	this.loading.style.display = 'inline';
 	this.datasource.filter(filter);
 	this.start = 0;
 	this.draw();
-	this.loading.style.display = 'none';
 }
 
 export class Table {
@@ -172,9 +170,6 @@ export class Table {
 			search_form.appendChild(search_label);
 			search_bar.appendChild(search_form);
 		}
-
-		this.loading = create_element('img', {src: this.path + 'loading.png'});
-		search_bar.appendChild(this.loading);
 
 		this.buttons = create_element('div', {'class': 'table_footer_buttons'});
 		this.footer.appendChild(this.buttons);
@@ -314,14 +309,12 @@ export class Table {
 		});
 	}
 	unfilter() {
-		this.loading.style.display = 'inline';
 		this.datasource.unfilter();
 		this.start = 0;
 		this.draw();
-		this.loading.style.display = 'none';
 	}
 	render(datasource) {
-		this.loading.style.display = 'inline';
+		this.footer.classList.add('loading');
 		//keep a handle on datasource
 		this.datasource = datasource;
 		//datasource is required and must be a table datasource
@@ -417,7 +410,7 @@ export class Table {
 
 			try {
 				that.draw();
-				that.loading.style.display = 'none';
+				that.footer.classList.remove('loading');
 			}
 			catch(exception) {
 				throw new Error('Unable to draw table: ' + exception);
