@@ -39,32 +39,34 @@ function compare(object_1, object_2) {
 
 function sort(data) {
 	const that = this;
-	data.sort(function(a, b) {
-		let index = 0;
-		let field;
-		let result;
-		while(!result && index < that.sortingOrders.length) {
-			field = that.sortingOrders[index].field;
-			const a_data = a[field];
-			const b_data = b[field];
-			if(!a_data && !b_data) {
-				result = 0;
-			}
-			else {
-				if(!a_data) {
-					result = -1;
-				}
-				else if(!b_data) {
-					result = 1;
+	if(that.sortingOrders.length > 0) {
+		data.sort(function(a, b) {
+			let index = 0;
+			let field;
+			let result;
+			while(!result && index < that.sortingOrders.length) {
+				field = that.sortingOrders[index].field;
+				const a_data = a[field];
+				const b_data = b[field];
+				if(!a_data && !b_data) {
+					result = 0;
 				}
 				else {
-					result = compare(a_data, b_data);
+					if(!a_data) {
+						result = -1;
+					}
+					else if(!b_data) {
+						result = 1;
+					}
+					else {
+						result = compare(a_data, b_data);
+					}
 				}
+				index++;
 			}
-			index++;
-		}
-		return that.sortingOrders[index - 1].descendant ? - result : result;
-	});
+			return that.sortingOrders[index - 1].descendant ? - result : result;
+		});
+	}
 }
 
 export class Datasource {

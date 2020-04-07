@@ -381,11 +381,13 @@ export class Table {
 			}
 
 			//update column ui
-			const column_index = that.columns.findIndex(c => c.data === that.datasource.sortingOrders[0].field);
-			const header_column = that.head.children[0].children[column_index];
-			header_column.classList.remove('sort_ascending');
-			header_column.classList.remove('sort_descending');
-			header_column.classList.add(that.datasource.sortingOrders[0].descendant ? 'sort_descending' : 'sort_ascending');
+			if(that.datasource.sortingOrders.length > 0) {
+				const column_index = that.columns.findIndex(c => c.data === that.datasource.sortingOrders[0].field);
+				const header_column = that.head.children[0].children[column_index];
+				header_column.classList.remove('sort_ascending');
+				header_column.classList.remove('sort_descending');
+				header_column.classList.add(that.datasource.sortingOrders[0].descendant ? 'sort_descending' : 'sort_ascending');
+			}
 
 			//data may already be available
 			if(datasource.data) {

@@ -124,7 +124,7 @@ window.addEventListener(
 			user_label.textContent = 'User';
 
 			const columns = [
-				{label: user_label, data: 'login', type: Table.DataType.STRING, render: render_user},
+				{label: user_label, data: 'login', type: Table.DataType.STRING, unsortable: true, render: render_user},
 				{label: 'Jedi', type: Table.DataType.STRING, width: 100, unsortable: true, render: render_right.bind(undefined, 'JEDI')},
 				{label: 'Sith', type: Table.DataType.STRING, width: 100, unsortable: true, render: render_right.bind(undefined, 'SITH')},
 				{label: 'Rebel', type: Table.DataType.STRING, width: 100, unsortable: true, render: render_right.bind(undefined, 'REBEL')}
