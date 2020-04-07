@@ -64,7 +64,6 @@ export class Table {
 		this.container = undefined;
 		this.columns = [];
 		this.datasource;
-		this.path = undefined;
 		//optional parameters with default value
 		this.id;
 		this.title = undefined;

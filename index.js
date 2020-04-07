@@ -88,7 +88,6 @@ window.addEventListener(
 			const table = new Table({
 				container: document.getElementById('table1'),
 				columns: columns,
-				path: '',
 				actions: [
 					{label: 'Export', url: '#export'}
 				]
@@ -133,7 +132,6 @@ window.addEventListener(
 			const table = new Table({
 				container: document.getElementById('table2'),
 				columns: columns,
-				path: '',
 				enableSearch: false
 			});
 			table.render(new Datasource({url: 'data2.json'}));
@@ -185,7 +183,6 @@ window.addEventListener(
 			const table = new Table({
 				container: document.getElementById('table3'),
 				columns: columns,
-				path: '',
 				enableSearch: false,
 				statusText: 'Display clients ${start} - ${stop} of ${total}'
 			});
