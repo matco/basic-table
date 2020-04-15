@@ -9,22 +9,17 @@ Install as an NPM dependency:
 npm i basic-table --save
 ```
 
-The instructions belows are for those who are using Webpack and have an alias to `node_modules` named `node_modules`:
-```
-alias: {
-	'node_modules': path.join(__dirname, 'node_modules'),
-}
-```
+The instructions belows are for those who are using Webpack:
 
 In your CSS:
 ```
-@import url(~node_modules/basic-table/table.css);
+@import url(~basic-table/table.css);
 ```
 
 In your code:
 ```
-import {Table} from 'node_modules/basic-table/table.js';
-import {Datasource} from 'node_modules/basic-table/datasource.js';
+import {Table} from 'basic-table/table.js';
+import {Datasource} from 'basic-table/datasource.js';
 ```
 
 Then:
