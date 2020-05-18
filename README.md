@@ -1,8 +1,6 @@
 # basic-table
 basic-table displays your tabular data in a nice HTML table.
 
-**index.html** contains some examples showing how to use it.
-
 ## Usage
 Install as an NPM dependency:
 ```
@@ -13,13 +11,13 @@ The instructions belows are for those who are using Webpack:
 
 In your CSS:
 ```
-@import url(~basic-table/table.css);
+@import url(~basic-table/src/table.css);
 ```
 
 In your code:
 ```
-import {Table} from 'basic-table/table.js';
-import {Datasource} from 'basic-table/datasource.js';
+import {Table} from 'basic-table/src/table.js';
+import {Datasource} from 'basic-table/src/datasource.js';
 ```
 
 Then:
@@ -49,3 +47,14 @@ new Table({
 	]
 }).render(new Datasource({url : 'data.json'}));
 ```
+
+## Example
+If you want to see some examples, checkout **example/index.js**.
+
+## Development
+If you wan to develop and use the example page to see the result, run:
+```
+npm start
+```
+
+This will launch a webpack server on port 9000.

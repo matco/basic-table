@@ -1,5 +1,5 @@
-import {Datasource} from './datasource.js';
-import {Table} from './table.js';
+import {Datasource} from '../src/datasource.js';
+import {Table} from '../src/table.js';
 
 function parse_date(date) {
 	const parts = date.match(/^(\d{1,2}).(\d{1,2}).(\d{4})$/);
