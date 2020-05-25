@@ -163,7 +163,7 @@ export class Table {
 					last_filter = this.search_input.value;
 					this.filter(last_filter);
 				}
-			}, 300);
+			}, 100);
 			search_label.appendChild(this.search_input);
 			search_form.appendChild(search_label);
 			search_bar.appendChild(search_form);
