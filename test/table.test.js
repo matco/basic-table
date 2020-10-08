@@ -49,49 +49,49 @@ describe('BasicTable', function() {
 	});
 
 	it('loads table properly', async function() {
-		assert.equal(await page.$eval('#table1 > table > thead > tr > th', e => e.textContent), 'Country');
-		assert.equal(await page.$eval('#table1 > table > thead > tr > th:nth-child(2)', e => e.textContent), 'Name');
+		assert.strictEqual(await page.$eval('#table1 > table > thead > tr > th', e => e.textContent), 'Country');
+		assert.strictEqual(await page.$eval('#table1 > table > thead > tr > th:nth-child(2)', e => e.textContent), 'Name');
 	});
 
 	it('sorts data properly', async function() {
-		assert.equal(await page.$eval('#table1 > table > tbody > tr > td', e => e.textContent), 'Afghanistan');
-		assert.equal(await page.$eval('#table1 > table > tbody > tr:nth-child(2) > td', e => e.textContent), 'Åland Islands');
+		assert.strictEqual(await page.$eval('#table1 > table > tbody > tr > td', e => e.textContent), 'Afghanistan');
+		assert.strictEqual(await page.$eval('#table1 > table > tbody > tr:nth-child(2) > td', e => e.textContent), 'Åland Islands');
 		await page.click('#table1 > table > thead > tr > th');
-		assert.equal(await page.$eval('#table1 > table > tbody > tr > td', e => e.textContent), 'Virgin Islands, British');
-		assert.equal(await page.$eval('#table1 > table > tbody > tr:nth-child(2) > td', e => e.textContent), 'Viet Nam');
+		assert.strictEqual(await page.$eval('#table1 > table > tbody > tr > td', e => e.textContent), 'Virgin Islands, British');
+		assert.strictEqual(await page.$eval('#table1 > table > tbody > tr:nth-child(2) > td', e => e.textContent), 'Viet Nam');
 	});
 
 	it('searches properly', async function() {
 		this.timeout(10000);
-		assert.equal(await page.$eval('#table1 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 10 of 98');
-		assert.equal(await page.$eval('#table1 > table > tbody', e => e.children.length), 10);
+		assert.strictEqual(await page.$eval('#table1 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 10 of 98');
+		assert.strictEqual(await page.$eval('#table1 > table > tbody', e => e.children.length), 10);
 
 		//do a search
 		await page.type('#table1 input[type="search"]', 'Au');
 		await page.waitFor(200);
-		assert.equal(await page.$eval('#table1 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 8 of 8');
-		assert.equal(await page.$eval('#table1 > table > tbody', e => e.children.length), 8);
+		assert.strictEqual(await page.$eval('#table1 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 8 of 8');
+		assert.strictEqual(await page.$eval('#table1 > table > tbody', e => e.children.length), 8);
 
 		//clear search
 		await page.$eval('#table1 input[type="search"]', e => e.value = '');
 		await page.waitFor(200);
-		assert.equal(await page.$eval('#table1 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 10 of 98');
-		assert.equal(await page.$eval('#table1 > table > tbody', e => e.children.length), 10);
+		assert.strictEqual(await page.$eval('#table1 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 10 of 98');
+		assert.strictEqual(await page.$eval('#table1 > table > tbody', e => e.children.length), 10);
 	});
 
 	it('handles advanced search properly', async function() {
 		this.timeout(10000);
-		assert.equal(await page.$eval('#table2 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 3 of 3');
-		assert.equal(await page.$eval('#table2 > table > tbody', e => e.children.length), 3);
+		assert.strictEqual(await page.$eval('#table2 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 3 of 3');
+		assert.strictEqual(await page.$eval('#table2 > table > tbody', e => e.children.length), 3);
 
 		//do an advanced search
 		await page.evaluate('table2.filterFunction(record => record.rights.hasOwnProperty("JEDI"))');
-		assert.equal(await page.$eval('#table2 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 1 of 1');
-		assert.equal(await page.$eval('#table2 > table > tbody', e => e.children.length), 1);
+		assert.strictEqual(await page.$eval('#table2 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 1 of 1');
+		assert.strictEqual(await page.$eval('#table2 > table > tbody', e => e.children.length), 1);
 
 		//clear search
 		await page.evaluate('table2.unfilter()');
-		assert.equal(await page.$eval('#table2 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 3 of 3');
-		assert.equal(await page.$eval('#table2 > table > tbody', e => e.children.length), 3);
+		assert.strictEqual(await page.$eval('#table2 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 3 of 3');
+		assert.strictEqual(await page.$eval('#table2 > table > tbody', e => e.children.length), 3);
 	});
 });
