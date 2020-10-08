@@ -9,7 +9,10 @@ const nodestatic = require('node-static');
 
 const PUPPETEER_OPTIONS = {
 	headless: false,
-	defaultViewport: null
+	defaultViewport: null,
+	args: [
+		'--no-sandbox',
+	]
 };
 
 describe('BasicTable', function() {
