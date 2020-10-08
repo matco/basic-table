@@ -84,6 +84,7 @@ function get_cell_value(record, column, column_index) {
 export class Table {
 	constructor(parameters) {
 		//required parameters
+		/**@type {HTMLElement}*/
 		this.container = undefined;
 		this.columns = [];
 		this.datasource;
