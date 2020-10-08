@@ -6,7 +6,8 @@
 		"start": "webpack serve",
 		"build": "webpack",
 		"lint": "eslint .",
-		"test": "mocha"
+		"test": "mocha",
+		"tsc": "tsc"
 	},
 	"type": "module",
 	"keywords": [],
@@ -36,6 +37,7 @@
 		"node-static": "^0.7.11",
 		"puppeteer": "^8.0.0",
 		"style-loader": "^2.0.0",
+		"typescript": "^4.2.2",
 		"webpack": "^5.24.2",
 		"webpack-cli": "^4.5.0",
 		"webpack-dev-server": "^3.11.2"
