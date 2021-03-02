@@ -1,7 +1,7 @@
 {
 	"name": "@matco/basic-table",
 	"description": "basic-table displays your tabular data in a nice HTML table",
-	"version": "1.1.1-dev",
+	"version": "2.0.0-dev",
 	"scripts": {
 		"start": "webpack serve",
 		"build": "webpack",
@@ -13,6 +13,10 @@
 		"name": "Matthieu Corageoud",
 		"email": "matthieu.corageoud@gmail.com"
 	},
+	"browser": "src/index.js",
+	"files": [
+		"src"
+	],
 	"license": "Unlicense",
 	"repository": {
 		"type": "git",
