@@ -20,7 +20,7 @@ module.exports = {
 		}),
 		new CopyPlugin({
 			patterns: [
-				{from: './example/data*.json', flatten: true}
+				{from: './example/data*.json', to: '[name].json'}
 			],
 		})
 	],

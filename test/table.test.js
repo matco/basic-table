@@ -68,13 +68,13 @@ describe('BasicTable', function() {
 
 		//do a search
 		await page.type('#table1 input[type="search"]', 'Au');
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		assert.strictEqual(await page.$eval('#table1 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 8 of 8');
 		assert.strictEqual(await page.$eval('#table1 > table > tbody', e => e.children.length), 8);
 
 		//clear search
 		await page.$eval('#table1 input[type="search"]', e => e.value = '');
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		assert.strictEqual(await page.$eval('#table1 div.table_footer_info > span', e => e.textContent), 'Display items 1 - 10 of 98');
 		assert.strictEqual(await page.$eval('#table1 > table > tbody', e => e.children.length), 10);
 	});
