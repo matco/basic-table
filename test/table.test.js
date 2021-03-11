@@ -1,11 +1,15 @@
 /*eslint-env node, mocha*/
 
-const path = require('path');
-const assert = require('assert');
-const puppeteer = require('puppeteer');
-const webpack = require('webpack');
-const http = require('http');
-const nodestatic = require('node-static');
+import * as path from 'path';
+import * as assert from 'assert';
+import * as http from 'http';
+import {fileURLToPath} from 'url';
+import {Server} from 'node-static';
+import puppeteer from 'puppeteer';
+import webpack_config from '../webpack.config.js';
+import webpack from 'webpack';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const PUPPETEER_OPTIONS = {
 	headless: false,
@@ -21,10 +25,9 @@ describe('BasicTable', function() {
 	//launch server
 	before(function(done) {
 		this.timeout(10000);
-		const config = require(path.resolve(__dirname, '..', 'webpack.config.js'));
-		const compiler = webpack(config);
+		const compiler = webpack.webpack(webpack_config);
 		compiler.run(function() {
-			const file = new nodestatic.Server(path.resolve(__dirname, '..', 'example', 'dist'));
+			const file = new Server(path.resolve(__dirname, '..', 'example', 'dist'));
 			server = http.createServer(function(request, response) {
 				request.addListener('end', function () {
 					file.serve(request, response);
