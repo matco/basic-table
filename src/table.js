@@ -370,17 +370,14 @@ export class Table {
 
 			//data may already be available
 			if(datasource.data) {
-				const columns_length = this.columns.length;
-				let i, j, column;
-
 				//check data
 				if(!this.allowMissingData) {
-					for(i = 0; i < columns_length; i++) {
-						column = this.columns[i];
+					for(let i = 0; i < this.columns.length; i++) {
+						const column = this.columns[i];
 						if(column.data) {
-							for(j = 0; j < datasource.data.length; j++) {
-								if(!datasource.data[j].hasOwnProperty(this.columns[i].data)) {
-									throw new Error(`Column ${i} uses data ${this.columns[i].data} but this data does not exist in record ${j}`);
+							for(let j = 0; j < datasource.data.length; j++) {
+								if(!datasource.data[j].hasOwnProperty(column.data)) {
+									throw new Error(`Column ${i} uses data ${column.data} but this data does not exist in record ${j}`);
 								}
 							}
 						}
