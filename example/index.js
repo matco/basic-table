@@ -91,7 +91,7 @@ window.addEventListener(
 		})();
 
 		(function() {
-			function render_right(profileId, value, record) {
+			function render_right(profileId, _, record) {
 				const input = document.createElement('input');
 				input.setAttribute('type', 'checkbox');
 				if(record.rights[profileId]) {
@@ -103,7 +103,7 @@ window.addEventListener(
 				return input;
 			}
 
-			function render_user(value, record) {
+			function render_user(_, record) {
 				const link = document.createElement('a');
 				link.setAttribute('href', '#user=' + record.login);
 				link.appendChild(document.createTextNode(record.firstname + ' ' + record.lastname));
@@ -148,7 +148,7 @@ window.addEventListener(
 				return value !== null ? format_date(value) : 'NA';
 			}
 
-			function render_delete(value, record) {
+			function render_delete(_, record) {
 				const button = document.createElement('button');
 				button.textContent = 'Delete';
 				button.addEventListener(
