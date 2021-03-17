@@ -75,10 +75,11 @@ npm start
 ```
 This will launch a Webpack development server on port 9000.
 
-### Lint
-You can lint the project with the following command:
+### Lint & Check
+You can lint and check the code of the project with the following commands:
 ```
 npm run lint
+npm run tsc
 ```
 
 ### Test
