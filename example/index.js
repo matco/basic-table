@@ -20,38 +20,31 @@ window.addEventListener(
 		(function() {
 			document.getElementById('table1_search').addEventListener(
 				'submit',
-				function(event) {
+				async function(event) {
 					event.preventDefault();
 					const start = this['start'].value ? parse_date(this['start'].value) : undefined;
 					const stop = this['stop'].value ? parse_date(this['stop'].value) : undefined;
-					const xhr = new XMLHttpRequest();
-					xhr.addEventListener(
-						'load',
-						function(xhr_event) {
-							const data = xhr_event.target.response.filter(function(row) {
-								const row_date = new Date(row.date);
-								if(start && start.getTime() > row_date.getTime()) {
-									return false;
-								}
-								if(stop && stop.getTime() < row_date.getTime()) {
-									return false;
-								}
-								return true;
-							});
-							table.render(new Datasource({data: data}));
-							let export_url = '#export';
-							if(start) {
-								export_url += ('|start=' + format_date(start));
-							}
-							if(stop) {
-								export_url += ('|stop=' + format_date(stop));
-							}
-							table.setActions([{label: 'Export', url: export_url}]);
+					const response = await fetch('data1.json');
+					const result = await response.json();
+					const data = result.filter(function(row) {
+						const row_date = new Date(row.date);
+						if(start && start.getTime() > row_date.getTime()) {
+							return false;
 						}
-					);
-					xhr.open('GET', 'data1.json', true);
-					xhr.responseType = 'json';
-					xhr.send();
+						if(stop && stop.getTime() < row_date.getTime()) {
+							return false;
+						}
+						return true;
+					});
+					table.render(new Datasource({data: data}));
+					let export_url = '#export';
+					if(start) {
+						export_url += ('|start=' + format_date(start));
+					}
+					if(stop) {
+						export_url += ('|stop=' + format_date(stop));
+					}
+					table.setActions([{label: 'Export', url: export_url}]);
 				}
 			);
 

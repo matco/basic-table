@@ -62,20 +62,18 @@ export class Datasource {
 		return new Promise((resolve, reject) => {
 			//URL datasources
 			if(this.url) {
-				const xhr = new XMLHttpRequest();
-				xhr.addEventListener('load', event => {
-					if(event.target.status === 200) {
-						this.data = event.target.response;
-						this.length = this.data.length;
-						resolve();
+				fetch(this.url).then(response => {
+					if(response.status === 200) {
+						response.json().then(data => {
+							this.data = data;
+							this.length = this.data.length;
+							resolve();
+						});
 					}
 					else {
-						reject(`Unable to retrieve data: ${xhr.status} ' ' ${xhr.statusText}`);
+						reject(`Unable to retrieve data: ${response.status} ' ' ${response.statusText}`);
 					}
 				});
-				xhr.open('GET', this.url, true);
-				xhr.responseType = 'json';
-				xhr.send();
 			}
 			//preloaded datasource
 			else {
