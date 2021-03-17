@@ -57,6 +57,30 @@ function data_filter(table, filter) {
 	table.draw();
 }
 
+function get_cell_value(record, column, column_index) {
+	let value = undefined;
+	if(column.data) {
+		value = record[column.data];
+	}
+	//revive date
+	if(column.type === Table.DataType.DATE && value) {
+		value = new Date(value);
+	}
+	//render
+	if(column.render) {
+		try {
+			value = column.render(value, record);
+		}
+		catch(exception) {
+			throw new Error(`Unable to use render function for column ${column_index} with data ${record}: ${exception}`);
+		}
+		if(value === undefined) {
+			throw new Error(`Render function for column ${column_index} does not produce a valid result with data ${record}`);
+		}
+	}
+	return value;
+}
+
 export class Table {
 	constructor(parameters) {
 		//required parameters
@@ -282,7 +306,6 @@ export class Table {
 				const column = this.columns[i];
 				//filter only on one column if asked
 				if(!filter_column || filter_column && column.data === filter_column.data) {
-					//var value = column.render ? record[i].rendered : record[i].raw;
 					const value = record[column.data];
 					if(typeof value === 'string') {
 						if(exact_matching && value === filter || value.toLowerCase().includes(lower_filter)) {
@@ -464,50 +487,19 @@ export class Table {
 			}
 		}
 		else {
-			//revive and render data
-			const rendered_data = [];
-			for(let i = 0; i < data.length; i++) {
-				rendered_data[i] = [];
-				const original_record = data[i];
-				//store original record //TODO find an other way to store it as this prevent having a column linked to data name "record"
-				rendered_data[i].record = original_record;
-				for(let j = 0; j < this.columns.length; j++) {
-					const column = this.columns[j];
-					const record = {};
-					if(column.data) {
-						record.raw = original_record[column.data];
-					}
-					//revive date
-					if(column.type === Table.DataType.DATE && record.raw) {
-						record.raw = new Date(record.raw);
-					}
-					//render
-					if(column.render) {
-						try {
-							record.rendered = column.render(record.raw, original_record);
-						}
-						catch(exception) {
-							throw new Error(`Unable to use render function for column ${i} with data ${record.raw}: ${exception}`);
-						}
-						if(record.rendered === undefined) {
-							throw new Error(`Render function for column ${i} does not produce a valid result with data ${record.raw}`);
-						}
-					}
-					rendered_data[i][j] = record;
-				}
-			}
 			//insert in table
-			for(let i = 0; i < rendered_data.length; i++) {
+			for(let i = 0; i < data.length; i++) {
+				const record = data[i];
 				const line = document.createElement('tr');
 				if(this.rowClass) {
-					line.classList.add(this.rowClass.call(undefined, rendered_data[i].record));
+					line.classList.add(this.rowClass.call(undefined, record));
 				}
 				else {
 					line.classList.add(i % 2 === 0 ? 'even' : 'odd');
 				}
 				for(let j = 0; j < this.columns.length; j++) {
 					const column = this.columns[j];
-					const value = column.render ? rendered_data[i][j].rendered : rendered_data[i][j].raw;
+					const value = get_cell_value(record, column, j);
 					const element = create_element('td');
 					//string are just appended
 					if(typeof value === 'string') {
