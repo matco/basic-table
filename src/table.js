@@ -51,10 +51,10 @@ function resort(table) {
 	}
 }
 
-function data_filter(filter) {
-	this.datasource.filter(filter);
-	this.start = 0;
-	this.draw();
+function data_filter(table, filter) {
+	table.datasource.filter(filter);
+	table.start = 0;
+	table.draw();
 }
 
 export class Table {
@@ -277,7 +277,7 @@ export class Table {
 	}
 	filter(filter, filter_column, exact_matching) {
 		const lower_filter = filter.toLowerCase();
-		data_filter.call(this, record => {
+		data_filter.call(undefined, this, record => {
 			for(let i = 0; i < this.columns.length; i++) {
 				const column = this.columns[i];
 				//filter only on one column if asked
@@ -301,7 +301,7 @@ export class Table {
 		});
 	}
 	filterFunction(filter) {
-		data_filter.call(this, function(record) {
+		data_filter.call(undefined, this, function(record) {
 			return filter(record);
 		});
 	}
