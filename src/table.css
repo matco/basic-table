@@ -55,11 +55,11 @@
 .table_footer {
 	display: flex;
 	background-color: #ddd;
+	align-items: center;
 	color: #555;
 	border: 1px solid #c0c0c0;
 	border-top: 0;
-	padding: 0.2rem;
-	padding-right: 2rem;
+	padding: 0.4rem;
 	margin: 0;
 	background-repeat: no-repeat;
 	background-position: calc(100% - 0.5rem);
@@ -67,14 +67,11 @@
 .table_footer.loading {
 	background-image: url(loading.png);
 }
-.table_footer > * {
-	margin: 0.2rem;
-}
 .table_footer_search input {
 	margin: 0 0.5rem;
 	vertical-align: middle;
 	border-radius: 2px;
-	border: 1px solid #C0C0C0;
+	border: 1px solid #c0c0c0;
 }
 .table_footer_search img {
 	vertical-align: middle;
@@ -87,11 +84,10 @@
 }
 .table_footer_buttons .button {
 	color: #484848;
-	font-weight: bold;
 	text-decoration: none;
 	background-color: #f7f7f7;
 	background-image: linear-gradient(to bottom, #f7f7f7, #d1d1d1);
-	border: 1px solid #7F7F7F;
+	border: 1px solid #7f7f7f;
 	border-radius: 2px;
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	padding: 0 0.5rem;
@@ -104,9 +100,11 @@
 .table_footer_controls {
 	background-color: #f7f7f7;
 	background-image: linear-gradient(to bottom, #f7f7f7, #d1d1d1);
-	border: 1px solid #7F7F7F;
+	border: 1px solid #7f7f7f;
 	border-radius: 2px;
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	margin: 0 0.5rem;
+	height: 1.5rem;
 }
 .table_footer_controls button {
 	outline: none;
@@ -114,6 +112,7 @@
 	border-right: 1px solid #7f7f7f;
 	height: 100%;
 	width: 1.5rem;
+	border-radius: 0;
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -139,7 +138,4 @@
 .table_footer_controls button.control_last {
 	background-image: url(resultset_last.png);
 	border: 0;
-}
-.table_footer_info {
-	margin-left: 0.5rem;
 }
