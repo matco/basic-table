@@ -1,4 +1,7 @@
-name: Lint
+name: Test
+
+permissions:
+  contents: read
 
 on: [push]
 
