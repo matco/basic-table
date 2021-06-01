@@ -4,14 +4,14 @@ function parse_date(date) {
 	const parts = date.match(/^(\d{1,2}).(\d{1,2}).(\d{4})$/);
 	//return data only if format is valid
 	if(parts) {
-		return new Date(parts[3] + '/' + parts[2] + '/' + parts[1]);
+		return new Date(`${parts[3]}/${parts[2]}/${parts[1]}`);
 	}
 	//to be consistent with native date API, return an invalid date
 	return new Date('Invalid date');
 }
 
 function format_date(date) {
-	return date.getDate().toString().padStart(2, '0') + '.' + (date.getMonth() + 1).toString().padStart(2, '0') + '.' + date.getFullYear();
+	return `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getFullYear()}`;
 }
 
 window.addEventListener(
@@ -39,10 +39,10 @@ window.addEventListener(
 					table.render(new Datasource({data: data}));
 					let export_url = '#export';
 					if(start) {
-						export_url += ('|start=' + format_date(start));
+						export_url += (`|start=${format_date(start)}`);
 					}
 					if(stop) {
-						export_url += ('|stop=' + format_date(stop));
+						export_url += (`|stop=${format_date(stop)}`);
 					}
 					table.setActions([{label: 'Export', url: export_url}]);
 				}
@@ -50,7 +50,7 @@ window.addEventListener(
 
 			function render_name(value, record) {
 				const link = document.createElement('a');
-				link.setAttribute('href', '#id=' + record.id);
+				link.setAttribute('href', `#id=${record.id}`);
 				link.appendChild(document.createTextNode(value));
 				return link;
 			}
@@ -98,15 +98,15 @@ window.addEventListener(
 					input.setAttribute('checked', 'checked');
 				}
 				input.addEventListener('click', function() {
-					console.log('Profile ' + profileId + ' ' + (this.checked ? 'added' : 'removed') + ' for user ' + record.login);
+					console.log(`Profile ${profileId} ${this.checked ? 'added' : 'removed'} for user ${record.login}`);
 				});
 				return input;
 			}
 
 			function render_user(_, record) {
 				const link = document.createElement('a');
-				link.setAttribute('href', '#user=' + record.login);
-				link.appendChild(document.createTextNode(record.firstname + ' ' + record.lastname));
+				link.setAttribute('href', `#user=${record.login}`);
+				link.appendChild(document.createTextNode(`${record.firstname} ${record.lastname}`));
 				return link;
 			}
 
@@ -157,7 +157,7 @@ window.addEventListener(
 						const index = data.indexOf(record);
 						data.splice(index, 1);
 						table.render(new Datasource({data: data}));
-						console.log('Authorization ' + record.key + ' deleted');
+						console.log(`Authorization ${record.key} deleted`);
 					}
 				);
 				return button;

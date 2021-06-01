@@ -147,7 +147,7 @@ export class Table {
 
 		for(let i = 0; i < this.columns.length; i++) {
 			const column = this.columns[i];
-			const header_column = create_element('th', {style: 'width: ' + column.width + 'px;'});
+			const header_column = create_element('th', {style: `width: ${column.width}px;`});
 			//create or use label
 			const header_label = is_string(column.label) ? document.createTextNode(column.label) : column.label;
 			header_column.appendChild(header_label);
@@ -424,7 +424,7 @@ export class Table {
 				this.footer.classList.remove('loading');
 			}
 			catch(exception) {
-				throw new Error('Unable to draw table: ' + exception);
+				throw new Error(`Unable to draw table: ${exception}`);
 			}
 		});
 	}
@@ -512,11 +512,11 @@ export class Table {
 					//number are aligned to the right
 					else if(typeof value === 'number') {
 						element.setAttribute('style', 'text-align: right;');
-						element.appendChild(document.createTextNode(value + ''));
+						element.appendChild(document.createTextNode(value.toString()));
 					}
 					//boolean are converted to string
 					else if(typeof value === 'boolean') {
-						element.appendChild(document.createTextNode(value + ''));
+						element.appendChild(document.createTextNode(value.toString()));
 					}
 					//render function may have returned a HTML element
 					else {

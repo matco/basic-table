@@ -28,9 +28,11 @@
 		"no-var": "error",
 		"no-with": "error",
 		"prefer-const": "error",
+		"prefer-template": "error",
 		"quotes": ["error", "single"],
 		"semi": ["error", "always"],
 		"spaced-comment": ["error", "never"],
-		"strict": "error"
+		"strict": "error",
+		"template-curly-spacing": ["error", "never"]
 	}
 }
