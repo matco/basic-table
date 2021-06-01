@@ -17,3 +17,5 @@ jobs:
         run: npm run lint
       - name: Run Typescript compiler
         run: npm run tsc
+      - name: Run tests
+        run: npm test
