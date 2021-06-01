@@ -1,17 +1,17 @@
 import {Table, Datasource} from '../src/index.js';
 
 function parse_date(date) {
-	const parts = date.match(/^(\d{1,2}).(\d{1,2}).(\d{4})$/);
+	const parts = date.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
 	//return data only if format is valid
 	if(parts) {
-		return new Date(`${parts[3]}/${parts[2]}/${parts[1]}`);
+		return new Date(`${parts[1]}/${parts[2]}/${parts[3]}`);
 	}
 	//to be consistent with native date API, return an invalid date
 	return new Date('Invalid date');
 }
 
 function format_date(date) {
-	return `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getFullYear()}`;
+	return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 }
 
 window.addEventListener(
