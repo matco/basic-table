@@ -11,8 +11,11 @@ import webpack from 'webpack';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+//retrieve potential args
+const no_headless = process.argv.includes('--no-headless');
+
 const PUPPETEER_OPTIONS = {
-	headless: false,
+	headless: !no_headless,
 	defaultViewport: null,
 	args: [
 		'--no-sandbox',
