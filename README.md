@@ -16,11 +16,11 @@ import {Table, Datasource} from 'basic-table/index.js';
 ```
 
 ### With NPM and Webpack
-The instructions below are for those who are using NPM and Webpack:
+The instructions below are for those who are using NPM and Webpack.
 
 Install as an NPM dependency of your project:
 ```
-npm i basic-table --save
+npm i @matco/basic-table --save
 ```
 
 In your CSS:
