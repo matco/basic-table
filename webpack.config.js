@@ -38,14 +38,11 @@ export default {
 			},
 			{
 				test: /\.png$/,
-				use: [
-					'file-loader',
-				]
+				type: 'asset/resource'
 			},
 		]
 	},
 	devServer: {
-		contentBase: path.join(__dirname, 'example', 'dist'),
 		port: 9000,
 		host: '0.0.0.0'
 	}
