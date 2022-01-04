@@ -26,6 +26,18 @@ function create_element(tag, attributes, text, listeners) {
 	return element;
 }
 
+function create_svg_element(tag, attributes) {
+	const element = document.createElementNS('http://www.w3.org/2000/svg', tag);
+	if(attributes) {
+		for(const attribute in attributes) {
+			if(attributes.hasOwnProperty(attribute)) {
+				element.setAttribute(attribute, attributes[attribute]);
+			}
+		}
+	}
+	return element;
+}
+
 function clear_element(element) {
 	while(element.firstChild) {
 		element.removeChild(element.firstChild);
@@ -41,11 +53,12 @@ function resort(table) {
 		const column = table.columns[i];
 		//only columns with data are sortable
 		if(column.data && !column.unsortable) {
-			const header_column = table.head.firstChild.childNodes[i];
-			header_column.classList.remove('sort_ascending');
-			header_column.classList.remove('sort_descending');
+			const header_column = table.head.firstChild.children[i];
+			const header_status = header_column.lastElementChild;
+			header_status.style.visibility = 'hidden';
 			if(column.data === sorting_order.field) {
-				header_column.classList.add(sorting_order.descendant ? 'sort_descending' : 'sort_ascending');
+				header_status.style.visibility = 'visible';
+				header_status.style.transform = sorting_order.descendant ? 'rotate(0.5turn)' : '';
 			}
 		}
 	}
@@ -79,6 +92,43 @@ function get_cell_value(record, column, column_index) {
 		}
 	}
 	return value;
+}
+
+const IconType = {
+	ARROW: 0,
+	FIRST: 1,
+	PREVIOUS: 2,
+	NEXT: 3,
+	LAST: 4
+};
+
+function create_icon(type, width, height) {
+	const svg = create_svg_element('svg', {viewBox: '0 0 10 10', width: width ?? '100%', height: height ?? '100%'});
+	switch(type) {
+		case IconType.ARROW: {
+			svg.appendChild(create_svg_element('polygon', {points: '5 2,10 8,0 8'}));
+			break;
+		}
+		case IconType.FIRST: {
+			svg.appendChild(create_svg_element('rect', {x: '0', y: '0', width: '2', height: '10'}));
+			svg.appendChild(create_svg_element('polygon', {points: '2 5,10 0,10 10'}));
+			break;
+		}
+		case IconType.PREVIOUS: {
+			svg.appendChild(create_svg_element('polygon', {points: '2 5,10 0,10 10'}));
+			break;
+		}
+		case IconType.NEXT: {
+			svg.appendChild(create_svg_element('polygon', {points: '8 5,0 10,0 0'}));
+			break;
+		}
+		case IconType.LAST: {
+			svg.appendChild(create_svg_element('rect', {x: '8', y: '0', width: '2', height: '10'}));
+			svg.appendChild(create_svg_element('polygon', {points: '8 5,0 10,0 0'}));
+			break;
+		}
+	}
+	return svg;
 }
 
 export class Table {
@@ -151,6 +201,9 @@ export class Table {
 			//create or use label
 			const header_label = is_string(column.label) ? document.createTextNode(column.label) : column.label;
 			header_column.appendChild(header_label);
+			const header_status = create_icon(IconType.ARROW, '10px', '10px');
+			header_status.style.visibility = 'hidden';
+			header_column.appendChild(header_status);
 			if(!column.unsortable) {
 				header_column.style.cursor = 'pointer';
 				header_column.addEventListener(
@@ -205,7 +258,7 @@ export class Table {
 			this.footer.appendChild(this.controls);
 
 			//first
-			this.firstButton = create_element('button', {title: 'First', alt: 'First', 'class': 'control_first'}, undefined,
+			this.firstButton = create_element('button', {title: 'First', alt: 'First'}, undefined,
 				{
 					'click': function() {
 						if(that.start !== 0) {
@@ -215,9 +268,10 @@ export class Table {
 					}
 				}
 			);
+			this.firstButton.appendChild(create_icon(IconType.FIRST));
 			this.controls.appendChild(this.firstButton);
 			//previous
-			this.previousButton = create_element('button', {title: 'Previous', alt: 'Previous', 'class': 'control_previous'}, undefined,
+			this.previousButton = create_element('button', {title: 'Previous', alt: 'Previous'}, undefined,
 				{
 					'click': function() {
 						if(that.start > 1) {
@@ -227,9 +281,10 @@ export class Table {
 					}
 				}
 			);
+			this.previousButton.appendChild(create_icon(IconType.PREVIOUS));
 			this.controls.appendChild(this.previousButton);
 			//next
-			this.nextButton = create_element('button', {title: 'Next', alt: 'Next', 'class': 'control_next'}, undefined,
+			this.nextButton = create_element('button', {title: 'Next', alt: 'Next'}, undefined,
 				{
 					'click': function() {
 						if(that.start + that.rowPerPage < that.datasource.getLength()) {
@@ -239,9 +294,10 @@ export class Table {
 					}
 				}
 			);
+			this.nextButton.appendChild(create_icon(IconType.NEXT));
 			this.controls.appendChild(this.nextButton);
 			//last
-			this.lastButton = create_element('button', {title: 'Last', alt: 'Last', 'class': 'control_last'}, undefined,
+			this.lastButton = create_element('button', {title: 'Last', alt: 'Last'}, undefined,
 				{
 					'click': function() {
 						const last_start = (Math.ceil(that.datasource.length / that.rowPerPage) - 1) * that.rowPerPage;
@@ -252,6 +308,7 @@ export class Table {
 					}
 				}
 			);
+			this.lastButton.appendChild(create_icon(IconType.LAST));
 			this.controls.appendChild(this.lastButton);
 
 			//info
@@ -387,9 +444,11 @@ export class Table {
 			if(this.datasource.sortingOrders.length > 0) {
 				const column_index = this.columns.findIndex(c => c.data === this.datasource.sortingOrders[0].field);
 				const header_column = this.head.children[0].children[column_index];
-				header_column.classList.remove('sort_ascending');
-				header_column.classList.remove('sort_descending');
-				header_column.classList.add(this.datasource.sortingOrders[0].descendant ? 'sort_descending' : 'sort_ascending');
+				const header_status = header_column.lastElementChild;
+				//@ts-ignore
+				header_status.style.visibility = 'visible';
+				//@ts-ignore
+				header_status.style.transform = this.datasource.sortingOrders[0].descendant ? 'rotate(0.5turn)' : '';
 			}
 
 			//data may already be available

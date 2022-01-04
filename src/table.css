@@ -13,6 +13,7 @@
 	border: 1px solid #c0c0c0;
 }
 .table_content th {
+	position: relative;
 	background-color: #ddd;
 	color: #555;
 	border: 1px solid #c0c0c0;
@@ -24,14 +25,14 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	padding-right: 1rem;
-	background-position: right;
-	background-repeat: no-repeat;
 }
-.table_content th.sort_ascending {
-	background-image: url(bullet_arrow_up.png);
+.table_content th svg {
+	position: absolute;
+	right: 1rem;
+	top: 0.5rem;
 }
-.table_content th.sort_descending {
-	background-image: url(bullet_arrow_down.png);
+.table_content th svg polygon {
+	fill: #555;
 }
 .table_content tr {
 	border: 1px solid #c0c0c0;
@@ -114,8 +115,6 @@
 	width: 1.5rem;
 	border-radius: 0;
 	background-color: transparent;
-	background-repeat: no-repeat;
-	background-position: center;
 	cursor: pointer;
 }
 .table_footer_controls button:hover {
@@ -126,16 +125,6 @@
 	opacity: 0.2;
 	cursor: auto;
 }
-.table_footer_controls button.control_first {
-	background-image: url(resultset_first.png);
-}
-.table_footer_controls button.control_previous {
-	background-image: url(resultset_previous.png);
-}
-.table_footer_controls button.control_next {
-	background-image: url(resultset_next.png);
-}
-.table_footer_controls button.control_last {
-	background-image: url(resultset_last.png);
+.table_footer_controls button:last-child {
 	border: 0;
 }
