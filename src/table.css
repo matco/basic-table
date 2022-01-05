@@ -1,6 +1,10 @@
+:root {
+	--text-color: #333;
+	--border-color: #c0c0c0;
+}
 /* header */
 .table_header {
-	color: #555;
+	color: var(--text-color);
 	margin-bottom: 0.2rem;
 }
 /* content */
@@ -10,16 +14,14 @@
 	white-space: nowrap;
 	border-collapse: collapse;
 	border-spacing: 0;
-	border: 1px solid #c0c0c0;
+	border: 1px solid var(--border-color);
+	color: var(--text-color);
 }
 .table_content th {
 	position: relative;
 	background-color: #ddd;
-	color: #555;
-	border: 1px solid #c0c0c0;
+	border: 1px solid var(--border-color);
 	border-top: 0;
-	-webkit-user-select: none;
-	-moz-user-select: none;
 	user-select: none;
 	white-space: nowrap;
 	overflow: hidden;
@@ -32,10 +34,10 @@
 	top: 0.5rem;
 }
 .table_content th svg polygon {
-	fill: #555;
+	fill: var(--text-color);
 }
 .table_content tr {
-	border: 1px solid #c0c0c0;
+	border: 1px solid var(--border-color);
 }
 .table_content tr.odd {
 	background-color: #fafafa;
@@ -48,7 +50,7 @@
 }
 .table_content td {
 	overflow: hidden;
-	border: 1px solid #c0c0c0;
+	border: 1px solid var(--border-color);
 	padding: 0.2rem;
 	margin: 0;
 }
@@ -57,69 +59,55 @@
 	display: flex;
 	background-color: #ddd;
 	align-items: center;
-	color: #555;
-	border: 1px solid #c0c0c0;
+	color: var(--text-color);
+	border: 1px solid var(--border-color);
 	border-top: 0;
 	padding: 0.4rem;
 	margin: 0;
+}
+.table_footer :is(.button, button) {
+	color: var(--text-color);
+	text-decoration: none;
+	background-color: #f7f7f7;
+	cursor: pointer;
+}
+.table_footer :is(.button:hover, button:hover) {
+	background-color: #eee;
 }
 .table_footer_search input {
 	margin: 0 0.5rem;
 	vertical-align: middle;
 	border-radius: 2px;
-	border: 1px solid #c0c0c0;
-}
-.table_footer_search img {
-	vertical-align: middle;
-	padding: 0 1px;
-	margin-bottom: 1px;
-	margin-right: 0.5rem;
+	border: 1px solid var(--border-color);
 }
 .table_footer_buttons {
 	flex-grow: 2;
 }
 .table_footer_buttons .button {
-	color: #484848;
-	text-decoration: none;
-	background-color: #f7f7f7;
-	background-image: linear-gradient(to bottom, #f7f7f7, #d1d1d1);
-	border: 1px solid #7f7f7f;
+	border: 1px solid var(--border-color);
 	border-radius: 2px;
-	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	padding: 0 0.5rem;
-	cursor: pointer;
-}
-.table_footer_buttons .button:hover {
-	background-color: #ddd;
-	background-image: linear-gradient(to bottom, #ddd, #d1d1d1);
 }
 .table_footer_controls {
-	background-color: #f7f7f7;
-	background-image: linear-gradient(to bottom, #f7f7f7, #d1d1d1);
-	border: 1px solid #7f7f7f;
+	border: 1px solid var(--border-color);
 	border-radius: 2px;
-	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	margin: 0 0.5rem;
 	height: 1.5rem;
 }
 .table_footer_controls button {
-	outline: none;
+	display: inline-block;
 	border: 0;
-	border-right: 1px solid #7f7f7f;
+	border-right: 1px solid var(--border-color);
 	height: 100%;
-	width: 1.5rem;
-	border-radius: 0;
-	background-color: transparent;
-	cursor: pointer;
-}
-.table_footer_controls button:hover {
-	background-color: #ddd;
-	background-image: linear-gradient(to bottom, #ddd, #d1d1d1);
+	padding: 0.3rem;
 }
 .table_footer_controls button[disabled] {
-	opacity: 0.2;
+	opacity: 0.1;
 	cursor: auto;
 }
 .table_footer_controls button:last-child {
-	border: 0;
+	border-right: none;
+}
+.table_footer_controls button svg :is(polygon,rect) {
+	fill: var(--text-color);
 }
