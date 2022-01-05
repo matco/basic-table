@@ -392,7 +392,6 @@ export class Table {
 		this.draw();
 	}
 	render(datasource) {
-		this.footer.classList.add('loading');
 		//keep a handle on datasource
 		this.datasource = datasource;
 		//datasource is required and must be a table datasource
@@ -480,7 +479,6 @@ export class Table {
 
 			try {
 				this.draw();
-				this.footer.classList.remove('loading');
 			}
 			catch(exception) {
 				throw new Error(`Unable to draw table: ${exception}`);

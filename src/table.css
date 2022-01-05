@@ -62,11 +62,6 @@
 	border-top: 0;
 	padding: 0.4rem;
 	margin: 0;
-	background-repeat: no-repeat;
-	background-position: calc(100% - 0.5rem);
-}
-.table_footer.loading {
-	background-image: url(loading.png);
 }
 .table_footer_search input {
 	margin: 0 0.5rem;
