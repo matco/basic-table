@@ -1,4 +1,5 @@
-:root {
+export const styles = /*css*/`
+:host {
 	--text-color: #333;
 	--border-color: #c0c0c0;
 }
@@ -111,3 +112,4 @@
 .table_footer_controls button svg :is(polygon,rect) {
 	fill: var(--text-color);
 }
+`;

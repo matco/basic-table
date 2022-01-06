@@ -5,6 +5,12 @@
 		<title>basic-table</title>
 		<script type="module" src="index.js"></script>
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" />
+		<style>
+			td {
+				/*style cells globally to check that this style is not applied in the tables that are in a shadow DOM*/
+				background-color: red;
+			}
+		</style>
 	</head>
 	<body>
 		<h2>Bank accounts</h2>

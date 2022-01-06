@@ -1,4 +1,5 @@
 import {Datasource} from './datasource.js';
+import {styles} from './styles.js';
 
 function is_string(object) {
 	return typeof(object) === 'string';
@@ -181,6 +182,13 @@ export class Table {
 
 		const that = this;
 
+		//shadow
+		this.shadow = this.container.attachShadow({mode: 'open'});
+
+		//add css
+		const style = create_element('style', {}, styles);
+		this.shadow.appendChild(style);
+
 		//header
 		this.header = create_element('div', {'class': 'table_header'});
 		if(this.title) {
@@ -319,9 +327,9 @@ export class Table {
 		}
 		//insertion
 		clear_element(this.container);
-		this.container.appendChild(this.header);
-		this.container.appendChild(this.table);
-		this.container.appendChild(this.footer);
+		this.shadow.appendChild(this.header);
+		this.shadow.appendChild(this.table);
+		this.shadow.appendChild(this.footer);
 		//display footer only if there is something in it
 		this.footer.style.display = this.enableSearch || this.rowPerPage || this.actions.length > 0 ? 'flex' : 'none';
 	}

@@ -5,12 +5,7 @@ basic-table displays your tabular data in a nice HTML table.
 ### Manual
 Copy the `src` folder as `basic-table` somewhere in your project.
 
-Import the CSS:
-```
-@import url(basic-table/table.css);
-```
-
-In your Javascript code:
+Then, in your code:
 ```
 import {Table, Datasource} from 'basic-table/index.js';
 ```
@@ -23,13 +18,7 @@ Install as an NPM dependency of your project:
 npm i @matco/basic-table --save
 ```
 
-In your CSS:
-```
-@import url(~@matco/basic-table/src/table.css);
-```
-Pay attention to the `src` folder in the path. And make sure you configured Webpack to handle CSS files.
-
-In your code:
+Then, in your code:
 ```
 import {Table, Datasource} from '@matco/basic-table';
 ```
