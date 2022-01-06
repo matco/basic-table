@@ -1,7 +1,7 @@
 export const styles = /*css*/`
 :host {
 	--text-color: #333;
-	--border-color: #c0c0c0;
+	--border-color: #eee;
 }
 /* header */
 .table_header {
@@ -93,13 +93,11 @@ export const styles = /*css*/`
 	border: 1px solid var(--border-color);
 	border-radius: 2px;
 	margin: 0 0.5rem;
-	height: 1.5rem;
 }
 .table_footer_controls button {
-	display: inline-block;
 	border: 0;
 	border-right: 1px solid var(--border-color);
-	height: 100%;
+	height: 1.5rem;
 	padding: 0.3rem;
 }
 .table_footer_controls button[disabled] {
