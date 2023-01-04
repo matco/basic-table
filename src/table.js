@@ -141,7 +141,6 @@ export class Table {
 		this.datasource;
 		//optional parameters with default value
 		this.id;
-		this.title = undefined;
 		this.actions = [];
 		this.statusText = 'Display items ${start} - ${stop} of ${total}';
 		this.rowPerPage = 10;
@@ -188,12 +187,6 @@ export class Table {
 		//add css
 		const style = create_element('style', {}, styles);
 		this.shadow.appendChild(style);
-
-		//header
-		this.header = create_element('header');
-		if(this.title) {
-			this.header.appendChild(create_element('h2', {}, this.title));
-		}
 
 		//table
 		this.table = create_element('table');
@@ -329,7 +322,6 @@ export class Table {
 		}
 		//insertion
 		clear_element(this.container);
-		this.shadow.appendChild(this.header);
 		this.shadow.appendChild(this.table);
 		this.shadow.appendChild(this.footer);
 		//display footer only if there is something in it

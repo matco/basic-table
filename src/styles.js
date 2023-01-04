@@ -4,11 +4,6 @@ export const styles = /*css*/`
 	--frame-color: #ddd;
 	--frame-highlight-color: #bbb;
 }
-/* header */
-header {
-	color: var(--text-color);
-	margin-bottom: 0.2rem;
-}
 /* content */
 table {
 	table-layout: fixed;
