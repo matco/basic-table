@@ -205,7 +205,10 @@ export class Table {
 
 		for(let i = 0; i < this.columns.length; i++) {
 			const column = this.columns[i];
-			const header_column = create_element('th', {style: `width: ${column.width}px;`});
+			const header_column = create_element('th');
+			if(column.width) {
+				header_column.setAttribute('style', `width: ${column.width}px;`);
+			}
 			//create or use label
 			const header_label = is_string(column.label) ? document.createTextNode(column.label) : column.label;
 			header_column.appendChild(header_label);
