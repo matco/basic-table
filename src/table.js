@@ -203,8 +203,7 @@ export class Table {
 		const header_line = create_element('tr');
 		this.head.appendChild(header_line);
 
-		for(let i = 0; i < this.columns.length; i++) {
-			const column = this.columns[i];
+		this.columns.forEach(column => {
 			const header_column = create_element('th');
 			if(column.width) {
 				header_column.setAttribute('style', `width: ${column.width}px;`);
@@ -228,7 +227,7 @@ export class Table {
 				);
 			}
 			header_line.appendChild(header_column);
-		}
+		});
 		this.table.appendChild(this.head);
 
 		//table body
@@ -339,8 +338,7 @@ export class Table {
 	setActions(actions) {
 		this.actions = actions;
 		clear_element(this.buttons);
-		for(let i = 0; i < this.actions.length; i++) {
-			const action = this.actions[i];
+		this.actions.forEach(action => {
 			let action_item;
 			if(is_string(action.label)) {
 				action_item = create_element('a', {href: action.url, 'class': 'button'}, action.label);
@@ -349,7 +347,7 @@ export class Table {
 				action_item = action.label;
 			}
 			this.buttons.appendChild(action_item);
-		}
+		});
 		//display footer only if there is something in it
 		this.footer.style.display = this.enableSearch || this.rowPerPage || this.actions.length > 0 ? 'flex' : 'none';
 	}
