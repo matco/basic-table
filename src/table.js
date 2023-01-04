@@ -314,11 +314,9 @@ export class Table {
 			this.lastButton.appendChild(create_icon(IconType.LAST));
 			this.controls.appendChild(this.lastButton);
 
-			//info
-			this.info = create_element('div', {'class': 'status'});
-			this.status = create_element('span');
-			this.info.appendChild(this.status);
-			this.footer.appendChild(this.info);
+			//status
+			this.status = create_element('div', {'class': 'status'});
+			this.footer.appendChild(this.status);
 		}
 		//insertion
 		clear_element(this.container);
@@ -540,10 +538,6 @@ export class Table {
 			const no_data = create_element('tr', {'class': 'even'});
 			no_data.appendChild(create_element('td', {colspan: this.columns.length}, 'No data to display'));
 			this.body.appendChild(no_data);
-			//display status
-			if(this.rowPerPage) {
-				clear_element(this.status);
-			}
 		}
 		else {
 			//insert in table
@@ -587,16 +581,15 @@ export class Table {
 				}
 				this.body.appendChild(line);
 			}
-			//display status
-			if(this.rowPerPage) {
-				clear_element(this.status);
-				//calculate max index
-				const max = this.rowPerPage ? this.start + this.rowPerPage >= this.datasource.getLength() ? this.datasource.getLength() : this.start + this.rowPerPage : this.datasource.getLength();
-				//correct min index if needed
-				const min = this.start >= this.datasource.getLength() ? this.rowPerPage ? this.datasource.getLength() - this.rowPerPage : 0 : this.start;
-				const status = this.statusText.replace('${start}', (min + 1).toString()).replace('${stop}', max.toString()).replace('${total}', this.datasource.getLength());
-				this.status.appendChild(document.createTextNode(status));
-			}
+		}
+		//display status
+		if(this.rowPerPage) {
+			//calculate stop index
+			const stop = Math.min(this.start + this.rowPerPage, this.datasource.getLength());
+			//adjust start index so it's human readable, except when there is not entry
+			const start = data.length === 0 ? 0 : this.start + 1;
+			const status = this.statusText.replace('${start}', start.toString()).replace('${stop}', stop.toString()).replace('${total}', this.datasource.getLength());
+			this.status.textContent = status;
 		}
 	}
 }
