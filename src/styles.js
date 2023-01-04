@@ -1,7 +1,8 @@
 export const styles = /*css*/`
 :host {
 	--text-color: #333;
-	--border-color: #eee;
+	--frame-color: #ddd;
+	--frame-highlight-color: #bbb;
 }
 /* header */
 header {
@@ -15,14 +16,12 @@ table {
 	white-space: nowrap;
 	border-collapse: collapse;
 	border-spacing: 0;
-	border: 1px solid var(--border-color);
+	border: 3px solid var(--frame-color);
 	color: var(--text-color);
 }
 th {
 	position: relative;
-	background-color: #ddd;
-	border: 1px solid var(--border-color);
-	border-top: 0;
+	background-color: var(--frame-color);
 	user-select: none;
 	white-space: nowrap;
 	overflow: hidden;
@@ -38,7 +37,7 @@ th svg polygon {
 	fill: var(--text-color);
 }
 tr {
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--frame-color);
 }
 tr.odd {
 	background-color: #fafafa;
@@ -51,18 +50,16 @@ tr:hover {
 }
 td {
 	overflow: hidden;
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--frame-color);
 	padding: 0.2rem;
 	margin: 0;
 }
 /* footer */
 footer {
 	display: flex;
-	background-color: #ddd;
+	background-color: var(--frame-color);
 	align-items: center;
 	color: var(--text-color);
-	border: 1px solid var(--border-color);
-	border-top: 0;
 	padding: 0.4rem;
 	margin: 0;
 }
@@ -79,24 +76,24 @@ footer input {
 	margin: 0 0.5rem;
 	vertical-align: middle;
 	border-radius: 2px;
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--frame-highlight-color);
 }
 .buttons {
 	flex-grow: 2;
 }
 .buttons .button {
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--frame-highlight-color);
 	border-radius: 2px;
 	padding: 0 0.5rem;
 }
 .controls {
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--frame-highlight-color);
 	border-radius: 2px;
 	margin: 0 0.5rem;
 }
 .controls button {
 	border: 0;
-	border-right: 1px solid var(--border-color);
+	border-right: 1px solid var(--frame-highlight-color);
 	height: 1.5rem;
 	padding: 0.3rem;
 }
