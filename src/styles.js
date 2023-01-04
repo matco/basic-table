@@ -9,7 +9,7 @@ export const styles = /*css*/`
 	margin-bottom: 0.2rem;
 }
 /* content */
-.table_content {
+table {
 	table-layout: fixed;
 	width: 100%;
 	white-space: nowrap;
@@ -18,7 +18,7 @@ export const styles = /*css*/`
 	border: 1px solid var(--border-color);
 	color: var(--text-color);
 }
-.table_content th {
+th {
 	position: relative;
 	background-color: #ddd;
 	border: 1px solid var(--border-color);
@@ -29,27 +29,27 @@ export const styles = /*css*/`
 	text-overflow: ellipsis;
 	padding-right: 1rem;
 }
-.table_content th svg {
+th svg {
 	position: absolute;
 	right: 1rem;
 	top: 0.5rem;
 }
-.table_content th svg polygon {
+th svg polygon {
 	fill: var(--text-color);
 }
-.table_content tr {
+tr {
 	border: 1px solid var(--border-color);
 }
-.table_content tr.odd {
+tr.odd {
 	background-color: #fafafa;
 }
-.table_content tr.even {
+tr.even {
 	background-color: white;
 }
-.table_content tr:hover {
+tr:hover {
 	background-color: #e8e8e8;
 }
-.table_content td {
+td {
 	overflow: hidden;
 	border: 1px solid var(--border-color);
 	padding: 0.2rem;

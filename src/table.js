@@ -196,7 +196,7 @@ export class Table {
 		}
 
 		//table
-		this.table = create_element('table', {'class': 'table_content'});
+		this.table = create_element('table');
 
 		//table header
 		this.head = document.createElement('thead');
