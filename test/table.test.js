@@ -85,36 +85,36 @@ describe('BasicTable', function() {
 
 	it('searches properly', async function() {
 		this.timeout(10000);
-		assert.strictEqual(await $evalShadow('#table1', 'div.table_footer_info > span', e => e.textContent), 'Display items 1 - 10 of 98');
+		assert.strictEqual(await $evalShadow('#table1', 'div.status > span', e => e.textContent), 'Display items 1 - 10 of 98');
 		assert.strictEqual(await $evalShadow('#table1', 'table > tbody', e => e.children.length), 10);
 
 		//do a search
 		const search = await $shadow('#table1', 'input[type="search"]');
 		await search.type('Au');
 		await page.waitForTimeout(200);
-		assert.strictEqual(await $evalShadow('#table1', 'div.table_footer_info > span', e => e.textContent), 'Display items 1 - 8 of 8');
+		assert.strictEqual(await $evalShadow('#table1', 'div.status > span', e => e.textContent), 'Display items 1 - 8 of 8');
 		assert.strictEqual(await $evalShadow('#table1', 'table > tbody', e => e.children.length), 8);
 
 		//clear search
 		$evalShadow('#table1', 'input[type="search"]', e => e.value = '');
 		await page.waitForTimeout(200);
-		assert.strictEqual(await $evalShadow('#table1', 'div.table_footer_info > span', e => e.textContent), 'Display items 1 - 10 of 98');
+		assert.strictEqual(await $evalShadow('#table1', 'div.status > span', e => e.textContent), 'Display items 1 - 10 of 98');
 		assert.strictEqual(await $evalShadow('#table1', 'table > tbody', e => e.children.length), 10);
 	});
 
 	it('handles advanced search properly', async function() {
 		this.timeout(10000);
-		assert.strictEqual(await $evalShadow('#table2', 'div.table_footer_info > span', e => e.textContent), 'Display items 1 - 3 of 3');
+		assert.strictEqual(await $evalShadow('#table2', 'div.status > span', e => e.textContent), 'Display items 1 - 3 of 3');
 		assert.strictEqual(await $evalShadow('#table2', 'table > tbody', e => e.children.length), 3);
 
 		//do an advanced search
 		await page.evaluate('table2.filterFunction(record => record.rights.hasOwnProperty("JEDI"))');
-		assert.strictEqual(await $evalShadow('#table2', 'div.table_footer_info > span', e => e.textContent), 'Display items 1 - 1 of 1');
+		assert.strictEqual(await $evalShadow('#table2', 'div.status > span', e => e.textContent), 'Display items 1 - 1 of 1');
 		assert.strictEqual(await $evalShadow('#table2', 'table > tbody', e => e.children.length), 1);
 
 		//clear search
 		await page.evaluate('table2.unfilter()');
-		assert.strictEqual(await $evalShadow('#table2', 'div.table_footer_info > span', e => e.textContent), 'Display items 1 - 3 of 3');
+		assert.strictEqual(await $evalShadow('#table2', 'div.status > span', e => e.textContent), 'Display items 1 - 3 of 3');
 		assert.strictEqual(await $evalShadow('#table2', 'table > tbody', e => e.children.length), 3);
 	});
 });

@@ -190,7 +190,7 @@ export class Table {
 		this.shadow.appendChild(style);
 
 		//header
-		this.header = create_element('div', {'class': 'table_header'});
+		this.header = create_element('header');
 		if(this.title) {
 			this.header.appendChild(create_element('h2', {}, this.title));
 		}
@@ -233,9 +233,9 @@ export class Table {
 		this.table.appendChild(this.body);
 
 		//footer
-		this.footer = create_element('div', {'class': 'table_footer'});
+		this.footer = create_element('footer');
 
-		const search_bar = create_element('div', {'class': 'table_footer_search'});
+		const search_bar = create_element('div', {'class': 'search'});
 		this.footer.appendChild(search_bar);
 
 		if(this.enableSearch) {
@@ -255,14 +255,14 @@ export class Table {
 			search_bar.appendChild(search_form);
 		}
 
-		this.buttons = create_element('div', {'class': 'table_footer_buttons'});
+		this.buttons = create_element('div', {'class': 'buttons'});
 		this.footer.appendChild(this.buttons);
 
 		this.setActions(this.actions);
 
 		if(this.rowPerPage) {
 			//controls
-			this.controls = create_element('div', {'class': 'table_footer_controls'});
+			this.controls = create_element('div', {'class': 'controls'});
 			this.footer.appendChild(this.controls);
 
 			//first
@@ -320,7 +320,7 @@ export class Table {
 			this.controls.appendChild(this.lastButton);
 
 			//info
-			this.info = create_element('div', {'class': 'table_footer_info'});
+			this.info = create_element('div', {'class': 'status'});
 			this.status = create_element('span');
 			this.info.appendChild(this.status);
 			this.footer.appendChild(this.info);

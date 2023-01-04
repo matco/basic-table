@@ -4,7 +4,7 @@ export const styles = /*css*/`
 	--border-color: #eee;
 }
 /* header */
-.table_header {
+header {
 	color: var(--text-color);
 	margin-bottom: 0.2rem;
 }
@@ -56,7 +56,7 @@ td {
 	margin: 0;
 }
 /* footer */
-.table_footer {
+footer {
 	display: flex;
 	background-color: #ddd;
 	align-items: center;
@@ -66,48 +66,48 @@ td {
 	padding: 0.4rem;
 	margin: 0;
 }
-.table_footer :is(.button, button) {
+footer :is(.button, button) {
 	color: var(--text-color);
 	text-decoration: none;
 	background-color: #f7f7f7;
 	cursor: pointer;
 }
-.table_footer :is(.button:hover, button:hover) {
+footer :is(.button:hover, button:hover) {
 	background-color: #eee;
 }
-.table_footer_search input {
+footer input {
 	margin: 0 0.5rem;
 	vertical-align: middle;
 	border-radius: 2px;
 	border: 1px solid var(--border-color);
 }
-.table_footer_buttons {
+.buttons {
 	flex-grow: 2;
 }
-.table_footer_buttons .button {
+.buttons .button {
 	border: 1px solid var(--border-color);
 	border-radius: 2px;
 	padding: 0 0.5rem;
 }
-.table_footer_controls {
+.controls {
 	border: 1px solid var(--border-color);
 	border-radius: 2px;
 	margin: 0 0.5rem;
 }
-.table_footer_controls button {
+.controls button {
 	border: 0;
 	border-right: 1px solid var(--border-color);
 	height: 1.5rem;
 	padding: 0.3rem;
 }
-.table_footer_controls button[disabled] {
+.controls button[disabled] {
 	opacity: 0.1;
 	cursor: auto;
 }
-.table_footer_controls button:last-child {
+.controls button:last-child {
 	border-right: none;
 }
-.table_footer_controls button svg :is(polygon,rect) {
+.controls button svg :is(polygon,rect) {
 	fill: var(--text-color);
 }
 `;
