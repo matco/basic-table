@@ -82,22 +82,29 @@ footer input {
 	padding: 0 0.5rem;
 }
 .controls {
-	border: 1px solid var(--frame-highlight-color);
-	border-radius: 2px;
 	margin: 0 0.5rem;
 }
 .controls button {
-	border: 0;
-	border-right: 1px solid var(--frame-highlight-color);
-	height: 1.5rem;
-	padding: 0.3rem;
+	border-color: var(--frame-highlight-color);
+	border-style: solid;
+	border-width: 1px 0 1px 1px;
 }
 .controls button[disabled] {
 	opacity: 0.1;
 	cursor: auto;
 }
+.controls button:first-child {
+	border-radius: 2px 0 0 2px;
+}
 .controls button:last-child {
-	border-right: none;
+	border-radius: 0 2px 2px 0;
+	border-right-width: 1px;
+}
+.controls button svg {
+	width: 1rem;
+	height: 1rem;
+	vertical-align: bottom;
+	margin: 0.2rem 0.4rem;
 }
 .controls button svg :is(polygon,rect) {
 	fill: var(--text-color);
