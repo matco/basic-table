@@ -116,11 +116,11 @@ function create_icon(type, width, height) {
 			break;
 		}
 		case IconType.PREVIOUS: {
-			svg.appendChild(create_svg_element('polygon', {points: '2 5,10 0,10 10'}));
+			svg.appendChild(create_svg_element('polygon', {points: '1 5,9 0,9 10'}));
 			break;
 		}
 		case IconType.NEXT: {
-			svg.appendChild(create_svg_element('polygon', {points: '8 5,0 10,0 0'}));
+			svg.appendChild(create_svg_element('polygon', {points: '9 5,1 10,1 0'}));
 			break;
 		}
 		case IconType.LAST: {
