@@ -543,17 +543,17 @@ export class Table {
 			//insert in table
 			for(let i = 0; i < data.length; i++) {
 				const record = data[i];
-				const line = create_element('tr');
+				const row = create_element('tr');
 				if(this.rowCSS) {
 					const rules = this.rowCSS.call(undefined, record, i);
 					if(rules) {
 						for(const [property, value] of Object.entries(rules)) {
-							line.style[property] = value;
+							row.style[property] = value;
 						}
 					}
 				}
 				else {
-					line.classList.add(i % 2 === 0 ? 'even' : 'odd');
+					row.classList.add(i % 2 === 0 ? 'even' : 'odd');
 				}
 				for(let j = 0; j < this.columns.length; j++) {
 					const column = this.columns[j];
@@ -582,9 +582,9 @@ export class Table {
 							element.appendChild(value);
 						}
 					}
-					line.appendChild(element);
+					row.appendChild(element);
 				}
-				this.body.appendChild(line);
+				this.body.appendChild(row);
 			}
 		}
 		//display status
