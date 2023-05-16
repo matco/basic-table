@@ -176,7 +176,8 @@ window.addEventListener(
 				container: document.getElementById('table3'),
 				columns: columns,
 				enableSearch: false,
-				statusText: 'Display clients ${start} - ${stop} of ${total}'
+				statusText: 'Display clients ${start} - ${stop} of ${total}',
+				rowCSS: r => r.agent.includes('MSIE') ? {backgroundColor: 'red'} : undefined
 			});
 			table.render(new Datasource({data: data}));
 

@@ -144,7 +144,7 @@ export class Table {
 		this.actions = [];
 		this.statusText = 'Display items ${start} - ${stop} of ${total}';
 		this.rowPerPage = 10;
-		this.rowClass = undefined;
+		this.rowCSS = undefined;
 		this.enableSearch = true;
 		this.allowMissingData = false;
 		//events
@@ -543,9 +543,14 @@ export class Table {
 			//insert in table
 			for(let i = 0; i < data.length; i++) {
 				const record = data[i];
-				const line = document.createElement('tr');
-				if(this.rowClass) {
-					line.classList.add(this.rowClass.call(undefined, record));
+				const line = create_element('tr');
+				if(this.rowCSS) {
+					const rules = this.rowCSS.call(undefined, record, i);
+					if(rules) {
+						for(const [property, value] of Object.entries(rules)) {
+							line.style[property] = value;
+						}
+					}
 				}
 				else {
 					line.classList.add(i % 2 === 0 ? 'even' : 'odd');
