@@ -15,7 +15,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const no_headless = process.argv.includes('--no-headless');
 
 const PUPPETEER_OPTIONS = {
-	headless: !no_headless,
+	headless: no_headless ? false : 'new',
 	defaultViewport: null,
 	args: [
 		'--no-sandbox',
