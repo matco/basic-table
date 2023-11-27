@@ -1,4 +1,7 @@
 export const styles = /*css*/`
+/* remember that user can put custom content in table cells */
+/* this content must have the same style as the rest of the component */
+/* this is especially true for buttons and form elements */
 :host {
 	--text-color: #333;
 	--frame-color: #ddd;
@@ -52,6 +55,29 @@ td {
 	padding: 0.2rem;
 	margin: 0;
 }
+/* buttons */
+button, .button {
+	font-family: inherit;
+	color: var(--text-color);
+	border: 1px solid var(--frame-highlight-color);
+	border-radius: 2px;
+	padding: 0 0.5rem;
+	text-decoration: none;
+	background-color: #f7f7f7;
+	cursor: pointer;
+
+	&:hover {
+		background-color: #eee;
+	}
+}
+/* form elements */
+input, select, textarea {
+	font-family: inherit;
+	margin: 0 0.5rem;
+	vertical-align: middle;
+	border-radius: 2px;
+	border: 1px solid var(--frame-highlight-color);
+}
 /* footer */
 footer {
 	display: flex;
@@ -60,32 +86,11 @@ footer {
 	color: var(--text-color);
 	padding: 0.4rem;
 	margin: 0;
-
-	:is(.button, button) {
-		color: var(--text-color);
-		text-decoration: none;
-		background-color: #f7f7f7;
-		cursor: pointer;
-
-		&:hover {
-			background-color: #eee;
-		}
-	}
-	& input {
-		margin: 0 0.5rem;
-		vertical-align: middle;
-		border-radius: 2px;
-		border: 1px solid var(--frame-highlight-color);
-	}
 }
 .buttons {
 	flex-grow: 2;
 
-	.button {
-		border: 1px solid var(--frame-highlight-color);
-		border-radius: 2px;
-		padding: 0 0.5rem;
-	}
+
 }
 .controls {
 	margin: 0 0.5rem;
