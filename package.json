@@ -1,7 +1,7 @@
 {
 	"name": "@matco/basic-table",
 	"description": "basic-table displays your tabular data in a nice HTML table",
-	"version": "3.2.0",
+	"version": "3.3.0",
 	"scripts": {
 		"start": "webpack serve",
 		"build": "webpack",
