@@ -99,6 +99,7 @@ footer {
 		border-color: var(--frame-highlight-color);
 		border-style: solid;
 		border-width: 1px 0 1px 1px;
+		padding: 0;
 
 		&[disabled] {
 			opacity: 0.1;
@@ -112,8 +113,8 @@ footer {
 			border-right-width: 1px;
 		}
 		& svg {
-			width: 1rem;
-			height: 1rem;
+			width: 0.8rem;
+			height: 0.8rem;
 			vertical-align: bottom;
 			margin: 0.2rem 0.4rem;
 
