@@ -1,15 +1,10 @@
 /*eslint-env node, mocha*/
 
-import * as path from 'path';
 import * as assert from 'assert';
-import * as http from 'http';
-import {fileURLToPath} from 'url';
-import {Server} from 'node-static';
 import puppeteer from 'puppeteer';
 import webpack_config from '../webpack.config.js';
 import webpack from 'webpack';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import webpackDevServer from 'webpack-dev-server';
 
 //retrieve potential args
 const no_headless = process.argv.includes('--no-headless');
@@ -26,18 +21,11 @@ describe('BasicTable', function() {
 	let server, browser, page;
 
 	//launch server
-	before(function(done) {
+	before(async function() {
 		this.timeout(10000);
 		const compiler = webpack.webpack(webpack_config);
-		compiler.run(function() {
-			const file = new Server(path.resolve(__dirname, '..', 'example', 'dist'));
-			server = http.createServer(function(request, response) {
-				request.addListener('end', function () {
-					file.serve(request, response);
-				}).resume();
-			}).listen(9000);
-			done();
-		});
+		server = new webpackDevServer(webpack_config.devServer, compiler);
+		await server.start();
 	});
 
 	//launch browser
@@ -51,7 +39,7 @@ describe('BasicTable', function() {
 	after(async function() {
 		await page.close();
 		await browser.close();
-		server.close();
+		await server.stop();
 	});
 
 	function $shadow(selector, shadow_selector) {
