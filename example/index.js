@@ -148,7 +148,7 @@ window.addEventListener(
 				return value !== null ? format_date(value) : 'NA';
 			}
 
-			function render_delete(_, record) {
+			function render_delete(_, record, table) {
 				const button = document.createElement('button');
 				button.textContent = 'Delete';
 				button.addEventListener(

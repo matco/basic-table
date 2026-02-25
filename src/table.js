@@ -71,30 +71,6 @@ function data_filter(table, filter) {
 	table.draw();
 }
 
-function get_cell_value(record, column, column_index) {
-	let value = undefined;
-	if(column.data) {
-		value = record[column.data];
-	}
-	//revive date
-	if(column.type === Table.DataType.DATE && value) {
-		value = new Date(value);
-	}
-	//render
-	if(column.render) {
-		try {
-			value = column.render(value, record);
-		}
-		catch(exception) {
-			throw new Error(`Unable to use render function for column ${column_index} with data ${record}: ${exception}`, {cause: exception});
-		}
-		if(value === undefined) {
-			throw new Error(`Render function for column ${column_index} does not produce a valid result with data ${record}`);
-		}
-	}
-	return value;
-}
-
 const IconType = {
 	ARROW: 0,
 	FIRST: 1,
@@ -492,6 +468,30 @@ export class Table {
 		});
 	}
 
+	getCellValue(record, column, column_index) {
+		let value = undefined;
+		if(column.data) {
+			value = record[column.data];
+		}
+		//revive date
+		if(column.type === Table.DataType.DATE && value) {
+			value = new Date(value);
+		}
+		//render
+		if(column.render) {
+			try {
+				value = column.render(value, record, this);
+			}
+			catch(exception) {
+				throw new Error(`Unable to use render function for column ${column_index} with data ${record}: ${exception}`, {cause: exception});
+			}
+			if(value === undefined) {
+				throw new Error(`Render function for column ${column_index} does not produce a valid result with data ${record}`);
+			}
+		}
+		return value;
+	}
+
 	draw() {
 		//save state
 		try {
@@ -565,7 +565,7 @@ export class Table {
 				}
 				for(let j = 0; j < this.columns.length; j++) {
 					const column = this.columns[j];
-					const value = get_cell_value(record, column, j);
+					const value = this.getCellValue(record, column, j);
 					const element = create_element('td');
 					//string are just appended
 					if(typeof value === 'string') {
