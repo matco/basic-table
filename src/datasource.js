@@ -58,6 +58,7 @@ export class Datasource {
 		this.filteredData;
 		this.sortingOrders = [];
 	}
+
 	init() {
 		return new Promise((resolve, reject) => {
 			//URL datasources
@@ -82,9 +83,11 @@ export class Datasource {
 			}
 		});
 	}
+
 	getLength() {
 		return this.filteredData ? this.filteredData.length : this.length;
 	}
+
 	sort(data) {
 		if(this.sortingOrders.length > 0) {
 			data.sort((a, b) => {
@@ -115,6 +118,7 @@ export class Datasource {
 			});
 		}
 	}
+
 	getData(start, limit) {
 		//filtered data
 		if(this.filteredData) {
@@ -126,9 +130,11 @@ export class Datasource {
 			return this.data.slice(start, limit ? start + limit : undefined);
 		}
 	}
+
 	filter(filter) {
 		this.filteredData = this.data.filter(filter);
 	}
+
 	unfilter() {
 		this.filteredData = undefined;
 	}

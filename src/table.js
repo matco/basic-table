@@ -325,6 +325,7 @@ export class Table {
 		//display footer only if there is something in it
 		this.footer.style.display = this.enableSearch || this.rowPerPage || this.actions.length > 0 ? 'flex' : 'none';
 	}
+
 	setActions(actions) {
 		this.actions = actions;
 		clear_element(this.buttons);
@@ -341,10 +342,12 @@ export class Table {
 		//display footer only if there is something in it
 		this.footer.style.display = this.enableSearch || this.rowPerPage || this.actions.length > 0 ? 'flex' : 'none';
 	}
+
 	setOrdering(field, descendant) {
 		this.datasource.sortingOrders = [{field: field, descendant: descendant}];
 		resort(this);
 	}
+
 	addOrdering(field, descendant) {
 		//remove any ordering if it already exists
 		this.datasource.sortingOrders = this.datasource.sortingOrders.filter(o => o.field !== field);
@@ -356,6 +359,7 @@ export class Table {
 		}
 		resort(this);
 	}
+
 	filter(filter, filter_column, exact_matching) {
 		const lower_filter = filter.toLowerCase();
 		data_filter.call(undefined, this, record => {
@@ -380,16 +384,19 @@ export class Table {
 			return false;
 		});
 	}
+
 	filterFunction(filter) {
 		data_filter.call(undefined, this, function(record) {
 			return filter(record);
 		});
 	}
+
 	unfilter() {
 		this.datasource.unfilter();
 		this.start = 0;
 		this.draw();
 	}
+
 	render(datasource) {
 		//keep a handle on datasource
 		this.datasource = datasource;
@@ -484,6 +491,7 @@ export class Table {
 			}
 		});
 	}
+
 	draw() {
 		//save state
 		try {
