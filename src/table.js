@@ -171,7 +171,7 @@ export class Table {
 		//check columns
 		for(let i = 0; i < this.columns.length; i++) {
 			const column = this.columns[i];
-			if(!column.data && !column.render || !column.label) {
+			if((!column.data && !column.render) || !column.label) {
 				throw new Error(`Column ${i} is incomplete (must have data or render, and label)`);
 			}
 			if(!column.unsortable && (!column.data || !column.type)) {
@@ -366,16 +366,16 @@ export class Table {
 			for(let i = 0; i < this.columns.length; i++) {
 				const column = this.columns[i];
 				//filter only on one column if asked
-				if(!filter_column || filter_column && column.data === filter_column.data) {
+				if(!filter_column || (filter_column && column.data === filter_column.data)) {
 					const value = record[column.data];
 					if(typeof value === 'string') {
-						if(exact_matching && value === filter || value.toLowerCase().includes(lower_filter)) {
+						if((exact_matching && value === filter) || value.toLowerCase().includes(lower_filter)) {
 							return true;
 						}
 					}
 					else if(typeof value === 'object') {
 						//this does not work anymore
-						if(exact_matching && value.innerHTML === filter || value.innerHTML.toLowerCase().includes(lower_filter)) {
+						if((exact_matching && value.innerHTML === filter) || value.innerHTML.toLowerCase().includes(lower_filter)) {
 							return true;
 						}
 					}
