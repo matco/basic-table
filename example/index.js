@@ -134,14 +134,14 @@ window.addEventListener(
 
 		(function() {
 			const data = [
-				{'key': '3e48f042-9a4d-4271-993f-f48809722591','host': '0:0:0:0:0:0:0:1','agent': 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/25.0','date': '2013-06-07T16:30:45.120+0000','last_use': '2013-06-07T16:30:45.120+0000', 'entries': 5},
-				{'key': 'd9b8361b-2fc1-444f-ab9e-8748ffed335e','host': '0:0:0:0:0:0:0:1','agent': 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0','date': '2013-06-08T16:31:54.890+0000','last_use': '2013-06-07T16:31:54.890+0000', 'entries': 1},
-				{'key': '2397d6c1-4a75-4589-b551-cebb3c33477d','host': '0:0:0:0:0:0:0:1','agent': 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0','date': '2013-06-10T07:50:14.965+0000','last_use': '2013-06-10T07:50:14.965+0000', 'entries': 12},
-				{'key': '740185cc-7ace-4b07-a476-6245ee75d509','host': '0:0:0:0:0:0:0:1','agent': 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36','date': '2013-06-10T07:55:01.075+0000','last_use': '2013-06-10T07:55:01.075+0000', 'entries': 0},
-				{'key': '343d0239-6bf7-4ae5-ba37-5ebb715629c1','host': '0:0:0:0:0:0:0:1','agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0','date': '2013-06-10T07:58:49.304+0000','last_use': '2013-06-10T07:58:49.304+0000', 'entries': 8},
-				{'key': '8500593d-5eba-4ade-9816-f866f47edfa9','host': '0:0:0:0:0:0:0:1','agent': 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/25.0','date': '2013-06-09T07:59:05.510+0000','last_use': '2013-06-10T08:55:07.869+0000', 'entries': 1},
-				{'key': 'fee4040f-4857-48e0-930a-0e51b0a97c59','host': '0:0:0:0:0:0:0:1','agent': 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0','date': '2013-06-10T08:22:06.305+0000','last_use': '2013-06-10T08:55:07.869+0000', 'entries': 2},
-				{'key': 'a962e520-58f5-11e4-8ed6-0800200c9a66','host': '0:0:0:0:0:0:0:1','agent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)','date': '2013-06-10T08:22:06.305+0000','last_use': '2013-06-10T08:55:07.869+0000', 'entries': 7}
+				{key: '3e48f042-9a4d-4271-993f-f48809722591', host: '0:0:0:0:0:0:0:1', agent: 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/25.0', date: '2013-06-07T16:30:45.120+0000', last_use: '2013-06-07T16:30:45.120+0000', entries: 5},
+				{key: 'd9b8361b-2fc1-444f-ab9e-8748ffed335e', host: '0:0:0:0:0:0:0:1', agent: 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0', date: '2013-06-08T16:31:54.890+0000', last_use: '2013-06-07T16:31:54.890+0000', entries: 1},
+				{key: '2397d6c1-4a75-4589-b551-cebb3c33477d', host: '0:0:0:0:0:0:0:1', agent: 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0', date: '2013-06-10T07:50:14.965+0000', last_use: '2013-06-10T07:50:14.965+0000', entries: 12},
+				{key: '740185cc-7ace-4b07-a476-6245ee75d509', host: '0:0:0:0:0:0:0:1', agent: 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.76 Safari/537.36', date: '2013-06-10T07:55:01.075+0000', last_use: '2013-06-10T07:55:01.075+0000', entries: 0},
+				{key: '343d0239-6bf7-4ae5-ba37-5ebb715629c1', host: '0:0:0:0:0:0:0:1', agent: 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0', date: '2013-06-10T07:58:49.304+0000', last_use: '2013-06-10T07:58:49.304+0000', entries: 8},
+				{key: '8500593d-5eba-4ade-9816-f866f47edfa9', host: '0:0:0:0:0:0:0:1', agent: 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/25.0', date: '2013-06-09T07:59:05.510+0000', last_use: '2013-06-10T08:55:07.869+0000', entries: 1},
+				{key: 'fee4040f-4857-48e0-930a-0e51b0a97c59', host: '0:0:0:0:0:0:0:1', agent: 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0', date: '2013-06-10T08:22:06.305+0000', last_use: '2013-06-10T08:55:07.869+0000', entries: 2},
+				{key: 'a962e520-58f5-11e4-8ed6-0800200c9a66', host: '0:0:0:0:0:0:0:1', agent: 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)', date: '2013-06-10T08:22:06.305+0000', last_use: '2013-06-10T08:55:07.869+0000', entries: 7}
 			];
 
 			function render_date(value) {

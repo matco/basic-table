@@ -13,7 +13,7 @@ const PUPPETEER_OPTIONS = {
 	headless: no_headless ? false : 'new',
 	defaultViewport: null,
 	args: [
-		'--no-sandbox',
+		'--no-sandbox'
 	]
 };
 

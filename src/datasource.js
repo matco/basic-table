@@ -1,5 +1,5 @@
 function is_string(object) {
-	return typeof(object) === 'string';
+	return typeof (object) === 'string';
 }
 
 function is_number(object) {
@@ -111,7 +111,7 @@ export class Datasource {
 					}
 					index++;
 				}
-				return this.sortingOrders[index - 1].descendant ? - result : result;
+				return this.sortingOrders[index - 1].descendant ? -result : result;
 			});
 		}
 	}

@@ -24,7 +24,7 @@ export default {
 		new CopyPlugin({
 			patterns: [
 				{from: './example/data*.json', to: '[name].json'}
-			],
+			]
 		})
 	],
 	module: {
@@ -39,7 +39,7 @@ export default {
 			{
 				test: /\.png$/,
 				type: 'asset/resource'
-			},
+			}
 		]
 	},
 	devServer: {

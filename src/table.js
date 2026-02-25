@@ -2,7 +2,7 @@ import {Datasource} from './datasource.js';
 import {styles} from './styles.js';
 
 function is_string(object) {
-	return typeof(object) === 'string';
+	return typeof (object) === 'string';
 }
 
 function create_element(tag, attributes, text, listeners) {
@@ -230,7 +230,7 @@ export class Table {
 		//footer
 		this.footer = create_element('footer');
 
-		const search_bar = create_element('div', {'class': 'search'});
+		const search_bar = create_element('div', {class: 'search'});
 		this.footer.appendChild(search_bar);
 
 		if(this.enableSearch) {
@@ -250,20 +250,20 @@ export class Table {
 			search_bar.appendChild(search_form);
 		}
 
-		this.buttons = create_element('div', {'class': 'buttons'});
+		this.buttons = create_element('div', {class: 'buttons'});
 		this.footer.appendChild(this.buttons);
 
 		this.setActions(this.actions);
 
 		if(this.rowPerPage) {
 			//controls
-			this.controls = create_element('div', {'class': 'controls'});
+			this.controls = create_element('div', {class: 'controls'});
 			this.footer.appendChild(this.controls);
 
 			//first
 			this.firstButton = create_element('button', {title: 'First', alt: 'First'}, undefined,
 				{
-					'click': function() {
+					click: function() {
 						if(that.start !== 0) {
 							that.start = 0;
 							that.draw();
@@ -276,7 +276,7 @@ export class Table {
 			//previous
 			this.previousButton = create_element('button', {title: 'Previous', alt: 'Previous'}, undefined,
 				{
-					'click': function() {
+					click: function() {
 						if(that.start > 1) {
 							that.start -= that.rowPerPage;
 							that.draw();
@@ -289,7 +289,7 @@ export class Table {
 			//next
 			this.nextButton = create_element('button', {title: 'Next', alt: 'Next'}, undefined,
 				{
-					'click': function() {
+					click: function() {
 						if(that.start + that.rowPerPage < that.datasource.getLength()) {
 							that.start += that.rowPerPage;
 							that.draw();
@@ -302,7 +302,7 @@ export class Table {
 			//last
 			this.lastButton = create_element('button', {title: 'Last', alt: 'Last'}, undefined,
 				{
-					'click': function() {
+					click: function() {
 						const last_start = (Math.ceil(that.datasource.length / that.rowPerPage) - 1) * that.rowPerPage;
 						if(that.start !== last_start) {
 							that.start = last_start;
@@ -315,7 +315,7 @@ export class Table {
 			this.controls.appendChild(this.lastButton);
 
 			//status
-			this.status = create_element('div', {'class': 'status'});
+			this.status = create_element('div', {class: 'status'});
 			this.footer.appendChild(this.status);
 		}
 		//insertion
@@ -331,7 +331,7 @@ export class Table {
 		this.actions.forEach(action => {
 			let action_item;
 			if(is_string(action.label)) {
-				action_item = create_element('a', {href: action.url, 'class': 'button'}, action.label);
+				action_item = create_element('a', {href: action.url, class: 'button'}, action.label);
 			}
 			else {
 				action_item = action.label;
@@ -535,7 +535,7 @@ export class Table {
 		const data = this.datasource.getData(this.start, this.rowPerPage);
 		//no data
 		if(data.length === 0) {
-			const no_data = create_element('tr', {'class': 'even'});
+			const no_data = create_element('tr', {class: 'even'});
 			no_data.appendChild(create_element('td', {colspan: this.columns.length}, 'No data to display'));
 			this.body.appendChild(no_data);
 		}
