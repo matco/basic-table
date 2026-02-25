@@ -54,7 +54,7 @@ function resort(table) {
 		const column = table.columns[i];
 		//only columns with data are sortable
 		if(column.data && !column.unsortable) {
-			const header_column = table.head.firstChild.children[i];
+			const header_column = table.head.firstElementChild.children[i];
 			const header_status = header_column.lastElementChild;
 			header_status.style.visibility = 'hidden';
 			if(column.data === sorting_order.field) {
@@ -544,7 +544,7 @@ export class Table {
 		//no data
 		if(data.length === 0) {
 			const no_data = create_element('tr', {class: 'even'});
-			no_data.appendChild(create_element('td', {colspan: this.columns.length}, 'No data to display'));
+			no_data.appendChild(create_element('td', {colspan: this.columns.length.toString()}, 'No data to display'));
 			this.body.appendChild(no_data);
 		}
 		else {
@@ -601,7 +601,7 @@ export class Table {
 			const stop = Math.min(this.start + this.rowPerPage, this.datasource.getLength());
 			//adjust start index so it's human readable, except when there is not entry
 			const start = data.length === 0 ? 0 : this.start + 1;
-			const status = this.statusText.replace('${start}', start.toString()).replace('${stop}', stop.toString()).replace('${total}', this.datasource.getLength());
+			const status = this.statusText.replace('${start}', start.toString()).replace('${stop}', stop.toString()).replace('${total}', this.datasource.getLength().toString());
 			this.status.textContent = status;
 		}
 	}

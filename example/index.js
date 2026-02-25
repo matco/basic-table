@@ -35,7 +35,7 @@ window.addEventListener(
 				number.style.width = '100%';
 				number.style.textAlign = 'right';
 				number.style.color = value < 0 ? 'red' : 'green';
-				number.appendChild(document.createTextNode(value));
+				number.appendChild(document.createTextNode(value.toString()));
 				return number;
 			}
 
