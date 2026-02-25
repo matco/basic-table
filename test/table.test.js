@@ -17,6 +17,12 @@ const PUPPETEER_OPTIONS = {
 	]
 };
 
+function wait(time = 200) {
+	return new Promise(resolve => {
+		setTimeout(resolve, time);
+	});
+}
+
 describe('BasicTable', function() {
 	let server, browser, page;
 
@@ -79,13 +85,13 @@ describe('BasicTable', function() {
 		//do a search
 		const search = await $shadow('#table1', 'input[type="search"]');
 		await search.type('Au');
-		await new Promise(r => setTimeout(r, 200));
+		await wait();
 		assert.strictEqual(await $evalShadow('#table1', 'div.status', e => e.textContent), 'Display items 1 - 8 of 8');
 		assert.strictEqual(await $evalShadow('#table1', 'table > tbody', e => e.children.length), 8);
 
 		//clear search
 		$evalShadow('#table1', 'input[type="search"]', e => e.value = '');
-		await new Promise(r => setTimeout(r, 200));
+		await wait();
 		assert.strictEqual(await $evalShadow('#table1', 'div.status', e => e.textContent), 'Display items 1 - 10 of 98');
 		assert.strictEqual(await $evalShadow('#table1', 'table > tbody', e => e.children.length), 10);
 	});
