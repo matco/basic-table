@@ -18,36 +18,6 @@ window.addEventListener(
 	'load',
 	function() {
 		(function() {
-			document.getElementById('table1_search').addEventListener(
-				'submit',
-				async function(event) {
-					event.preventDefault();
-					const start = this['start'].value ? parse_date(this['start'].value) : undefined;
-					const stop = this['stop'].value ? parse_date(this['stop'].value) : undefined;
-					const response = await fetch('data1.json');
-					const result = await response.json();
-					const data = result.filter(function(row) {
-						const row_date = new Date(row.date);
-						if(start && start.getTime() > row_date.getTime()) {
-							return false;
-						}
-						if(stop && stop.getTime() < row_date.getTime()) {
-							return false;
-						}
-						return true;
-					});
-					table.render(new Datasource({data: data}));
-					let export_url = '#export';
-					if(start) {
-						export_url += (`|start=${format_date(start)}`);
-					}
-					if(stop) {
-						export_url += (`|stop=${format_date(stop)}`);
-					}
-					table.setActions([{label: 'Export', url: export_url}]);
-				}
-			);
-
 			function render_name(value, record) {
 				const link = document.createElement('a');
 				link.setAttribute('href', `#id=${record.id}`);
@@ -85,6 +55,36 @@ window.addEventListener(
 				]
 			});
 			table.render(new Datasource({url: 'data1.json'}));
+
+			document.getElementById('table1_search').addEventListener(
+				'submit',
+				async function(event) {
+					event.preventDefault();
+					const start = this['start'].value ? parse_date(this['start'].value) : undefined;
+					const stop = this['stop'].value ? parse_date(this['stop'].value) : undefined;
+					const response = await fetch('data1.json');
+					const result = await response.json();
+					const data = result.filter(function(row) {
+						const row_date = new Date(row.date);
+						if(start && start.getTime() > row_date.getTime()) {
+							return false;
+						}
+						if(stop && stop.getTime() < row_date.getTime()) {
+							return false;
+						}
+						return true;
+					});
+					table.render(new Datasource({data: data}));
+					let export_url = '#export';
+					if(start) {
+						export_url += (`|start=${format_date(start)}`);
+					}
+					if(stop) {
+						export_url += (`|stop=${format_date(stop)}`);
+					}
+					table.setActions([{label: 'Export', url: export_url}]);
+				}
+			);
 
 			//make this table global so it can be tested
 			window['table1'] = table;
