@@ -24,7 +24,7 @@ function compare(object_1, object_2) {
 	if(is_date(object_1) && is_date(object_2)) {
 		return object_1.getTime() - object_2.getTime();
 	}
-	if(is_boolean(object_1) && is_date(object_2)) {
+	if(is_boolean(object_1) && is_boolean(object_2)) {
 		if(object_1 === object_2) {
 			return 0;
 		}
