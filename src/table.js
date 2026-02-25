@@ -86,7 +86,7 @@ function get_cell_value(record, column, column_index) {
 			value = column.render(value, record);
 		}
 		catch(exception) {
-			throw new Error(`Unable to use render function for column ${column_index} with data ${record}: ${exception}`);
+			throw new Error(`Unable to use render function for column ${column_index} with data ${record}: ${exception}`, {cause: exception});
 		}
 		if(value === undefined) {
 			throw new Error(`Render function for column ${column_index} does not produce a valid result with data ${record}`);
@@ -424,7 +424,7 @@ export class Table {
 			}
 			catch(exception) {
 				//unable to restore state
-				console.error(`Unable to restore state for table ${this.id}`);
+				console.error(`Unable to restore state for table ${this.id}: ${exception.message}`);
 			}
 		}
 
@@ -487,7 +487,7 @@ export class Table {
 				this.draw();
 			}
 			catch(exception) {
-				throw new Error(`Unable to draw table: ${exception}`);
+				throw new Error(`Unable to draw table: ${exception}`, {cause: exception});
 			}
 		});
 	}
@@ -508,7 +508,7 @@ export class Table {
 		}
 		catch(exception) {
 			//unable to save state
-			//console.error('Unable to save state : ' + exception.message);
+			console.error(`Unable to save state: ${exception.message}`);
 		}
 		//empty table
 		while(this.body.firstChild) {
