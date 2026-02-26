@@ -1,5 +1,3 @@
-/*eslint-env node, mocha*/
-
 import * as assert from 'assert';
 import puppeteer from 'puppeteer';
 import webpack_config from '../webpack.config.js';

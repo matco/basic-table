@@ -179,6 +179,7 @@ export class Table {
 		//optional parameters with default value
 		this.id;
 		this.actions = [];
+		/*eslint-disable-next-line no-template-curly-in-string*/
 		this.statusText = 'Display items ${start} - ${stop} of ${total}';
 		this.rowPerPage = 10;
 		this.rowCSS = undefined;
@@ -706,6 +707,7 @@ export class Table {
 			const stop = Math.min(this.start + this.rowPerPage, this.datasource.getLength());
 			//adjust start index so it's human readable, except when there is not entry
 			const start = data.length === 0 ? 0 : this.start + 1;
+			/*eslint-disable-next-line no-template-curly-in-string*/
 			const status = this.statusText.replace('${start}', start.toString()).replace('${stop}', stop.toString()).replace('${total}', this.datasource.getLength().toString());
 			this.status.textContent = status;
 		}

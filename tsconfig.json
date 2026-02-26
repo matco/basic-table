@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
 		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
 		"checkJs": true,
 		"target": "ESNext",
 		"module": "ESNext",
@@ -9,10 +10,10 @@
 		"lib": [
 			"ESNext",
 			"DOM"
-		]
+		],
+		"skipLibCheck": true
 	},
 	"exclude": [
-		"node_modules",
 		"test",
 		"example/dist",
 		"webpack.config.js"
