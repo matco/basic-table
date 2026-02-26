@@ -1,19 +1,45 @@
+/**
+ * Checks whether a value is a string
+ * @param {object} object - The value to test
+ * @returns {boolean} True if the value is a string
+ */
 function is_string(object) {
 	return typeof (object) === 'string';
 }
 
+/**
+ * Checks whether a value is a finite number
+ * @param {object} object - The value to test
+ * @returns {boolean} True if the value is a finite number
+ */
 function is_number(object) {
 	return !isNaN(parseFloat(object)) && isFinite(object);
 }
 
+/**
+ * Checks whether a value is a date instance
+ * @param {object} object - The value to test
+ * @returns {boolean} True if the value is a date
+ */
 function is_date(object) {
 	return Object.prototype.toString.call(object) === '[object Date]';
 }
 
+/**
+ * Checks whether a value is a boolean.
+ * @param {object} object - The value to test
+ * @returns {boolean} True if the value is a boolean
+ */
 function is_boolean(object) {
 	return typeof object === 'boolean';
 }
 
+/**
+ * Compares two values for sorting purposes, supports strings, numbers, dates, and booleans
+ * @param {object} object_1 - The first value
+ * @param {object} object_2 - The second value
+ * @returns {number} Negative if object_1 < object_2, positive if object_1 > object_2, or 0 if equal
+ */
 function compare(object_1, object_2) {
 	if(is_string(object_1) && is_string(object_2)) {
 		return object_1.localeCompare(object_2);
@@ -33,7 +59,17 @@ function compare(object_1, object_2) {
 	return 0;
 }
 
+/**
+ * Datasource for the table component
+ * Supports both preloaded arrays and remote JSON data fetched from a URL
+ */
 export class Datasource {
+	/**
+	 * Creates a new datasource
+	 * @param {object} parameters - The configuration object
+	 * @param {string} [parameters.url] - URL to fetch JSON data from (async mode)
+	 * @param {object[]} [parameters.data] - Preloaded array of records (sync mode)
+	 */
 	constructor(parameters) {
 		//asynchronous mode
 		this.url = undefined;
@@ -59,6 +95,12 @@ export class Datasource {
 		this.sortingOrders = [];
 	}
 
+	/**
+	 * Initialises the datasource
+	 * For URL-based sources, fetches and parses the remote JSON
+	 * For preloaded sources, resolves immediately
+	 * @returns {Promise<void>} Resolves when data is ready
+	 */
 	init() {
 		return new Promise((resolve, reject) => {
 			//URL datasources
@@ -84,10 +126,18 @@ export class Datasource {
 		});
 	}
 
+	/**
+	 * Returns the total number of records, respecting any active filter
+	 * @returns {number} Record count
+	 */
 	getLength() {
 		return this.filteredData ? this.filteredData.length : this.length;
 	}
 
+	/**
+	 * Sorts an array of records in place according to the current sorting orders
+	 * @param {object[]} data - The array of records to sort
+	 */
 	sort(data) {
 		if(this.sortingOrders.length > 0) {
 			data.sort((a, b) => {
@@ -119,6 +169,12 @@ export class Datasource {
 		}
 	}
 
+	/**
+	 * Returns a page of (optionally filtered and sorted) records
+	 * @param {number} start - Zero-based start index
+	 * @param {number} [limit] - Maximum number of records to return. If omitted, all remaining records are returned
+	 * @returns {object[]} Array of records for the requested page
+	 */
 	getData(start, limit) {
 		//filtered data
 		if(this.filteredData) {
@@ -131,10 +187,17 @@ export class Datasource {
 		}
 	}
 
+	/**
+	 * Applies a predicate to the datasource, storing matching records internally
+	 * @param {(object) => boolean} filter - Predicate called for each record
+	 */
 	filter(filter) {
 		this.filteredData = this.data.filter(filter);
 	}
 
+	/**
+	 * Clears the active filter, restoring the full dataset
+	 */
 	unfilter() {
 		this.filteredData = undefined;
 	}

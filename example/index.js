@@ -1,5 +1,10 @@
 import {Table, Datasource} from '../src/index.js';
 
+/**
+ * Parses an ISO date string into a date object
+ * @param {string} date - Date string in ISO format
+ * @returns {Date} The parsed date, or an invalid date if the format does not match
+ */
 function parse_date(date) {
 	const parts = date.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
 	//return data only if format is valid
@@ -10,6 +15,11 @@ function parse_date(date) {
 	return new Date('Invalid date');
 }
 
+/**
+ * Formats a date object as an ISO date string
+ * @param {Date} date - The date to format
+ * @returns {string} The formatted date string
+ */
 function format_date(date) {
 	return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 }
@@ -18,6 +28,12 @@ window.addEventListener(
 	'load',
 	function() {
 		(function() {
+			/**
+			 * Renders the name column as a hyperlink anchoring to the record id
+			 * @param {string} value - The name value
+			 * @param {object} record - The full data record
+			 * @returns {HTMLAnchorElement} An anchor element
+			 */
 			function render_name(value, record) {
 				const link = document.createElement('a');
 				link.setAttribute('href', `#id=${record.id}`);
@@ -25,10 +41,20 @@ window.addEventListener(
 				return link;
 			}
 
+			/**
+			 * Renders a date value as an ISO date string
+			 * @param {Date} value - The date value
+			 * @returns {string} The formatted date string
+			 */
 			function render_date(value) {
 				return format_date(value);
 			}
 
+			/**
+			 * Renders a numeric value as a right-aligned, color-coded span (red for negative, green otherwise)
+			 * @param {number} value - The numeric value to render
+			 * @returns {HTMLSpanElement} A styled span element
+			 */
 			function render_value(value) {
 				const number = document.createElement('span');
 				number.style.display = 'inline-block';
@@ -91,6 +117,13 @@ window.addEventListener(
 		})();
 
 		(function() {
+			/**
+			 * Renders a checkbox indicating whether the record has the given profile right
+			 * @param {string} profileId - The profile identifier to check
+			 * @param {object} _ - Unused cell value
+			 * @param {object} record - The full data record
+			 * @returns {HTMLInputElement} A checkbox input element
+			 */
 			function render_right(profileId, _, record) {
 				const input = document.createElement('input');
 				input.setAttribute('type', 'checkbox');
@@ -103,6 +136,12 @@ window.addEventListener(
 				return input;
 			}
 
+			/**
+			 * Renders the user column as a hyperlink displaying the full name
+			 * @param {object} _ - Unused cell value
+			 * @param {object} record - The full data record
+			 * @returns {HTMLAnchorElement} An anchor element
+			 */
 			function render_user(_, record) {
 				const link = document.createElement('a');
 				link.setAttribute('href', `#user=${record.login}`);
@@ -144,10 +183,22 @@ window.addEventListener(
 				{key: 'a962e520-58f5-11e4-8ed6-0800200c9a66', host: '0:0:0:0:0:0:0:1', agent: 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)', date: '2013-06-10T08:22:06.305+0000', last_use: '2013-06-10T08:55:07.869+0000', entries: 7}
 			];
 
+			/**
+			 * Renders a date value as an ISO date string
+			 * @param {Date | null} value - The date value
+			 * @returns {string} The formatted date string
+			 */
 			function render_date(value) {
 				return value !== null ? format_date(value) : 'NA';
 			}
 
+			/**
+			 * Renders a delete button that removes the record from the data array and re-renders the table
+			 * @param {object} _ - Unused cell value
+			 * @param {object} record - The full data record
+			 * @param {object} table - The table instance to re-render after deletion
+			 * @returns {HTMLButtonElement} A button element
+			 */
 			function render_delete(_, record, table) {
 				const button = document.createElement('button');
 				button.textContent = 'Delete';

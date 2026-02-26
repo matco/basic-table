@@ -17,6 +17,11 @@ const PUPPETEER_OPTIONS = {
 	]
 };
 
+/**
+ * Returns a promise that resolves after a given delay
+ * @param {number} [time] - Delay in milliseconds
+ * @returns {Promise<void>}
+ */
 function wait(time = 200) {
 	return new Promise(resolve => {
 		setTimeout(resolve, time);
@@ -48,6 +53,12 @@ describe('BasicTable', function() {
 		await server.stop();
 	});
 
+	/**
+	 * Returns a handle to an element inside a shadow root
+	 * @param {string} selector - CSS selector for the shadow host element
+	 * @param {string} shadow_selector - CSS selector applied inside the shadow root
+	 * @returns {HTMLElement} Handle to the matched element
+	 */
 	function $shadow(selector, shadow_selector) {
 		return page.evaluateHandle(
 			(selector, shadow_selector) => document.querySelector(selector).shadowRoot.querySelector(shadow_selector),
@@ -56,6 +67,13 @@ describe('BasicTable', function() {
 		);
 	}
 
+	/**
+	 * Evaluates a function on an element inside a shadow root and returns the result
+	 * @param {string} selector - CSS selector for the shadow host element
+	 * @param {string} shadow_selector - CSS selector applied inside the shadow root
+	 * @param {(element: Element) => object} evaluation - Function evaluated in the browser context on the matched element
+	 * @returns {Promise<object>} The value returned by the evaluation function
+	 */
 	async function $evalShadow(selector, shadow_selector, evaluation) {
 		const element = await $shadow(selector, shadow_selector);
 		return element.evaluate(evaluation);

@@ -1,10 +1,23 @@
 import {Datasource} from './datasource.js';
 import {styles} from './styles.js';
 
+/**
+ * Checks whether a value is a string
+ * @param {object} object - The value to test
+ * @returns {boolean} True if the value is a string
+ */
 function is_string(object) {
 	return typeof (object) === 'string';
 }
 
+/**
+ * Creates and returns an HTML element with optional attributes, text content, and event listeners
+ * @param {string} tag - The HTML tag name
+ * @param {{[key: string]: string}} [attributes] - Dictionary of attributes to set
+ * @param {string} [text] - Text content to append inside the element
+ * @param {{[key: string]: (event: Event) => void}} [listeners] - Dictionary of event type to listener function
+ * @returns {HTMLElement} The newly created element
+ */
 function create_element(tag, attributes, text, listeners) {
 	const element = document.createElement(tag);
 	if(attributes) {
@@ -27,6 +40,12 @@ function create_element(tag, attributes, text, listeners) {
 	return element;
 }
 
+/**
+ * Creates and returns an SVG element in the SVG namespace with optional attributes.
+ * @param {string} tag - The SVG tag name
+ * @param {{[key: string]: string}} [attributes] - Dictionary of SVG attributes to set
+ * @returns {SVGElement} The newly created SVG element
+ */
 function create_svg_element(tag, attributes) {
 	const element = document.createElementNS('http://www.w3.org/2000/svg', tag);
 	if(attributes) {
@@ -39,12 +58,20 @@ function create_svg_element(tag, attributes) {
 	return element;
 }
 
+/**
+ * Removes all child nodes from an element
+ * @param {HTMLElement} element - The element to clear
+ */
 function clear_element(element) {
 	while(element.firstChild) {
 		element.removeChild(element.firstChild);
 	}
 }
 
+/**
+ * Resort the table and updates the sort-indicator icons
+ * @param {Table} table - The table instance to resort
+ */
 function resort(table) {
 	table.start = 0;
 	table.draw();
@@ -55,7 +82,7 @@ function resort(table) {
 		//only columns with data are sortable
 		if(column.data && !column.unsortable) {
 			const header_column = table.head.firstElementChild.children[i];
-			const header_status = header_column.lastElementChild;
+			const header_status = /**@type {HTMLElement}*/(header_column.lastElementChild);
 			header_status.style.visibility = 'hidden';
 			if(column.data === sorting_order.field) {
 				header_status.style.visibility = 'visible';
@@ -65,12 +92,21 @@ function resort(table) {
 	}
 }
 
+/**
+ * Applies a record-level predicate filter to the table's datasource and redraws the table
+ * @param {Table} table - The table instance to filter
+ * @param {(object: object) => boolean} filter - Predicate called for each data record
+ */
 function data_filter(table, filter) {
 	table.datasource.filter(filter);
 	table.start = 0;
 	table.draw();
 }
 
+/**
+ * Enum of icon types used for sort and pagination SVG icons
+ * @enum {number}
+ */
 const IconType = {
 	ARROW: 0,
 	FIRST: 1,
@@ -79,6 +115,13 @@ const IconType = {
 	LAST: 4
 };
 
+/**
+ * Creates an SVG icon of the given type
+ * @param {number} type - One of the {@link IconType} constants
+ * @param {string} [width] - CSS width value, defaults to 100%
+ * @param {string} [height] - CSS height value, defaults to 100%
+ * @returns {SVGElement} The SVG icon element
+ */
 function create_icon(type, width, height) {
 	const svg = create_svg_element('svg', {viewBox: '0 0 10 10', width: width ?? '100%', height: height ?? '100%'});
 	switch(type) {
@@ -108,7 +151,25 @@ function create_icon(type, width, height) {
 	return svg;
 }
 
+/**
+ * A web-component-based data table supporting sorting, filtering, pagination, and custom rendering
+ */
 export class Table {
+	/**
+	 * Creates and mounts the table into the given container element
+	 * @param {object} parameters - Configuration object
+	 * @param {HTMLElement!} parameters.container - The host element that will contain the table
+	 * @param {object[]!} parameters.columns - Column definitions
+	 * @param {string} [parameters.id] - Unique identifier used to persist state, defaults to the id of the container
+	 * @param {{label: string | HTMLElement, url?: string}[]} [parameters.actions] - Footer action link/button definitions
+	 * @param {string} [parameters.statusText] - Pagination status template
+	 * @param {number} [parameters.rowPerPage] - Number of rows per page, set 0 to disable pagination
+	 * @param {(object: object, index: number) => object} [parameters.rowCSS] - Callback that returns an inline style object for each row
+	 * @param {boolean} [parameters.enableSearch] - Whether to show the text-filter search input
+	 * @param {boolean} [parameters.allowMissingData] - When set to true, missing column data fields do not throw an error
+	 * @param {(table: Table) => void} [parameters.afterRender] - Callback invoked once data is loaded and the table is first drawn
+	 * @throws {Error} If configuration parameters are missing
+	 */
 	constructor(parameters) {
 		//required parameters
 		/**@type {HTMLElement}*/
@@ -212,7 +273,7 @@ export class Table {
 		if(this.enableSearch) {
 			const search_form = create_element('form');
 			const search_label = create_element('label', {}, 'Filter');
-			this.search_input = create_element('input', {type: 'search'});
+			this.search_input = /**@type {HTMLInputElement}*/(create_element('input', {type: 'search'}));
 			//scan search input
 			let last_filter = '';
 			setInterval(() => {
@@ -302,6 +363,10 @@ export class Table {
 		this.footer.style.display = this.enableSearch || this.rowPerPage || this.actions.length > 0 ? 'flex' : 'none';
 	}
 
+	/**
+	 * Replaces the footer action buttons with the provided action definitions
+	 * @param {{label: string | HTMLElement, url?: string}[]} actions - Action definitions
+	 */
 	setActions(actions) {
 		this.actions = actions;
 		clear_element(this.buttons);
@@ -319,11 +384,22 @@ export class Table {
 		this.footer.style.display = this.enableSearch || this.rowPerPage || this.actions.length > 0 ? 'flex' : 'none';
 	}
 
+	/**
+	 * Sets a single sort order, replacing any existing ordering, then redraws the table
+	 * @param {string} field - The data field name to sort by
+	 * @param {boolean} descendant - True for descending order, false for ascending
+	 */
 	setOrdering(field, descendant) {
 		this.datasource.sortingOrders = [{field: field, descendant: descendant}];
 		resort(this);
 	}
 
+	/**
+	 * Prepends a sort order for the given field (up to 3 levels are retained) and redraws the table
+	 * If the field already has an ordering, it is removed before being re-added with the new direction
+	 * @param {string} field - The data field name to sort by
+	 * @param {boolean} descendant - True for descending order, false for ascending
+	 */
 	addOrdering(field, descendant) {
 		//remove any ordering if it already exists
 		this.datasource.sortingOrders = this.datasource.sortingOrders.filter(o => o.field !== field);
@@ -336,6 +412,12 @@ export class Table {
 		resort(this);
 	}
 
+	/**
+	 * Filters table rows by matching a search string against column data
+	 * @param {string} filter - The text to search for
+	 * @param {object} [filter_column] - A column definition object that, if provided, limits the search to that column's data field
+	 * @param {boolean} [exact_matching] - When true, requires an exact match instead of a substring match
+	 */
 	filter(filter, filter_column, exact_matching) {
 		const lower_filter = filter.toLowerCase();
 		data_filter.call(undefined, this, record => {
@@ -361,18 +443,30 @@ export class Table {
 		});
 	}
 
+	/**
+	 * Filters table rows using a custom predicate function
+	 * @param {(record: object) => boolean} filter - Predicate called for each record
+	 */
 	filterFunction(filter) {
 		data_filter.call(undefined, this, function(record) {
 			return filter(record);
 		});
 	}
 
+	/**
+	 * Removes the active filter and redraws the table showing all records
+	 */
 	unfilter() {
 		this.datasource.unfilter();
 		this.start = 0;
 		this.draw();
 	}
 
+	/**
+	 * Binds a datasource to the table
+	 * @param {Datasource} datasource - The datasource to render
+	 * @throws {Error} If datasource is missing or is not a datasource instance
+	 */
 	render(datasource) {
 		//keep a handle on datasource
 		this.datasource = datasource;
@@ -468,6 +562,14 @@ export class Table {
 		});
 	}
 
+	/**
+	 * Resolves the display value for a single cell, applying type coercion and any custom render function
+	 * @param {object} record - The data record for the current row
+	 * @param {object} column - The column definition
+	 * @param {number} column_index - Zero-based column index
+	 * @returns {string | number | boolean | HTMLElement | undefined} The resolved cell value
+	 * @throws {Error} If the column's render function throws or returns undefined
+	 */
 	getCellValue(record, column, column_index) {
 		let value = undefined;
 		if(column.data) {
@@ -492,6 +594,9 @@ export class Table {
 		return value;
 	}
 
+	/**
+	 * Clears the table body, and redraws it with the current page of (sorted/filtered) data
+	 */
 	draw() {
 		//save state
 		try {
