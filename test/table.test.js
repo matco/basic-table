@@ -106,7 +106,7 @@ describe('BasicTable', function() {
 		assert.strictEqual(await $evalShadow('#table1', 'table > tbody', e => e.children.length), 8);
 
 		//clear search
-		$evalShadow('#table1', 'input[type="search"]', e => e.value = '');
+		await search.evaluate(e => e.value = '');
 		await wait();
 		assert.strictEqual(await $evalShadow('#table1', 'div.status', e => e.textContent), 'Display items 1 - 10 of 98');
 		assert.strictEqual(await $evalShadow('#table1', 'table > tbody', e => e.children.length), 10);
