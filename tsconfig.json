@@ -3,19 +3,35 @@
 		"allowJs": true,
 		"allowSyntheticDefaultImports": true,
 		"checkJs": true,
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleResolution": "node",
-		"noEmit": true,
+		"declaration": false,
+		"downlevelIteration": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"importHelpers": true,
 		"lib": [
 			"ESNext",
+			/*"WebWorker", do not include web workers because it conflicts with ESNext*/
 			"DOM"
 		],
-		"skipLibCheck": true
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noUnusedLocals": true,
+		"noEmit": true,
+		"strict": false,
+		"strictBindCallApply": true,
+		"sourceMap": true,
+		"skipLibCheck": true,
+		"strictNullChecks": false,
+		"strictPropertyInitialization": false,
+		"target": "ESNext"
 	},
 	"exclude": [
-		"test",
-		"example/dist",
-		"webpack.config.js"
+		"example/dist"
 	]
 }
