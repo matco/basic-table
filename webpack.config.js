@@ -5,6 +5,7 @@ import CopyPlugin from 'copy-webpack-plugin';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+/**@type {import('webpack').Configuration}*/
 export default {
 	mode: 'development',
 	entry: [

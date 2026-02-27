@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import puppeteer from 'puppeteer';
+import puppeteer, {ElementHandle} from 'puppeteer';
 import webpack_config from '../webpack.config.js';
 import webpack from 'webpack';
 import webpackDevServer from 'webpack-dev-server';
@@ -55,7 +55,7 @@ describe('BasicTable', function() {
 	 * Returns a handle to an element inside a shadow root
 	 * @param {string} selector - CSS selector for the shadow host element
 	 * @param {string} shadow_selector - CSS selector applied inside the shadow root
-	 * @returns {HTMLElement} Handle to the matched element
+	 * @returns {Promise<ElementHandle<HTMLElement>>} Promise that resolves to a handle to the matched element
 	 */
 	function $shadow(selector, shadow_selector) {
 		return page.evaluateHandle(
@@ -69,7 +69,7 @@ describe('BasicTable', function() {
 	 * Evaluates a function on an element inside a shadow root and returns the result
 	 * @param {string} selector - CSS selector for the shadow host element
 	 * @param {string} shadow_selector - CSS selector applied inside the shadow root
-	 * @param {(element: Element) => object} evaluation - Function evaluated in the browser context on the matched element
+	 * @param {(element: HTMLElement) => object} evaluation - Function evaluated in the browser context on the matched element
 	 * @returns {Promise<object>} The value returned by the evaluation function
 	 */
 	async function $evalShadow(selector, shadow_selector, evaluation) {
@@ -99,7 +99,7 @@ describe('BasicTable', function() {
 		assert.strictEqual(await $evalShadow('#table1', 'table > tbody', e => e.children.length), 10);
 
 		//do a search
-		const search = await $shadow('#table1', 'input[type="search"]');
+		const search = /**@type{ElementHandle<HTMLInputElement>}*/ (await $shadow('#table1', 'input[type="search"]'));
 		await search.type('Au');
 		await wait();
 		assert.strictEqual(await $evalShadow('#table1', 'div.status', e => e.textContent), 'Display items 1 - 8 of 8');
