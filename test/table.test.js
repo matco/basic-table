@@ -8,7 +8,7 @@ import webpackDevServer from 'webpack-dev-server';
 const no_headless = process.argv.includes('--no-headless');
 
 const PUPPETEER_OPTIONS = {
-	headless: no_headless ? false : 'new',
+	headless: !no_headless,
 	defaultViewport: null,
 	args: [
 		'--no-sandbox'
