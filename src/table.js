@@ -484,10 +484,10 @@ export class Table {
 				this.start = state.start;
 				this.datasource.sortingOrders = state.datasource.sortingOrders;
 				//remove now invalid columns from restored sorting columns
-				this.datasource.sortingOrders = this.datasource.sortingOrders.filter(function(sorting_order) {
+				this.datasource.sortingOrders = this.datasource.sortingOrders.filter(sorting_order => {
 					const column = this.columns.find(c => c.data === sorting_order.field);
 					return column && !column.unsortable;
-				}, this);
+				});
 
 				/*if(this.enableSearch && state.search) {
 					this.search_input.value = state.search;
